@@ -7,7 +7,7 @@ import (
 
 func main() {
 
-	controllers.Register()
+	router := controllers.Register()
 
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(":8000", router)
 }

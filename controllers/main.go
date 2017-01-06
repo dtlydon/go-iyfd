@@ -6,14 +6,14 @@ import (
 	"bufio"
 	"strings"
 	"github.com/julienschmidt/httprouter"
-	"fmt"
 	"github.com/dtlydon/go-iyfd/models"
 	"github.com/dtlydon/go-iyfd/controllers/util"
+	"html/template"
+	"fmt"
 )
 
 func Register() *httprouter.Router {
 	router := httprouter.New()
-	router.GET("/", Index);
 
 	//Users
 	userController := new(userController)
@@ -43,17 +43,33 @@ func Register() *httprouter.Router {
 	//Choices
 	userChoiceController := new(userChoiceController)
 	router.GET("/api/userchoice", Authorize(userChoiceController.query, models.BasicUser))
-	router.POST("/api/userchoice", Authorize(userChoiceController.post, models.BasicUser))
+	router.POST("/api/u serchoice", Authorize(userChoiceController.post, models.BasicUser))
 	router.PATCH("/api/userchoice", Authorize(userChoiceController.patch, models.BasicUser))
 
-	//TODO: Add css and img
-	//http.HandleFunc("/img/", serveResource)
-	//http.HandleFunc("/css/", serveResource)
-	return router;
+	router.GET("/content/*all", serveMyContent)
+	router.GET("/lib/*all", serveResource)
+	router.GET("/app/*all", serveApp)
+
+	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./views/index.html")
+	})
+	return router
 }
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
-	fmt.Fprint(w, "This is a test")
+	w.Header().Add("Content Type", "text/html")
+	t, _ := template.ParseFiles("views/Index.html");
+	if(t != nil) {
+		viewModel := struct {
+			Title string
+			Items []string
+		}{
+			Title: "IYFD",
+			Items: []string{},
+		}
+
+		t.Execute(w, viewModel)
+	}
 }
 
 func Authorize(handle httprouter.Handle, role models.Role) httprouter.Handle {
@@ -72,15 +88,69 @@ func Authorize(handle httprouter.Handle, role models.Role) httprouter.Handle {
 	}
 }
 
-//TODO: Rewrite this and own it
-func serveResource(w http.ResponseWriter, req *http.Request) {
-	path := "public" + req.URL.Path
+func serveApp(w http.ResponseWriter, req *http.Request, params httprouter.Params){
+	path := "app" + params.ByName("all")
+	contentType := "text/javascript"
+
+	f, err := os.Open(path)
+
+	if err == nil {
+		defer f.Close()
+		w.Header().Add("Content-Type", contentType)
+
+		br := bufio.NewReader(f)
+		br.WriteTo(w)
+	} else {
+		fmt.Println("error ", err)
+		w.WriteHeader(404)
+	}
+}
+
+
+func serveMyContent(w http.ResponseWriter, req *http.Request, params httprouter.Params){
+	path := params.ByName("all")
 	var contentType string
-	if strings.HasSuffix(path, ".css") {
+	var pathPrefix string
+
+	if strings.HasSuffix(path, ".js") {
+		contentType = "text/javascript"
+		pathPrefix = "js"
+	} else if strings.HasSuffix(path, ".css"){
+		contentType = "text/css"
+		pathPrefix = "styles"
+	}
+
+	path = pathPrefix + path
+
+	f, err := os.Open(path)
+
+	if err == nil {
+		defer f.Close()
+		w.Header().Add("Content-Type", contentType)
+
+		br := bufio.NewReader(f)
+		br.WriteTo(w)
+	} else {
+		fmt.Println("error ", err)
+		w.WriteHeader(404)
+	}
+}
+
+func serveResource(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
+	path := "lib" + params.ByName("all")
+	var contentType string
+
+	if strings.HasSuffix(path, ".html") {
+		contentType = "text/html"
+	} else if strings.HasSuffix(path, ".css") {
+		fmt.Println("css ", path)
 		contentType = "text/css"
 	} else if strings.HasSuffix(path, ".png") {
 		contentType = "image/png"
+	}else if strings.HasSuffix(path, ".js"){
+		contentType = "text/javascript"
 	} else {
+		fmt.Println("plain ", path)
 		contentType = "text/plain"
 	}
 
@@ -88,11 +158,12 @@ func serveResource(w http.ResponseWriter, req *http.Request) {
 
 	if err == nil {
 		defer f.Close()
-		w.Header().Add("Content Type", contentType)
+		w.Header().Add("Content-Type", contentType)
 
 		br := bufio.NewReader(f)
 		br.WriteTo(w)
 	} else {
+		fmt.Println("error ", err)
 		w.WriteHeader(404)
 	}
 }

@@ -37,6 +37,8 @@ func (this *userController) register(responseWriter http.ResponseWriter, request
 	fmt.Println("Basic User Role is : ", models.BasicUser)
 
 	models.CreateUser(user)
+	tokenString := util.SetToken(user)
+	responseWriter.Header().Add("token", tokenString)
 }
 
 func (this *userController) login(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params) {
@@ -53,8 +55,7 @@ func (this *userController) login(responseWriter http.ResponseWriter, request *h
 		tokenString := util.SetToken(user)
 		responseWriter.Header().Add("token", tokenString)
 	} else{
-		responseWriter.Write([]byte("Invalid username and password"))
-		http.Error(responseWriter, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		responseWriter.WriteHeader(400);
 	}
 }
 

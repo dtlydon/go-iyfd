@@ -6,5 +6,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Go SDK" level="project" />
     <orderEntry type="library" name="GOPATH &lt;go-iyfd&gt;" level="project" />
+    <orderEntry type="library" name="go-iyfd node_modules" level="project" />
   </component>
 </module>

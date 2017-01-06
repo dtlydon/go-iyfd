@@ -1,0 +1,44 @@
+<h2>Register!</h2>
+<form [formGroup]="registrationForm" (ngSubmit)="register()">
+    <div class="row form-group">
+        <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['username'].valid && registrationForm.controls['username'].touched}">
+            <label for="username">Username</label>
+            <input id="username" class="form-control" [(ngModel)]="userAccount.username" name="username" type="text" [formControl]="registrationForm.controls['username']" />
+            <div [hidden]="!registrationForm.controls['username'].hasError('required') || !registrationForm.controls['username'].touched" class="alert alert-danger">Required</div>
+        </div>
+        <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['email'].valid && registrationForm.controls['email'].touched}">
+            <label for="email">Email</label>
+            <input id="email" class="form-control" [(ngModel)]="userAccount.email" name="email" type="text" [formControl]="registrationForm.controls['email']" />
+            <div [hidden]="!registrationForm.controls['email'].hasError('required') || !registrationForm.controls['email'].touched" class="alert alert-danger">Required</div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['firstname'].valid && registrationForm.controls['firstname'].touched}">
+            <label for="first-name">First Name</label>
+            <input id="first-name" class="form-control" [(ngModel)]="userAccount.firstName" name="firstname" [formControl]="registrationForm.controls['firstname']" type="text" />
+            <div [hidden]="!registrationForm.controls['firstname'].hasError('required') || !registrationForm.controls['firstname'].touched" class="alert alert-danger">Required</div>
+        </div>
+        <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['lastname'].valid && registrationForm.controls['lastname'].touched}">
+            <label for="last-name">Last Name</label>
+            <input id="last-name" class="form-control" [(ngModel)]="userAccount.lastName" name="lastname" type="text" [formControl]="registrationForm.controls['lastname']"/>
+            <div [hidden]="!registrationForm.controls['lastname'].hasError('required') || !registrationForm.controls['lastname'].touched" class="alert alert-danger">Required</div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['password'].valid && registrationForm.controls['password'].touched}">
+            <label for="password">Password</label>
+            <input id="password" class="form-control" [(ngModel)]="userAccount.password" name="password" type="password" [formControl]="registrationForm.controls['password']"/>
+            <div [hidden]="!registrationForm.controls['password'].hasError('required') || !registrationForm.controls['password'].touched" class="alert alert-danger">Required</div>
+            <div [hidden]="!registrationForm.controls['password'].hasError('validateEqual') || (registrationForm.controls['password'].pristine || registrationForm.controls['confirm'].pristine)" class="alert alert-danger">Passwords don't match</div>
+        </div>
+        <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['confirm'].valid && registrationForm.controls['confirm'].touched}">
+            <label for="confirm-password">Confirm Password</label>
+            <input id="confirm-password" class="form-control" name="confirm" type="password" [formControl]="registrationForm.controls['confirm']"/>
+            <div [hidden]="!registrationForm.controls['confirm'].hasError('required') || !registrationForm.controls['confirm'].touched" class="alert alert-danger">Required</div>
+            <div [hidden]="!registrationForm.controls['confirm'].hasError('validateEqual') || (registrationForm.controls['confirm'].pristine || registrationForm.controls['confirm'].pristine)" class="alert alert-danger">Passwords don't match</div>
+        </div>
+    </div>
+    <div class="text-right">
+        <button type="submit" class="btn btn-primary" [disabled]="!registrationForm.valid || isLoading">Register</button>
+    </div>
+</form>

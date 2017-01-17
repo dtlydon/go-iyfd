@@ -19,7 +19,6 @@ func GetToken(tokenString string) (jwt.MapClaims, bool) {
 	})
 
 	claims, ok := token.Claims.(jwt.MapClaims)
-	fmt.Println("Token: ", token.Valid, ok)
 	return claims, (ok && token.Valid)
 }
 

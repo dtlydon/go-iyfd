@@ -18,7 +18,7 @@ func Register() *httprouter.Router {
 	//Users
 	userController := new(userController)
 	router.POST("/api/user/register", userController.register)
-	router.POST("/api/user/login", userController.login)
+	router.POST("db.teams", userController.login)
 	router.GET("/api/user", Authorize(userController.query, models.AdminUser))
 
 	//Teams
@@ -39,6 +39,7 @@ func Register() *httprouter.Router {
 	router.GET("/api/matchups", Authorize(matchUpController.query, models.AdminUser))
 	router.POST("/api/matchups", Authorize(matchUpController.post, models.AdminUser))
 	router.PATCH("/api/matchups", Authorize(matchUpController.patch, models.AdminUser))
+	router.POST("/api/matchups/generate", Authorize(matchUpController.generateFirstRound, models.AdminUser))
 
 	//Choices
 	userChoiceController := new(userChoiceController)

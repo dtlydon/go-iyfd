@@ -13,11 +13,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var admin_service_1 = require("./admin.service");
+var team_1 = require("../shared/team");
+var forms_1 = require("@angular/forms");
 var TeamsComponent = (function () {
-    function TeamsComponent(router) {
+    function TeamsComponent(router, adminService, formBuilder) {
         this.router = router;
+        this.adminService = adminService;
+        this.formBuilder = formBuilder;
+        this.teamsForm = formBuilder.group({
+            'name': [null, forms_1.Validators.required],
+            'acronym': [null, forms_1.Validators.required]
+        });
+        this.isLoading = false;
     }
     TeamsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.adminService.getTeams().then(function (response) {
+            console.log(response);
+            if (response) {
+                _this.teams = response;
+                console.log(_this.teams);
+            }
+        });
+    };
+    TeamsComponent.prototype.addTeam = function () {
+        var _this = this;
+        this.isLoading = true;
+        var tempForm = this.teamsForm;
+        this.newTeam = new team_1.Team();
+        this.newTeam.Name = tempForm.controls['name'].value;
+        this.newTeam.Acronym = tempForm.controls['acronym'].value;
+        this.adminService.addTeam(this.newTeam).then(function (response) {
+            _this.teams.push(_this.newTeam);
+            _this.isLoading = false;
+        }).catch(function (response) {
+            _this.isLoading = false;
+        });
     };
     TeamsComponent = __decorate([
         core_1.Component({
@@ -25,7 +57,7 @@ var TeamsComponent = (function () {
             selector: 'teams',
             templateUrl: 'teams.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router])
+        __metadata('design:paramtypes', [router_1.Router, admin_service_1.AdminService, forms_1.FormBuilder])
     ], TeamsComponent);
     return TeamsComponent;
 }());

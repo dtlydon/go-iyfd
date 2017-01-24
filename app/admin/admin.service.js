@@ -14,50 +14,48 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-var AccountService = (function () {
-    function AccountService(http) {
+var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
+var AdminService = (function () {
+    function AdminService(http) {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-        this.userUrl = 'api/user'; // URL to web api
+        this.teamsUrl = 'api/teams'; // URL to web api
     }
-    AccountService.prototype.register = function (account) {
-        return this.http.post(this.userUrl + "/register", JSON.stringify(account), { headers: this.headers })
+    AdminService.prototype.addTeam = function (team) {
+        if (!this.headers.get('token')) {
+            this.headers.append('token', ng2_cookies_1.Cookie.get('token'));
+        }
+        return this.http.post(this.teamsUrl, JSON.stringify(team), { headers: this.headers })
             .toPromise()
             .then(function (response) {
             if (response && response.headers) {
-                var token = response.headers.get("token");
-                console.log(token);
-                if (token) {
-                    return token;
-                }
             }
-            return "";
         })
             .catch(this.handleError);
     };
-    AccountService.prototype.login = function (account) {
-        return this.http.post(this.userUrl + "/login", JSON.stringify(account), { headers: this.headers })
+    AdminService.prototype.getTeams = function () {
+        if (!this.headers.get('token')) {
+            this.headers.append('token', ng2_cookies_1.Cookie.get('token'));
+        }
+        return this.http.get(this.teamsUrl, { headers: this.headers })
             .toPromise()
             .then(function (response) {
             if (response && response.headers) {
-                var token = response.headers.get("token");
-                if (token) {
-                    return token;
-                }
+                return response.json();
             }
-            return "";
+            return [{}];
         })
             .catch(this.handleError);
     };
-    AccountService.prototype.handleError = function (error) {
+    AdminService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     };
-    AccountService = __decorate([
+    AdminService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
-    ], AccountService);
-    return AccountService;
+    ], AdminService);
+    return AdminService;
 }());
-exports.AccountService = AccountService;
-//# sourceMappingURL=account.service.js.map
+exports.AdminService = AdminService;
+//# sourceMappingURL=admin.service.js.map

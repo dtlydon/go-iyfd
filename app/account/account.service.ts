@@ -36,7 +36,6 @@ export class AccountService {
             .toPromise()
             .then(response => {
                 if(response && response.headers){
-                    console.log(response);
                     const token = response.headers.get("token");
                     if(token){
                         return token;

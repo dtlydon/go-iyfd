@@ -28,6 +28,7 @@ var regions_component_1 = require("./admin/regions.component");
 var entry_component_1 = require("./admin/entry.component");
 var matchups_component_1 = require("./admin/matchups.component");
 var users_component_1 = require("./admin/users.component");
+var admin_service_1 = require("./admin/admin.service");
 //import { InMemoryDataService }  from './in-memory-data.service';
 var AppModule = (function () {
     function AppModule() {
@@ -58,6 +59,7 @@ var AppModule = (function () {
             ],
             providers: [
                 account_service_1.AccountService,
+                admin_service_1.AdminService,
                 index_1.Cookie
             ],
             bootstrap: [app_component_1.AppComponent]

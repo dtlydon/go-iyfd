@@ -19,6 +19,7 @@ import {RegionsComponent} from "./admin/regions.component";
 import {EntryComponent} from "./admin/entry.component";
 import {MatchUpsComponent} from "./admin/matchups.component";
 import {UsersComponent} from "./admin/users.component";
+import {AdminService} from "./admin/admin.service";
 //import { InMemoryDataService }  from './in-memory-data.service';
 
 @NgModule({
@@ -46,6 +47,7 @@ import {UsersComponent} from "./admin/users.component";
     ],
     providers: [
         AccountService,
+        AdminService,
         Cookie
     ],
     bootstrap:    [ AppComponent ]

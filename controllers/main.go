@@ -18,7 +18,6 @@ func Register() *httprouter.Router {
 	//Users
 	userController := new(userController)
 	router.POST("/api/user/register", userController.register)
-	router.POST("db.teams", userController.login)
 	router.GET("/api/user", Authorize(userController.query, models.AdminUser))
 
 	//Teams

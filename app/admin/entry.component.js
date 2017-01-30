@@ -13,11 +13,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var admin_service_1 = require("./admin.service");
+var entry_1 = require("../shared/entry");
+var forms_1 = require("@angular/forms");
 var EntryComponent = (function () {
-    function EntryComponent(router) {
+    function EntryComponent(router, adminService, formBuilder) {
         this.router = router;
+        this.adminService = adminService;
+        this.entryForm = formBuilder.group({
+            'teamId': [null, forms_1.Validators.required],
+            'region': [null, forms_1.Validators.required],
+            'rank': [null, forms_1.Validators.required]
+        });
+        this.isLoading = false;
     }
     EntryComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.adminService.getTeams().then(function (response) {
+            if (response) {
+                _this.teams = response;
+            }
+        });
+        this.adminService.getEntries().then(function (response) {
+            if (response) {
+                _this.entries = response;
+            }
+        });
+    };
+    EntryComponent.prototype.getTeamName = function (teamId) {
+        var filteredTeams = this.teams.filter(function (team) { return team.Id === teamId; });
+        if (filteredTeams.length > 0)
+            return filteredTeams[0].Name;
+        return "";
+    };
+    EntryComponent.prototype.addEntry = function () {
+        var _this = this;
+        this.isLoading = true;
+        this.newEntry = new entry_1.Entry();
+        this.newEntry.TeamId = this.entryForm.controls['teamId'].value;
+        this.newEntry.Region = this.entryForm.controls['region'].value;
+        this.newEntry.Rank = parseInt(this.entryForm.controls['rank'].value);
+        this.adminService.addEntry(this.newEntry).then(function (response) {
+            _this.entries.push(_this.newEntry);
+            _this.isLoading = false;
+        }).catch(function (error) { _this.isLoading = false; });
     };
     EntryComponent = __decorate([
         core_1.Component({
@@ -25,7 +64,7 @@ var EntryComponent = (function () {
             selector: 'entry',
             templateUrl: 'entry.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router])
+        __metadata('design:paramtypes', [router_1.Router, admin_service_1.AdminService, forms_1.FormBuilder])
     ], EntryComponent);
     return EntryComponent;
 }());

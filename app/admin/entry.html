@@ -1,1 +1,35 @@
 <h1>Entry</h1>
+<form [formGroup]="entryForm" (ngSubmit)="addEntry()">
+    <div class="row">
+        <div class="col-sm-4" *ngFor="let entry of entries">
+            <ul>
+                <!-- TODO: Figure out how to get team name here -->
+                <li>{{getTeamName(entry.TeamId)}}</li>
+                <li>{{entry.Region}}</li>
+                <li>{{entry.Rank}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row" class="form-group">
+        <div class="col-sm-4">
+            <label for="teamId">Team</label>
+            <!--<input id="teamId" name="teamId" type="text" [formControl]="teamId" class="form-control"/>-->
+            <select id="teamId" name="teamId" class="form-control" [formControl]="entryForm.controls['teamId']">
+                <option *ngFor="let team of teams" value="{{team.Id}}">{{team.Name}} [{{team.Acronym}}]</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="region">Region</label>
+            <input id="region" name="region" type="text" [formControl]="entryForm.controls['region']" class="form-control" />
+        </div>
+        <div class="col-sm-4">
+            <label for="rank">Rank</label>
+            <input id="rank" name="rank" type="text" [formControl]="entryForm.controls['rank']" class="form-control">
+        </div>
+    </div>
+    <div class="row" class="form-group">
+        <div>
+            <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid || isLoading">Add Entry</button>
+        </div>
+    </div>
+</form>

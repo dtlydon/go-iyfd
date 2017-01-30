@@ -13,11 +13,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var admin_service_1 = require("./admin.service");
 var MatchUpsComponent = (function () {
-    function MatchUpsComponent(router) {
+    function MatchUpsComponent(router, adminService) {
         this.router = router;
+        this.adminService = adminService;
+        this.roundOneMatchUps = [];
     }
     MatchUpsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.adminService.getMatchUps().then(function (response) {
+            _this.allMatchUps = response;
+            for (var i = 0; i < _this.allMatchUps.length; i++) {
+                if (_this.allMatchUps[i].Round === 1) {
+                    _this.roundOneMatchUps.push(_this.allMatchUps[i]);
+                }
+            }
+        });
+    };
+    MatchUpsComponent.prototype.generateRoundOne = function () {
+        var _this = this;
+        this.adminService.generateRoundOneMatchUps().then(function (response) {
+            _this.router.navigateByUrl('/admin/matchups');
+        });
     };
     MatchUpsComponent = __decorate([
         core_1.Component({
@@ -25,7 +43,7 @@ var MatchUpsComponent = (function () {
             selector: 'matchups',
             templateUrl: 'matchups.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router])
+        __metadata('design:paramtypes', [router_1.Router, admin_service_1.AdminService])
     ], MatchUpsComponent);
     return MatchUpsComponent;
 }());

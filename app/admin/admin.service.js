@@ -20,11 +20,11 @@ var AdminService = (function () {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.teamsUrl = 'api/teams'; // URL to web api
+        this.entriesUrl = 'api/entries';
+        this.matchUpsUrl = 'api/matchups';
     }
+    //<editor-fold desc="Teams">
     AdminService.prototype.addTeam = function (team) {
-        if (!this.headers.get('token')) {
-            this.headers.append('token', ng2_cookies_1.Cookie.get('token'));
-        }
         return this.http.post(this.teamsUrl, JSON.stringify(team), { headers: this.headers })
             .toPromise()
             .then(function (response) {
@@ -46,6 +46,60 @@ var AdminService = (function () {
             return [{}];
         })
             .catch(this.handleError);
+    };
+    //</editor-fold >
+    //<editor-fold desc="Entries">
+    AdminService.prototype.addEntry = function (entry) {
+        this.addTokenWhenExists();
+        return this.http.post(this.entriesUrl, JSON.stringify(entry), { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response && response.headers) {
+            }
+        })
+            .catch(this.handleError);
+    };
+    AdminService.prototype.getEntries = function () {
+        this.addTokenWhenExists();
+        return this.http.get(this.entriesUrl, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response && response.headers) {
+                return response.json();
+            }
+            return [{}];
+        })
+            .catch(this.handleError);
+    };
+    //</editor-fold>
+    //<editor-forld desc="MatchUps">
+    AdminService.prototype.generateRoundOneMatchUps = function () {
+        this.addTokenWhenExists();
+        return this.http.post(this.matchUpsUrl + '/generate', {}, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response && response.headers) {
+            }
+        })
+            .catch(this.handleError);
+    };
+    AdminService.prototype.getMatchUps = function () {
+        this.addTokenWhenExists();
+        return this.http.get(this.matchUpsUrl, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response && response.headers) {
+                return response.json();
+            }
+            return [{}];
+        })
+            .catch(this.handleError);
+    };
+    //</editor-fold>
+    AdminService.prototype.addTokenWhenExists = function () {
+        if (!this.headers.get('token')) {
+            this.headers.append('token', ng2_cookies_1.Cookie.get('token'));
+        }
     };
     AdminService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only

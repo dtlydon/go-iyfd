@@ -1,1 +1,13 @@
 <h1>Matchups</h1>
+<div class="row" *ngIf="roundOneMatchUps && roundOneMatchUps.length > 0">
+    <div class="col-sm-4" *ngFor="let matchUp of roundOneMatchUps">
+        <ul>
+            <li>{{matchUp}}</li>
+        </ul>
+    </div>
+</div>
+<div class="row" *ngIf="roundOneMatchUps && roundOneMatchUps.length === 0">
+    <div class="col-sm-6">
+        <button class="btn btn-default" type="button" (click)="generateRoundOne()">Generate</button>
+    </div>
+</div>

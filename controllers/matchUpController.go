@@ -12,7 +12,7 @@ type matchUpController struct{
 
 }
 
-const numberOfEntriesPerRegion = 8; //TODO: actually 16
+const numberOfEntriesPerRegion = 16; //TODO: actually 16
 
 func (this *matchUpController) query(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params){
 	responseWriter.Header().Add("Content-type", "application/json")
@@ -84,15 +84,15 @@ func (this *matchUpController) generateFirstRound(responseWriter http.ResponseWr
 			southEntries[numberOfSouthEntries] = entry
 			numberOfSouthEntries++;
 		}
-		if entry.Region == "W"{
+		if entry.Region == "w"{
 			westEntries[numberOfWestEntries] = entry
 			numberOfWestEntries++;
 		}
-		if entry.Region == "E"{
+		if entry.Region == "e"{
 			eastEntries[numberOfEastEntries] = entry
 			numberOfEastEntries++;
 		}
-		if entry.Region == "MW"{
+		if entry.Region == "mw"{
 			midWestEntries[numberOfMidWestEntries] = entry
 			numberOfMidWestEntries++;
 		}

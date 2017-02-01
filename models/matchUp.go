@@ -11,6 +11,7 @@ type MatchUp struct{
 	Entry1 bson.ObjectId
 	Entry2 bson.ObjectId
 	Winner bson.ObjectId	`bson:"winner,omitempty"`
+	Region string
 	Seed int
 	Round int
 }
@@ -22,6 +23,15 @@ func GetMatchUps() []MatchUp{
 	matchUps := []MatchUp{}
 	dbUtil.Collection.Find(bson.M{}).All(&matchUps)
 	return matchUps
+}
+
+func GetMatchUpByRegionRoundAndSeed(region string, round int, seed int) MatchUp{
+	dbUtil := getMatchUpCollection()
+	defer dbUtil.CloseSession()
+
+	matchUp := MatchUp{}
+	dbUtil.Collection.Find(bson.M{"region": region, "round":round, "seed": seed}).One(&matchUp)
+	return matchUp
 }
 
 func CreateMatchUp(matchUp MatchUp){

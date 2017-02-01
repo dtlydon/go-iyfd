@@ -6,6 +6,8 @@ import (
 	"github.com/dtlydon/go-iyfd/models"
 	"encoding/json"
 	"fmt"
+	"math"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type matchUpController struct{
@@ -52,6 +54,10 @@ func (this *matchUpController) patch(responseWriter http.ResponseWriter, request
 	}
 
 	models.UpdateMatchUp(matchUp)
+
+	if(matchUp.Winner != ""){
+		CreateOrUpdateNextMatchUp(matchUp.Winner, matchUp.Seed, matchUp.Round, matchUp.Region)
+	}
 	responseWriter.WriteHeader(200)
 }
 
@@ -113,8 +119,59 @@ func CreateMatchUpsInRegion(regionEntries [numberOfEntriesPerRegion]models.Entry
 			Seed: i + 1,
 			Entry1: regionEntries[i].Id, //0, 1
 			Entry2: regionEntries[firstRoundCount - 1 - i].Id, //16 -1 = 15 16 -1 -1 = 14,
+			Region: regionEntries[i].Region,
 		}
 
 		models.CreateMatchUp(newMatchUp)
 	}
+}
+
+func CreateOrUpdateNextMatchUp(entryId bson.ObjectId, seed int, round int, region string){
+	nextRound := round + 1;
+	if(nextRound <= 4){
+		exponent:= float64(5 - round)
+		maxSeedThisRound := int(math.Exp2(exponent)) //8 4 2
+		maxSeedNextRound := maxSeedThisRound / 2 //4 2 1
+		newSeed := seed //1, 2, 3, 4 OR 1, 2 OR 1
+		isHigherSeed := newSeed > maxSeedNextRound
+		if(isHigherSeed){
+			newSeed = maxSeedThisRound - seed + 1
+		}
+
+		currentMatchUp := models.GetMatchUpByRegionRoundAndSeed(region, nextRound, newSeed)
+		if(currentMatchUp.Id == ""){
+			if(isHigherSeed){
+				currentMatchUp.Entry2 = entryId
+			} else{
+				currentMatchUp.Entry1 = entryId;
+			}
+			currentMatchUp.Seed = newSeed
+			currentMatchUp.Round = nextRound
+			currentMatchUp.Region = region
+
+			models.CreateMatchUp(currentMatchUp);
+		} else{
+			if(isHigherSeed){
+				currentMatchUp.Entry2 = entryId;
+			} else{
+				currentMatchUp.Entry1 = entryId;
+			}
+			models.UpdateMatchUp(currentMatchUp);
+		}
+
+	} else if(nextRound == 5){
+		//TODO: Process final four
+		//Get Entry Region
+		//Get Regions VS
+		//Get matchup with opposing region
+		//If not exists Create New Matchup
+		//Else Update with this entry
+	} else if(nextRound == 6){
+		//TODO: Process Finals
+		//Get Matchup for round 6
+		//If not exists Create New Matchup
+		//Else Update Existing matchup with this entry
+	}
+
+
 }

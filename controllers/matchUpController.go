@@ -80,7 +80,6 @@ func (this *matchUpController) generateFirstRound(responseWriter http.ResponseWr
 	numberOfMidWestEntries := 0;
 	for _, entry:= range allEntries{
 		if entry.Region == "s"{
-			fmt.Println("Entry: ", entry)
 			southEntries[numberOfSouthEntries] = entry
 			numberOfSouthEntries++;
 		}
@@ -111,6 +110,7 @@ func CreateMatchUpsInRegion(regionEntries [numberOfEntriesPerRegion]models.Entry
 	for i := 0; i < firstRoundCount / 2; i++ {
 		newMatchUp := models.MatchUp{
 			Round: 1,
+			Seed: i + 1,
 			Entry1: regionEntries[i].Id, //0, 1
 			Entry2: regionEntries[firstRoundCount - 1 - i].Id, //16 -1 = 15 16 -1 -1 = 14,
 		}

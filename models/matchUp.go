@@ -11,6 +11,7 @@ type MatchUp struct{
 	Entry1 bson.ObjectId
 	Entry2 bson.ObjectId
 	Winner bson.ObjectId	`bson:"winner,omitempty"`
+	Seed int
 	Round int
 }
 

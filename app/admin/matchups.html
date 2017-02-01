@@ -1,9 +1,8 @@
 <h1>Matchups</h1>
 <div class="row" *ngIf="roundOneMatchUps && roundOneMatchUps.length > 0">
-    <div class="col-sm-4" *ngFor="let matchUp of roundOneMatchUps">
-        <ul>
-            <li>{{matchUp}}</li>
-        </ul>
+    <div class="col-sm-4" *ngFor="let matchUp of allMatchUps">
+        <a (click)="pickWinner(matchUp, matchUp.Entry1)">{{getEntryData(matchUp.Entry1)}}</a>
+        <a (click)="pickWinner(matchUp, matchUp.Entry2)">{{getEntryData(matchUp.Entry2)}}</a>
     </div>
 </div>
 <div class="row" *ngIf="roundOneMatchUps && roundOneMatchUps.length === 0">

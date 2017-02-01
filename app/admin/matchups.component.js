@@ -22,6 +22,16 @@ var MatchUpsComponent = (function () {
     }
     MatchUpsComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.adminService.getTeams().then(function (response) {
+            if (response) {
+                _this.teams = response;
+            }
+        });
+        this.adminService.getEntries().then(function (response) {
+            if (response) {
+                _this.entries = response;
+            }
+        });
         this.adminService.getMatchUps().then(function (response) {
             _this.allMatchUps = response;
             for (var i = 0; i < _this.allMatchUps.length; i++) {
@@ -36,6 +46,11 @@ var MatchUpsComponent = (function () {
         this.adminService.generateRoundOneMatchUps().then(function (response) {
             _this.router.navigateByUrl('/admin/matchups');
         });
+    };
+    MatchUpsComponent.prototype.getEntryData = function (entryId) {
+        var filteredEntries = this.entries.filter(function (e) { return e.Id === entryId; });
+        var filteredTeams = this.teams.filter(function (team) { return team.Id === filteredEntries[0].TeamId; });
+        return filteredEntries[0].Rank + "." + filteredTeams[0].Name;
     };
     MatchUpsComponent = __decorate([
         core_1.Component({

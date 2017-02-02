@@ -7,6 +7,8 @@ import {MatchUp} from "../shared/MatchUp";
 import {AdminService} from "./admin.service";
 import {Team} from "../shared/team";
 import {Entry} from "../shared/entry";
+import {setupMaster} from "cluster";
+import {RegionVs} from "../shared/regionVs";
 
 @Component({
     moduleId: module.id,
@@ -15,12 +17,14 @@ import {Entry} from "../shared/entry";
 })
 export class MatchUpsComponent implements OnInit {
     private allMatchUps: MatchUp[];
-    roundOneMatchUps: MatchUp[];
+    roundMatchUps: MatchUp[];
     entries:Entry[];
     teams:Team[];
+    selectedRound:number;
+    regionVs:RegionVs;
     
     constructor(private router:Router, private adminService:AdminService) {
-        this.roundOneMatchUps = [];
+        this.roundMatchUps = [];
     }
 
     ngOnInit():void {
@@ -36,24 +40,25 @@ export class MatchUpsComponent implements OnInit {
             }
         });
 
-        this.adminService.getMatchUps().then(response => {
-            this.allMatchUps = response;
-
-            for(var i = 0; i < this.allMatchUps.length; i++){
-                if(this.allMatchUps[i].Round === 1){
-                    this.roundOneMatchUps.push(this.allMatchUps[i]);
-                }
+        this.adminService.getRegionVs().then(response =>{
+            if(response){
+                this.regionVs = response
             }
-        })
+            else{
+                this.regionVs.SouthVs = '';
+            }
+        });
+
+        this.setMatchUps(1);
     }
 
     generateRoundOne():void{
         this.adminService.generateRoundOneMatchUps().then(response =>{
-            this.router.navigateByUrl('/admin/matchups');
+            this.setMatchUps(1);
         });
     }
 
-    getEntryData(entryId):string{
+    getEntryData(entryId):string {
         let filteredEntries = this.entries.filter(e => e.Id === entryId);
         let filteredTeams = this.teams.filter(team => team.Id === filteredEntries[0].TeamId);
         return filteredEntries[0].Rank + "." + filteredTeams[0].Name;
@@ -62,7 +67,26 @@ export class MatchUpsComponent implements OnInit {
     pickWinner(matchUp:MatchUp, winnerId:string):void{
         matchUp.Winner = winnerId;
         this.adminService.updateMatchUp(matchUp).then(response =>{
-            //W00t
+            this.setMatchUps(matchUp.Round);
+        })
+    }
+
+    changeRound(round:number):void{
+        this.selectedRound = round;
+        this.roundMatchUps = this.allMatchUps.filter(m => m.Round === round);
+    }
+
+    setSouthVs(region:string):void{
+        this.regionVs.SouthVs = region;
+        this.adminService.createRegionVs(this.regionVs).then(response =>{
+            //
+        })
+    }
+
+    private setMatchUps(round:number):void{
+        this.adminService.getMatchUps().then(response => {
+            this.allMatchUps = response;
+            this.roundMatchUps = this.allMatchUps.filter(m => m.Round === 1);
         })
     }
 }

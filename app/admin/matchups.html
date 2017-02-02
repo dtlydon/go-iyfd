@@ -1,12 +1,29 @@
 <h1>Matchups</h1>
-<div class="row" *ngIf="roundOneMatchUps && roundOneMatchUps.length > 0">
-    <div class="col-sm-4" *ngFor="let matchUp of allMatchUps">
-        <a class="btn btn-default" (click)="pickWinner(matchUp, matchUp.Entry1)">{{getEntryData(matchUp.Entry1)}}</a>
-        <a class="btn btn-default" (click)="pickWinner(matchUp, matchUp.Entry2)">{{getEntryData(matchUp.Entry2)}}</a>
+<div class="row">
+    <div class="col-sm-10">
+        <a class="btn btn-default btn-group-vertical" (click)="changeRound(1)">Round 1</a>
+        <a class="btn btn-default btn-group-vertical" (click)="changeRound(2)">Round 2</a>
+        <a class="btn btn-default btn-group-vertical" (click)="changeRound(3)">Round 3</a>
+        <a class="btn btn-default btn-group-vertical" (click)="changeRound(4)">Round 4</a>
+        <a class="btn btn-default btn-group-vertical" (click)="changeRound(5)">Round 5</a>
+        <a class="btn btn-default btn-group-vertical" (click)="changeRound(6)">Round 6</a>
+    </div>
+</div>
+<div class="row" *ngIf="selectedRound == 5">
+    <div class="col-sm-10">
+        <a class="btn btn-default" [ngClass]="{'btn-success': regionVs.SouthVs === 'e'}" (click)="setSouthVs('e')">S vs E</a>
+        <a class="btn btn-default" [ngClass]="{'btn-success': regionVs.SouthVs === 'w'}" (click)="setSouthVs('w')">S vs W</a>
+        <a class="btn btn-default" [ngClass]="{'btn-success': regionVs.SouthVs === 'mw'}" (click)="setSouthVs('mw')">S vs MW</a>
+    </div>
+</div>
+<div class="row" *ngIf="roundMatchUps && roundMatchUps.length > 0">
+    <div class="col-sm-4" *ngFor="let matchUp of roundMatchUps">
+        <a *ngIf="matchUp.Entry1" class="btn btn-default" (click)="pickWinner(matchUp, matchUp.Entry1)">{{getEntryData(matchUp.Entry1)}}</a>
+        <a *ngIf="matchUp.Entry2" class="btn btn-default" (click)="pickWinner(matchUp, matchUp.Entry2)">{{getEntryData(matchUp.Entry2)}}</a>
         <b *ngIf="matchUp.Winner">{{getEntryData(matchUp.Winner)}}</b>
     </div>
 </div>
-<div class="row" *ngIf="roundOneMatchUps && roundOneMatchUps.length === 0">
+<div class="row" *ngIf="allMatchUps && allMatchUps.length === 0">
     <div class="col-sm-6">
         <button class="btn btn-default" type="button" (click)="generateRoundOne()">Generate</button>
     </div>

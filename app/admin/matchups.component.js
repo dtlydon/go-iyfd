@@ -18,7 +18,7 @@ var MatchUpsComponent = (function () {
     function MatchUpsComponent(router, adminService) {
         this.router = router;
         this.adminService = adminService;
-        this.roundOneMatchUps = [];
+        this.roundMatchUps = [];
     }
     MatchUpsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -32,19 +32,20 @@ var MatchUpsComponent = (function () {
                 _this.entries = response;
             }
         });
-        this.adminService.getMatchUps().then(function (response) {
-            _this.allMatchUps = response;
-            for (var i = 0; i < _this.allMatchUps.length; i++) {
-                if (_this.allMatchUps[i].Round === 1) {
-                    _this.roundOneMatchUps.push(_this.allMatchUps[i]);
-                }
+        this.adminService.getRegionVs().then(function (response) {
+            if (response) {
+                _this.regionVs = response;
+            }
+            else {
+                _this.regionVs.SouthVs = '';
             }
         });
+        this.setMatchUps(1);
     };
     MatchUpsComponent.prototype.generateRoundOne = function () {
         var _this = this;
         this.adminService.generateRoundOneMatchUps().then(function (response) {
-            _this.router.navigateByUrl('/admin/matchups');
+            _this.setMatchUps(1);
         });
     };
     MatchUpsComponent.prototype.getEntryData = function (entryId) {
@@ -53,9 +54,27 @@ var MatchUpsComponent = (function () {
         return filteredEntries[0].Rank + "." + filteredTeams[0].Name;
     };
     MatchUpsComponent.prototype.pickWinner = function (matchUp, winnerId) {
+        var _this = this;
         matchUp.Winner = winnerId;
         this.adminService.updateMatchUp(matchUp).then(function (response) {
-            //W00t
+            _this.setMatchUps(matchUp.Round);
+        });
+    };
+    MatchUpsComponent.prototype.changeRound = function (round) {
+        this.selectedRound = round;
+        this.roundMatchUps = this.allMatchUps.filter(function (m) { return m.Round === round; });
+    };
+    MatchUpsComponent.prototype.setSouthVs = function (region) {
+        this.regionVs.SouthVs = region;
+        this.adminService.createRegionVs(this.regionVs).then(function (response) {
+            //
+        });
+    };
+    MatchUpsComponent.prototype.setMatchUps = function (round) {
+        var _this = this;
+        this.adminService.getMatchUps().then(function (response) {
+            _this.allMatchUps = response;
+            _this.roundMatchUps = _this.allMatchUps.filter(function (m) { return m.Round === 1; });
         });
     };
     MatchUpsComponent = __decorate([

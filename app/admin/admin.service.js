@@ -95,6 +95,16 @@ var AdminService = (function () {
         })
             .catch(this.handleError);
     };
+    AdminService.prototype.updateMatchUp = function (matchUp) {
+        this.addTokenWhenExists();
+        return this.http.patch(this.matchUpsUrl, matchUp, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response && response.headers) {
+            }
+        })
+            .catch(this.handleError);
+    };
     //</editor-fold>
     AdminService.prototype.addTokenWhenExists = function () {
         if (!this.headers.get('token')) {

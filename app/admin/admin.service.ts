@@ -99,6 +99,18 @@ export class AdminService {
             })
             .catch(this.handleError);
     }
+
+    updateMatchUp(matchUp:MatchUp):Promise<any>{
+        this.addTokenWhenExists();
+        return this.http.patch(this.matchUpsUrl, matchUp, {headers: this.headers})
+            .toPromise()
+            .then(response => {
+                if(response && response.headers){
+                    //?
+                }
+            })
+            .catch(this.handleError);
+    }
     //</editor-fold>
 
     private addTokenWhenExists(): void{

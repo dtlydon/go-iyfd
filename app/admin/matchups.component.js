@@ -53,8 +53,10 @@ var MatchUpsComponent = (function () {
         return filteredEntries[0].Rank + "." + filteredTeams[0].Name;
     };
     MatchUpsComponent.prototype.pickWinner = function (matchUp, winnerId) {
-        matchUp.WinnerId = winnerId;
-        //TODO: Call admin service
+        matchUp.Winner = winnerId;
+        this.adminService.updateMatchUp(matchUp).then(function (response) {
+            //W00t
+        });
     };
     MatchUpsComponent = __decorate([
         core_1.Component({

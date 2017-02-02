@@ -129,9 +129,9 @@ func CreateMatchUpsInRegion(regionEntries [numberOfEntriesPerRegion]models.Entry
 func CreateOrUpdateNextMatchUp(entryId bson.ObjectId, seed int, round int, region string){
 	nextRound := round + 1;
 	if(nextRound <= 4){
-		exponent:= float64(5 - round)
-		maxSeedThisRound := int(math.Exp2(exponent)) //8 4 2
-		maxSeedNextRound := maxSeedThisRound / 2 //4 2 1
+		exponent := float64(4 - nextRound)
+		maxSeedNextRound := int(math.Exp2(exponent))
+		maxSeedThisRound := maxSeedNextRound * 2
 		newSeed := seed //1, 2, 3, 4 OR 1, 2 OR 1
 		isHigherSeed := newSeed > maxSeedNextRound
 		if(isHigherSeed){

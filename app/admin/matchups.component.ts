@@ -60,7 +60,9 @@ export class MatchUpsComponent implements OnInit {
     }
 
     pickWinner(matchUp:MatchUp, winnerId:string):void{
-        matchUp.WinnerId = winnerId;
-        //TODO: Call admin service
+        matchUp.Winner = winnerId;
+        this.adminService.updateMatchUp(matchUp).then(response =>{
+            //W00t
+        })
     }
 }

@@ -5,6 +5,6 @@ export class MatchUp{
     Id: string;
     Entry1: string;
     Entry2: string;
-    WinnerId: string;
+    Winner: string;
     Round: number;
 }

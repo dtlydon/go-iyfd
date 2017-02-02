@@ -8,8 +8,8 @@ import (
 
 type MatchUp struct{
 	Id bson.ObjectId	`bson:"_id,omitempty"`
-	Entry1 bson.ObjectId
-	Entry2 bson.ObjectId
+	Entry1 bson.ObjectId	`bson:"entry1,omitempty"`
+	Entry2 bson.ObjectId	`bson:"entry2,omitempty"`
 	Winner bson.ObjectId	`bson:"winner,omitempty"`
 	Region string
 	Seed int

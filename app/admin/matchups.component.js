@@ -74,7 +74,7 @@ var MatchUpsComponent = (function () {
         var _this = this;
         this.adminService.getMatchUps().then(function (response) {
             _this.allMatchUps = response;
-            _this.roundMatchUps = _this.allMatchUps.filter(function (m) { return m.Round === 1; });
+            _this.roundMatchUps = _this.allMatchUps.filter(function (m) { return m.Round === _this.selectedRound; });
         });
     };
     MatchUpsComponent = __decorate([

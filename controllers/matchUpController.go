@@ -160,18 +160,68 @@ func CreateOrUpdateNextMatchUp(entryId bson.ObjectId, seed int, round int, regio
 		}
 
 	} else if(nextRound == 5){
-		//TODO: Process final four
-		//Get Entry Region
-		//Get Regions VS
-		//Get matchup with opposing region
-		//If not exists Create New Matchup
-		//Else Update with this entry
+		regionSouthPlays := models.GetRegionVs().SouthVs
+		regionWestPlays := ""
+		regionEastPlays := ""
+		regionMidWestPlays := ""
+		switch regionSouthPlays {
+		case "e":
+			regionEastPlays = "s"
+			regionWestPlays = "mw"
+			regionMidWestPlays = "w"
+		case "w":
+			regionEastPlays = "mw"
+			regionWestPlays = "s"
+			regionMidWestPlays = "e"
+		case "mw":
+			regionEastPlays = "w"
+			regionWestPlays = "e"
+			regionMidWestPlays = "s"
+		}
+
+		//It's always South VS __
+		//
+		switch region{
+		case "s":
+			processRound5Entry("s", regionSouthPlays, nextRound, entryId)
+		case "e":
+			processRound5Entry("e", regionEastPlays, nextRound, entryId)
+		case "w":
+			processRound5Entry("w", regionWestPlays, nextRound, entryId)
+		case "mw":
+			processRound5Entry("mw", regionMidWestPlays, nextRound, entryId)
+
+		}
 	} else if(nextRound == 6){
-		//TODO: Process Finals
-		//Get Matchup for round 6
-		//If not exists Create New Matchup
-		//Else Update Existing matchup with this entry
+		existingMatchUp := models.GetMatchUpByRegionRoundAndSeed("final", nextRound, 1)
+		if(existingMatchUp.Id != ""){
+			existingMatchUp.Entry2 = entryId
+			models.UpdateMatchUp(existingMatchUp)
+		} else{
+			existingMatchUp.Region = "final"
+			existingMatchUp.Seed = 1
+			existingMatchUp.Round = nextRound
+			existingMatchUp.Entry1 = entryId
+
+			models.CreateMatchUp(existingMatchUp)
+		}
 	}
 
 
+}
+
+func processRound5Entry(region string, regionThisPlays string, nextRound int, entryId bson.ObjectId){
+	regionMashUp := regionThisPlays + "V" + region
+	existingMatchUp := models.GetMatchUpByRegionRoundAndSeed(regionMashUp, nextRound, 1)
+	if(existingMatchUp.Id != ""){
+		existingMatchUp.Entry2 = entryId
+		models.UpdateMatchUp(existingMatchUp)
+	} else {
+		existingMatchUp.Region = region + "V" + regionThisPlays
+		existingMatchUp.Seed = 1
+		existingMatchUp.Round = nextRound
+		existingMatchUp.Entry1 = entryId
+
+		models.CreateMatchUp(existingMatchUp)
+	}
 }

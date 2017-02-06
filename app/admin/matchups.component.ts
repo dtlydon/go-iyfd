@@ -86,7 +86,7 @@ export class MatchUpsComponent implements OnInit {
     private setMatchUps(round:number):void{
         this.adminService.getMatchUps().then(response => {
             this.allMatchUps = response;
-            this.roundMatchUps = this.allMatchUps.filter(m => m.Round === 1);
+            this.roundMatchUps = this.allMatchUps.filter(m => m.Round === this.selectedRound);
         })
     }
 }

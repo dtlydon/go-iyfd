@@ -25,7 +25,7 @@ func (this *userChoiceController) query(responseWriter http.ResponseWriter, requ
 
 	token, _ := util.GetToken(tokenString)
 	userId := token["id"]
-	userChoices := models.GetUserChoicesByUserId(userId.(string))
+	userChoices := models.GetUserChoicesViewsByUserId(userId.(string))
 	err := json.NewEncoder(responseWriter).Encode(&userChoices)
 	if(err != nil){
 		fmt.Println("Error getting matchups: ", err.Error())

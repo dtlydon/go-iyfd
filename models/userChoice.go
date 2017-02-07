@@ -13,13 +13,13 @@ type UserChoice struct{
 	ChoiceId bson.ObjectId
 }
 
-func GetUserChoicesByUserId(userId string) []UserChoice{
+func GetUserChoicesByUserId(userId bson.ObjectId) []UserChoice{
 	fmt.Println("user id: ", userId)
 	dbUtil := getUserChoiceCollection()
 	defer dbUtil.CloseSession()
 
 	userChoices := []UserChoice{}
-	err := dbUtil.Collection.Find(bson.M{"userid": bson.ObjectIdHex(userId)}).All(&userChoices)
+	err := dbUtil.Collection.Find(bson.M{"userid": userId}).All(&userChoices)
 	fmt.Println(userChoices)
 	if(err != nil){
 		fmt.Println("Error retrieving user choices for user: ", err.Error())
@@ -42,6 +42,16 @@ func CreateUserChoice (userChoice UserChoice){
 	defer dbUtil.CloseSession()
 
 	err := dbUtil.Collection.Insert(&userChoice)
+	if(err != nil){
+		fmt.Println("Error creating user: ", err.Error())
+	}
+}
+
+func CreateUserChoices(userChoices []UserChoice){
+	dbUtil := getUserChoiceCollection()
+	defer dbUtil.CloseSession()
+
+	err := dbUtil.Collection.Insert(&userChoices)
 	if(err != nil){
 		fmt.Println("Error creating user: ", err.Error())
 	}

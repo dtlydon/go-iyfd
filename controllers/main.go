@@ -51,6 +51,9 @@ func Register() *httprouter.Router {
 	router.GET("/api/regionVs", Authorize(regionVsController.get, models.AdminUser))
 	router.POST("/api/regionVs", Authorize(regionVsController.post, models.AdminUser))
 
+	scoreController := new(scoreController)
+	router.GET("/api/scores", scoreController.query)
+
 	router.GET("/content/*all", serveMyContent)
 	router.GET("/lib/*all", serveResource)
 	router.GET("/app/*all", serveApp)

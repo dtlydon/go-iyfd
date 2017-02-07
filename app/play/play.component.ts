@@ -3,6 +3,8 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
+import {PlayService} from "./play.service";
+import {UserChoice} from "./userChoice";
 
 @Component({
     moduleId: module.id,
@@ -10,10 +12,18 @@ import { Router }            from '@angular/router';
     templateUrl: 'play.html'
 })
 export class PlayComponent implements OnInit {
-    constructor(private router:Router) {
+    public userChoices:UserChoice[];
+    constructor(private router:Router, private playService:PlayService) {
     }
 
     ngOnInit():void {
-        //TODO: Authorize user. Grab userchoices
+        this.playService.getUserChoices().then(response => {
+            this.userChoices = response;
+        });
+    }
+
+    pickWinner(userChoice:UserChoice, entry:number):void{
+        userChoice.ChoiceId = entry === 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
+        this.playService.updateUserChoice(userChoice); //TODO: Need to handle errors
     }
 }

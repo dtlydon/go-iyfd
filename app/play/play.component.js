@@ -13,12 +13,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var play_service_1 = require("./play.service");
 var PlayComponent = (function () {
-    function PlayComponent(router) {
+    function PlayComponent(router, playService) {
         this.router = router;
+        this.playService = playService;
     }
     PlayComponent.prototype.ngOnInit = function () {
-        //TODO: Authorize user. Grab userchoices
+        var _this = this;
+        this.playService.getUserChoices().then(function (response) {
+            _this.userChoices = response;
+        });
+    };
+    PlayComponent.prototype.pickWinner = function (userChoice, entry) {
+        userChoice.ChoiceId = entry === 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
+        this.playService.updateUserChoice(userChoice); //TODO: Need to handle errors
     };
     PlayComponent = __decorate([
         core_1.Component({
@@ -26,7 +35,7 @@ var PlayComponent = (function () {
             selector: 'play',
             templateUrl: 'play.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router])
+        __metadata('design:paramtypes', [router_1.Router, play_service_1.PlayService])
     ], PlayComponent);
     return PlayComponent;
 }());

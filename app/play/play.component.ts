@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 import {PlayService} from "./play.service";
 import {UserChoice} from "./userChoice";
+import {AdminService} from "../admin/admin.service";
 
 @Component({
     moduleId: module.id,
@@ -13,10 +14,16 @@ import {UserChoice} from "./userChoice";
 })
 export class PlayComponent implements OnInit {
     public userChoices:UserChoice[];
-    constructor(private router:Router, private playService:PlayService) {
+    public isPlayBlocked:boolean;
+    constructor(private router:Router, private playService:PlayService, private adminService:AdminService) {
     }
 
     ngOnInit():void {
+        this.isPlayBlocked = false;
+        this.adminService.getSettings().then(response =>{
+            this.isPlayBlocked = response.IsAdminBlockOn;
+        });
+        
         this.playService.getUserChoices().then(response => {
             this.userChoices = response;
         });

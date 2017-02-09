@@ -49,6 +49,12 @@ func (this *userChoiceController) post(responseWriter http.ResponseWriter, reque
 	token, _ := util.GetToken(tokenString)
 	userId := token["id"]
 
+	settings := models.GetSettings()
+	if(settings.IsAdminBlockOn){
+		responseWriter.WriteHeader(400)
+		return
+	}
+
 	userChoice := models.UserChoice{}
 	err := json.NewDecoder(request.Body).Decode(&userChoice)
 	if(err != nil){
@@ -70,6 +76,12 @@ func (this *userChoiceController) patch(responseWriter http.ResponseWriter, requ
 	//If you managed to lose your token, you will be denied...
 	if(tokenString == "") {
 		responseWriter.WriteHeader(401)
+		return
+	}
+
+	settings := models.GetSettings()
+	if(settings.IsAdminBlockOn){
+		responseWriter.WriteHeader(400)
 		return
 	}
 

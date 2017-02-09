@@ -14,13 +14,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var play_service_1 = require("./play.service");
+var admin_service_1 = require("../admin/admin.service");
 var PlayComponent = (function () {
-    function PlayComponent(router, playService) {
+    function PlayComponent(router, playService, adminService) {
         this.router = router;
         this.playService = playService;
+        this.adminService = adminService;
     }
     PlayComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.isPlayBlocked = false;
+        this.adminService.getSettings().then(function (response) {
+            _this.isPlayBlocked = response.IsAdminBlockOn;
+        });
         this.playService.getUserChoices().then(function (response) {
             _this.userChoices = response;
         });
@@ -35,7 +41,7 @@ var PlayComponent = (function () {
             selector: 'play',
             templateUrl: 'play.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, play_service_1.PlayService])
+        __metadata('design:paramtypes', [router_1.Router, play_service_1.PlayService, admin_service_1.AdminService])
     ], PlayComponent);
     return PlayComponent;
 }());

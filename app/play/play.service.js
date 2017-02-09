@@ -20,8 +20,9 @@ var PlayService = (function () {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.userChoiceUrl = 'api/userchoice'; // URL to web api
+        this.scoresUrl = 'api/scores';
     }
-    //<editor-fold desc="Teams">
+    //<editor-fold desc="User Choice">
     PlayService.prototype.updateUserChoice = function (userChoice) {
         this.addTokenWhenExists();
         return this.http.post(this.userChoiceUrl, JSON.stringify(userChoice), { headers: this.headers })
@@ -43,6 +44,19 @@ var PlayService = (function () {
         })
             .catch(this.handleError);
     };
+    //</editor-fold>
+    //<editor-fold desc="Scores">
+    PlayService.prototype.getScores = function () {
+        return this.http.get(this.scoresUrl, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response && response.headers) {
+                return response.json();
+            }
+        })
+            .catch(this.handleError);
+    };
+    //</editor-fold>
     PlayService.prototype.addTokenWhenExists = function () {
         if (!this.headers.get('token')) {
             this.headers.append('token', ng2_cookies_1.Cookie.get('token'));

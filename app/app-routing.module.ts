@@ -16,12 +16,14 @@ import {RegionsComponent} from "./admin/regions.component";
 import {EntryComponent} from "./admin/entry.component";
 import {MatchUpsComponent} from "./admin/matchups.component";
 import {UsersComponent} from "./admin/users.component";
+import {ScoreComponent} from "./play/score.component";
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home',  component: HomeComponent },
     { path: 'howto', component: HowToComponent },
     { path: 'play', component: PlayComponent },
+    { path: 'scores', component: ScoreComponent },
     { path: 'admin', component: AdminComponent,
         children: [
             {path: 'teams', component: TeamsComponent},

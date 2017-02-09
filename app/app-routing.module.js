@@ -25,11 +25,13 @@ var regions_component_1 = require("./admin/regions.component");
 var entry_component_1 = require("./admin/entry.component");
 var matchups_component_1 = require("./admin/matchups.component");
 var users_component_1 = require("./admin/users.component");
+var score_component_1 = require("./play/score.component");
 var routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: home_component_1.HomeComponent },
     { path: 'howto', component: howto_component_1.HowToComponent },
     { path: 'play', component: play_component_1.PlayComponent },
+    { path: 'scores', component: score_component_1.ScoreComponent },
     { path: 'admin', component: admin_component_1.AdminComponent,
         children: [
             { path: 'teams', component: teams_component_1.TeamsComponent },

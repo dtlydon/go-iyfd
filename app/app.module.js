@@ -30,6 +30,7 @@ var matchups_component_1 = require("./admin/matchups.component");
 var users_component_1 = require("./admin/users.component");
 var admin_service_1 = require("./admin/admin.service");
 var play_service_1 = require("./play/play.service");
+var score_component_1 = require("./play/score.component");
 //import { InMemoryDataService }  from './in-memory-data.service';
 var AppModule = (function () {
     function AppModule() {
@@ -56,7 +57,8 @@ var AppModule = (function () {
                 regions_component_1.RegionsComponent,
                 entry_component_1.EntryComponent,
                 matchups_component_1.MatchUpsComponent,
-                users_component_1.UsersComponent
+                users_component_1.UsersComponent,
+                score_component_1.ScoreComponent
             ],
             providers: [
                 account_service_1.AccountService,

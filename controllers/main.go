@@ -47,9 +47,9 @@ func Register() *httprouter.Router {
 	router.POST("/api/userchoice", Authorize(userChoiceController.post, models.BasicUser))
 	router.PATCH("/api/userchoice", Authorize(userChoiceController.patch, models.BasicUser))
 
-	regionVsController := new(regionVsController)
-	router.GET("/api/regionVs", Authorize(regionVsController.get, models.AdminUser))
-	router.POST("/api/regionVs", Authorize(regionVsController.post, models.AdminUser))
+	settingsController := new(settingsController)
+	router.GET("/api/settings", Authorize(settingsController.get, models.AdminUser))
+	router.POST("/api/settings", Authorize(settingsController.post, models.AdminUser))
 
 	scoreController := new(scoreController)
 	router.GET("/api/scores", scoreController.query)

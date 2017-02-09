@@ -32,14 +32,6 @@ var MatchUpsComponent = (function () {
                 _this.entries = response;
             }
         });
-        this.adminService.getRegionVs().then(function (response) {
-            if (response) {
-                _this.regionVs = response;
-            }
-            else {
-                _this.regionVs.SouthVs = '';
-            }
-        });
         this.setMatchUps(1);
     };
     MatchUpsComponent.prototype.generateRoundOne = function () {
@@ -63,12 +55,6 @@ var MatchUpsComponent = (function () {
     MatchUpsComponent.prototype.changeRound = function (round) {
         this.selectedRound = round;
         this.roundMatchUps = this.allMatchUps.filter(function (m) { return m.Round === round; });
-    };
-    MatchUpsComponent.prototype.setSouthVs = function (region) {
-        this.regionVs.SouthVs = region;
-        this.adminService.createRegionVs(this.regionVs).then(function (response) {
-            //
-        });
     };
     MatchUpsComponent.prototype.setMatchUps = function (round) {
         var _this = this;

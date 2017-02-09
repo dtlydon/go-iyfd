@@ -17,6 +17,7 @@ import {EntryComponent} from "./admin/entry.component";
 import {MatchUpsComponent} from "./admin/matchups.component";
 import {UsersComponent} from "./admin/users.component";
 import {ScoreComponent} from "./play/score.component";
+import {SettingComponent} from "./admin/settings.component";
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -30,7 +31,8 @@ const routes: Routes = [
             {path: 'regions', component: RegionsComponent},
             {path: 'entry', component: EntryComponent},
             {path: 'matchups', component: MatchUpsComponent},
-            {path: 'users', component: UsersComponent}
+            {path: 'users', component: UsersComponent},
+            {path: 'settings', component: SettingComponent}
         ]
     },
     { path: 'account', component: AccountComponent,

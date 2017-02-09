@@ -10,6 +10,7 @@ import {Cookie} from "ng2-cookies/ng2-cookies";
 import {Entry} from "../shared/entry";
 import {MatchUp} from "../shared/MatchUp";
 import {RegionVs} from "../shared/regionVs";
+import {Settings} from "./settings";
 
 @Injectable()
 export class AdminService {
@@ -18,7 +19,7 @@ export class AdminService {
     private teamsUrl = 'api/teams';  // URL to web api
     private entriesUrl = 'api/entries';
     private matchUpsUrl = 'api/matchups';
-    private regionVsUrl = 'api/regionVs';
+    private settingsUrl = 'api/settings';
 
     constructor(private http: Http) { }
     //<editor-fold desc="Teams">
@@ -114,9 +115,9 @@ export class AdminService {
             .catch(this.handleError);
     }
     
-    getRegionVs():Promise<RegionVs>{
+    getSettings():Promise<Settings>{
         this.addTokenWhenExists();
-        return this.http.get(this.regionVsUrl, {headers: this.headers})
+        return this.http.get(this.settingsUrl, {headers: this.headers})
             .toPromise()
             .then(response => {
                 if(response && response.headers) {
@@ -126,9 +127,9 @@ export class AdminService {
             .catch(this.handleError);
     }
 
-    createRegionVs(regionVs:RegionVs):Promise<any>{
+    updateSettings(settings:Settings):Promise<any>{
         this.addTokenWhenExists();
-        return this.http.post(this.regionVsUrl, regionVs, {headers: this.headers})
+        return this.http.post(this.settingsUrl, settings, {headers: this.headers})
             .toPromise()
             .then(response =>{
                 if(response && response.headers){

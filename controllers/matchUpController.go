@@ -160,7 +160,8 @@ func CreateOrUpdateNextMatchUp(entryId bson.ObjectId, seed int, round int, regio
 		}
 
 	} else if(nextRound == 5){
-		regionSouthPlays := models.GetRegionVs().SouthVs
+		//TODO: If Settings for southvs is NOT set throw error!!
+		regionSouthPlays := models.GetSettings().SouthVs
 		regionWestPlays := ""
 		regionEastPlays := ""
 		regionMidWestPlays := ""

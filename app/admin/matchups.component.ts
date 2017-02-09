@@ -40,15 +40,6 @@ export class MatchUpsComponent implements OnInit {
             }
         });
 
-        this.adminService.getRegionVs().then(response =>{
-            if(response){
-                this.regionVs = response
-            }
-            else{
-                this.regionVs.SouthVs = '';
-            }
-        });
-
         this.setMatchUps(1);
     }
 
@@ -74,13 +65,6 @@ export class MatchUpsComponent implements OnInit {
     changeRound(round:number):void{
         this.selectedRound = round;
         this.roundMatchUps = this.allMatchUps.filter(m => m.Round === round);
-    }
-
-    setSouthVs(region:string):void{
-        this.regionVs.SouthVs = region;
-        this.adminService.createRegionVs(this.regionVs).then(response =>{
-            //
-        })
     }
 
     private setMatchUps(round:number):void{

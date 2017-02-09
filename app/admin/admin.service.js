@@ -22,7 +22,7 @@ var AdminService = (function () {
         this.teamsUrl = 'api/teams'; // URL to web api
         this.entriesUrl = 'api/entries';
         this.matchUpsUrl = 'api/matchups';
-        this.regionVsUrl = 'api/regionVs';
+        this.settingsUrl = 'api/settings';
     }
     //<editor-fold desc="Teams">
     AdminService.prototype.addTeam = function (team) {
@@ -106,9 +106,9 @@ var AdminService = (function () {
         })
             .catch(this.handleError);
     };
-    AdminService.prototype.getRegionVs = function () {
+    AdminService.prototype.getSettings = function () {
         this.addTokenWhenExists();
-        return this.http.get(this.regionVsUrl, { headers: this.headers })
+        return this.http.get(this.settingsUrl, { headers: this.headers })
             .toPromise()
             .then(function (response) {
             if (response && response.headers) {
@@ -117,9 +117,9 @@ var AdminService = (function () {
         })
             .catch(this.handleError);
     };
-    AdminService.prototype.createRegionVs = function (regionVs) {
+    AdminService.prototype.updateSettings = function (settings) {
         this.addTokenWhenExists();
-        return this.http.post(this.regionVsUrl, regionVs, { headers: this.headers })
+        return this.http.post(this.settingsUrl, settings, { headers: this.headers })
             .toPromise()
             .then(function (response) {
             if (response && response.headers) {

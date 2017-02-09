@@ -9,13 +9,6 @@
         <a class="btn btn-default btn-group-vertical" (click)="changeRound(6)">Round 6</a>
     </div>
 </div>
-<div class="row" *ngIf="selectedRound == 5">
-    <div class="col-sm-10">
-        <a class="btn btn-default" [ngClass]="{'btn-success': regionVs.SouthVs === 'e'}" (click)="setSouthVs('e')">S vs E</a>
-        <a class="btn btn-default" [ngClass]="{'btn-success': regionVs.SouthVs === 'w'}" (click)="setSouthVs('w')">S vs W</a>
-        <a class="btn btn-default" [ngClass]="{'btn-success': regionVs.SouthVs === 'mw'}" (click)="setSouthVs('mw')">S vs MW</a>
-    </div>
-</div>
 <div class="row" *ngIf="roundMatchUps && roundMatchUps.length > 0">
     <div class="col-sm-4" *ngFor="let matchUp of roundMatchUps">
         <a *ngIf="matchUp.Entry1" class="btn btn-default" (click)="pickWinner(matchUp, matchUp.Entry1)">{{getEntryData(matchUp.Entry1)}}</a>

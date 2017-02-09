@@ -6,33 +6,34 @@ import (
 	"fmt"
 )
 
-type RegionVs struct{
+type Settings struct{
 	SouthVs string
+	IsAdminBlockOn bool
 }
 
-func GetRegionVs() RegionVs {
-	dbUtil := getRegionVsCollection()
+func GetSettings() Settings {
+	dbUtil := getSettingsCollection()
 	defer dbUtil.CloseSession()
-	regionVs := RegionVs{}
-	err := dbUtil.Collection.Find(bson.M{}).One(&regionVs)
+	settings := Settings{}
+	err := dbUtil.Collection.Find(bson.M{}).One(&settings)
 	if(err != nil){
 		fmt.Print("Error in Get Team ", err.Error())
 	}
-	return regionVs;
+	return settings;
 }
 
-func CreateRegionVs(regionVs RegionVs){
-	dbUtil := getRegionVsCollection()
+func UpdateSettings(settings Settings){
+	dbUtil := getSettingsCollection()
 	defer dbUtil.CloseSession()
 	err2 := dbUtil.Collection.Remove(bson.M{})
-	err := dbUtil.Collection.Insert(&regionVs)
+	err := dbUtil.Collection.Insert(&settings)
 	if(err != nil || err2 != nil){
 		fmt.Println("Error in Add Team ", err.Error(), err2.Error())
 	}
 }
 
-func getRegionVsCollection() models.DbUtil {
+func getSettingsCollection() models.DbUtil {
 	dbUtil := models.DbUtil{}
-	dbUtil.SetSession("regionVs")
+	dbUtil.SetSession("settings")
 	return dbUtil
 }

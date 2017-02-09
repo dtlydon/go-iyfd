@@ -1,0 +1,12 @@
+<h1>Settings</h1>
+<div class="row">
+    <div class="col-sm-10">
+        <a class="btn btn-default" [ngClass]="{'btn-success': settings !== undefined && settings.SouthVs === 'e'}" (click)="updateSouthVs('e')">S vs E</a>
+        <a class="btn btn-default" [ngClass]="{'btn-success': settings !== undefined && settings.SouthVs === 'w'}" (click)="updateSouthVs('w')">S vs W</a>
+        <a class="btn btn-default" [ngClass]="{'btn-success': settings !== undefined && settings.SouthVs === 'mw'}" (click)="updateSouthVs('mw')">S vs MW</a>
+    </div>
+    <div class="col-sm-10">
+        <a class="btn btn-default" [ngClass]="{'btn-success': settings !== undefined && settings.IsAdminBlockOn}" (click)="updateAdminBlock(true)">Block Play</a>
+        <a class="btn btn-default" [ngClass]="{'btn-success': settings !== undefined && !settings.IsAdminBlockOn}" (click)="updateAdminBlock(false)">Unblock Play</a>
+    </div>
+</div>

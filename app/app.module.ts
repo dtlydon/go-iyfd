@@ -22,6 +22,7 @@ import {UsersComponent} from "./admin/users.component";
 import {AdminService} from "./admin/admin.service";
 import {PlayService} from "./play/play.service";
 import {ScoreComponent} from "./play/score.component";
+import {SettingComponent} from "./admin/settings.component";
 //import { InMemoryDataService }  from './in-memory-data.service';
 
 @NgModule({
@@ -46,7 +47,8 @@ import {ScoreComponent} from "./play/score.component";
         EntryComponent,
         MatchUpsComponent,
         UsersComponent,
-        ScoreComponent
+        ScoreComponent,
+        SettingComponent
     ],
     providers: [
         AccountService,

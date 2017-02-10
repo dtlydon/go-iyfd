@@ -35,6 +35,21 @@ var PlayComponent = (function () {
         userChoice.ChoiceId = entry === 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
         this.playService.updateUserChoice(userChoice); //TODO: Need to handle errors
     };
+    PlayComponent.prototype.highLightChoice = function (userChoice, entryNo, isGreen) {
+        var entry = entryNo == 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
+        if (userChoice.Winner === "") {
+            if (isGreen) {
+                return entry == userChoice.ChoiceId;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (entry === userChoice.ChoiceId) {
+            return userChoice.Winner === entry ? isGreen : !isGreen;
+        }
+        return false;
+    };
     PlayComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

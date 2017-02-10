@@ -13,6 +13,7 @@ type UserChoiceView struct{
 	Entry1Name string
 	Entry2Name string
 	ChoiceId bson.ObjectId
+	Winner bson.ObjectId
 }
 
 func GetUserChoicesViewsByUserId(userId bson.ObjectId) []UserChoiceView{
@@ -31,21 +32,21 @@ func GetUserChoicesViewsByUserId(userId bson.ObjectId) []UserChoiceView{
 		userChoiceViews[i].MatchUpId = userChoice.MatchUpId
 		userChoiceViews[i].UserId = userChoice.UserId
 		userChoiceViews[i].Id = userChoice.Id
-		userChoiceViews[i].Entry1Id, userChoiceViews[i].Entry2Id = GetEntryIdsFromMatchUp(userChoice.MatchUpId, matchUps)
+		userChoiceViews[i].Entry1Id, userChoiceViews[i].Entry2Id, userChoiceViews[i].Winner = GetEntryIdsFromMatchUp(userChoice.MatchUpId, matchUps)
 		userChoiceViews[i].Entry1Name, userChoiceViews[i].Entry2Name = GetEntryNames(userChoiceViews[i].Entry1Id, userChoiceViews[i].Entry2Id, entries, teams)
 	}
 
 	return userChoiceViews
 }
 
-func GetEntryIdsFromMatchUp(matchUpId bson.ObjectId, matchUps []MatchUp) (bson.ObjectId, bson.ObjectId) {
+func GetEntryIdsFromMatchUp(matchUpId bson.ObjectId, matchUps []MatchUp) (bson.ObjectId, bson.ObjectId, bson.ObjectId) {
 	for _, matchUp := range matchUps{
 		if matchUp.Id == matchUpId{
-			return matchUp.Entry1, matchUp.Entry2
+			return matchUp.Entry1, matchUp.Entry2, matchUp.Winner
 		}
 
 	}
-	return "", ""
+	return "", "", ""
 }
 
 func GetEntryNames(entry1Id bson.ObjectId, entry2Id bson.ObjectId, entries []Entry, teams []Team) (string, string){

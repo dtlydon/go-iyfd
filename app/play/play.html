@@ -2,9 +2,9 @@
 <div class="row">
     <div class="col-sm-10 col-sm-offset-1">
         <div class="row" *ngFor="let userChoice of userChoices">
-            <div class="col-sm-6">
-                <a class="btn btn-default" [ngClass]="{'btn-success': userChoice.ChoiceId == userChoice.Entry1Id, 'disabled': isPlayBlocked}" (click)="pickWinner(userChoice, 1)">{{userChoice.Entry1Name}}</a>
-                <a class="btn btn-default" [ngClass]="{'btn-success': userChoice.ChoiceId == userChoice.Entry2Id, 'disabled': isPlayBlocked}" (click)="pickWinner(userChoice, 2)">{{userChoice.Entry2Name}}</a>
+            <div class="col-sm-6" *ngIf="userChoice.Entry1Id !== '' && userChoice.Entry2Id !== ''">
+                <a class="btn btn-default" [ngClass]="{'btn-success': highLightChoice(userChoice, 1, true), 'btn-danger': highLightChoice(userChoice, 1, false), 'disabled': isPlayBlocked || userChoice.Winner !== ''}" (click)="pickWinner(userChoice, 1)">{{userChoice.Entry1Name}}</a>
+                <a class="btn btn-default" [ngClass]="{'btn-success': highLightChoice(userChoice, 2, true), 'btn-danger': highLightChoice(userChoice, 2, false), 'disabled': isPlayBlocked || userChoice.Winner !== ''}" (click)="pickWinner(userChoice, 2)">{{userChoice.Entry2Name}}</a>
             </div>
         </div>
     </div>

@@ -65,8 +65,15 @@ func (this *userChoiceController) post(responseWriter http.ResponseWriter, reque
 
 	userChoice.UserId = bson.ObjectIdHex(userId.(string))
 
-	//TODO: Add error handling for each CRUD
-	models.CreateUserChoice(userChoice)
+	matchUps := models.GetMatchUps()
+	for _, matchUp := range matchUps{
+		if matchUp.Id == userChoice.MatchUpId && matchUp.Winner != "" {
+			responseWriter.WriteHeader(400)
+			return
+		}
+	}
+	models.UpdateUserChoice(userChoice)
+
 	responseWriter.WriteHeader(200)
 }
 
@@ -89,10 +96,19 @@ func (this *userChoiceController) patch(responseWriter http.ResponseWriter, requ
 	userId := token["id"]
 	userChoice := models.UserChoice{}
 	err := json.NewDecoder(request.Body).Decode(&userChoice)
+
 	if(err != nil){
 		fmt.Println("Error updating matchup: ", err.Error())
 		responseWriter.WriteHeader(400)
 		return
+	}
+
+	matchUps := models.GetMatchUps()
+	for _, matchUp := range matchUps{
+		if matchUp.Id == userChoice.MatchUpId && matchUp.Winner != "" {
+			responseWriter.WriteHeader(400)
+			return
+		}
 	}
 
 	if(userChoice.UserId != bson.ObjectIdHex(userId.(string))){

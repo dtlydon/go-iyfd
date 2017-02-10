@@ -9,4 +9,5 @@ export class UserChoice{
     Entry1Name: string;
     Entry2Name: string;
     ChoiceId: string;
+    Winner: string;
 }

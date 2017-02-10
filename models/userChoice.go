@@ -4,6 +4,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"github.com/dtlydon/go-iyfd/models/util"
 	"fmt"
+	"time"
 )
 
 type UserChoice struct{
@@ -11,6 +12,7 @@ type UserChoice struct{
 	UserId bson.ObjectId
 	MatchUpId bson.ObjectId
 	ChoiceId bson.ObjectId
+	LastUpdated time.Time
 }
 
 func GetUserChoicesByUserId(userId bson.ObjectId) []UserChoice{
@@ -37,7 +39,7 @@ func GetUserChoices() []UserChoice{
 	return userChoices
 }
 
-func CreateUserChoice (userChoice UserChoice){
+func CreateUserChoice (userChoice UserChoice) {
 	dbUtil := getUserChoiceCollection()
 	defer dbUtil.CloseSession()
 
@@ -47,7 +49,7 @@ func CreateUserChoice (userChoice UserChoice){
 	}
 }
 
-func CreateUserChoices(userChoices []UserChoice){
+func CreateUserChoices(userChoices []UserChoice) {
 	dbUtil := getUserChoiceCollection()
 	defer dbUtil.CloseSession()
 
@@ -61,6 +63,7 @@ func UpdateUserChoice (userChoice UserChoice){
 	dbUtil := getUserChoiceCollection()
 	defer dbUtil.CloseSession()
 
+	userChoice.LastUpdated = time.Now()
 	err := dbUtil.Collection.UpdateId(userChoice.Id, &userChoice)
 	if(err != nil){
 		fmt.Println("Error updating user: ", err.Error())

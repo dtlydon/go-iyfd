@@ -23,7 +23,7 @@ export class PlayComponent implements OnInit {
         this.adminService.getSettings().then(response =>{
             this.isPlayBlocked = response.IsAdminBlockOn;
         });
-        
+
         this.playService.getUserChoices().then(response => {
             this.userChoices = response;
         });
@@ -32,5 +32,19 @@ export class PlayComponent implements OnInit {
     pickWinner(userChoice:UserChoice, entry:number):void{
         userChoice.ChoiceId = entry === 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
         this.playService.updateUserChoice(userChoice); //TODO: Need to handle errors
+    }
+
+    highLightChoice(userChoice:UserChoice, entryNo:number, isGreen:boolean):boolean{
+        let entry = entryNo == 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
+        if(userChoice.Winner === ""){
+            if(isGreen){
+                return entry == userChoice.ChoiceId;
+            }else{
+                return false;
+            }
+        } else if(entry === userChoice.ChoiceId){
+            return userChoice.Winner === entry ?  isGreen : !isGreen;
+        }
+        return false;
     }
 }

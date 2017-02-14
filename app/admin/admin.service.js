@@ -24,6 +24,7 @@ var AdminService = (function () {
         this.matchUpsUrl = 'api/matchups';
         this.settingsUrl = 'api/settings';
         this.usersUrl = 'api/user';
+        this.userChoiceUrl = 'api/userchoice';
     }
     //<editor-fold desc="Teams">
     AdminService.prototype.addTeam = function (team) {
@@ -146,6 +147,29 @@ var AdminService = (function () {
             .toPromise()
             .then(function (response) {
             //?
+        })
+            .catch(this.handleError);
+    };
+    //</editor-fold>
+    //<editor-fold desc="Mimic">
+    AdminService.prototype.getUserChoices = function (userId) {
+        this.addTokenWhenExists();
+        return this.http.get(this.userChoiceUrl + "/" + userId, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response) {
+                return response.json();
+            }
+        })
+            .catch(this.handleError);
+    };
+    AdminService.prototype.updateUserChoice = function (userChoice, userId) {
+        this.addTokenWhenExists();
+        return this.http.post(this.userChoiceUrl + "/" + userId, JSON.stringify(userChoice), { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response && response.headers) {
+            }
         })
             .catch(this.handleError);
     };

@@ -12,6 +12,7 @@ import {MatchUp} from "../shared/MatchUp";
 import {RegionVs} from "../shared/regionVs";
 import {Settings} from "./settings";
 import {User} from "./user";
+import {UserChoice} from "../play/userChoice";
 
 @Injectable()
 export class AdminService {
@@ -22,6 +23,7 @@ export class AdminService {
     private matchUpsUrl = 'api/matchups';
     private settingsUrl = 'api/settings';
     private usersUrl = 'api/user';
+    private userChoiceUrl = 'api/userchoice';
 
     constructor(private http: Http) { }
     //<editor-fold desc="Teams">
@@ -160,6 +162,34 @@ export class AdminService {
             .toPromise()
             .then(response => {
             //?
+            })
+            .catch(this.handleError);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Mimic">
+    getUserChoices(userId:string):Promise<UserChoice[]>{
+        this.addTokenWhenExists();
+        return this.http.get(this.userChoiceUrl + "/" + userId, {headers: this.headers})
+            .toPromise()
+            .then(response =>{
+                if(response){
+                    return response.json() as UserChoice[];
+                }
+            })
+            .catch(this.handleError);
+
+    }
+
+
+    updateUserChoice(userChoice: UserChoice, userId:string): Promise<any>{
+        this.addTokenWhenExists();
+        return this.http.post(this.userChoiceUrl + "/" + userId, JSON.stringify(userChoice), {headers: this.headers})
+            .toPromise()
+            .then(response => {
+                if(response && response.headers){
+                    // TODO Anything?
+                }
             })
             .catch(this.handleError);
     }

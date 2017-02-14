@@ -18,6 +18,7 @@ import {MatchUpsComponent} from "./admin/matchups.component";
 import {UsersComponent} from "./admin/users.component";
 import {ScoreComponent} from "./play/score.component";
 import {SettingComponent} from "./admin/settings.component";
+import {MimicComponent} from "./admin/mimic.component";
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -32,7 +33,8 @@ const routes: Routes = [
             {path: 'entry', component: EntryComponent},
             {path: 'matchups', component: MatchUpsComponent},
             {path: 'users', component: UsersComponent},
-            {path: 'settings', component: SettingComponent}
+            {path: 'settings', component: SettingComponent},
+            {path: 'mimic/:userId', component: MimicComponent}
         ]
     },
     { path: 'account', component: AccountComponent,

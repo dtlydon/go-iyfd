@@ -23,6 +23,7 @@ import {AdminService} from "./admin/admin.service";
 import {PlayService} from "./play/play.service";
 import {ScoreComponent} from "./play/score.component";
 import {SettingComponent} from "./admin/settings.component";
+import {MimicComponent} from "./admin/mimic.component";
 //import { InMemoryDataService }  from './in-memory-data.service';
 
 @NgModule({
@@ -48,7 +49,8 @@ import {SettingComponent} from "./admin/settings.component";
         MatchUpsComponent,
         UsersComponent,
         ScoreComponent,
-        SettingComponent
+        SettingComponent,
+        MimicComponent
     ],
     providers: [
         AccountService,

@@ -11,7 +11,7 @@
                 <div class="col-sm-1">{{user.LastName}}</div>
                 <div class="col-sm-1">{{user.Role}}</div>
                 <div class="col-sm-1"><a (click)="selectUserEdit(user)">Edit</a></div>
-                <div class="col-sm-1"><a>Mimic</a></div>
+                <div class="col-sm-1"><a routerLink="/admin/mimic/{{user.Id}}">Mimic</a></div>
             </div>
             <div class="row" *ngIf="editUser.Id === user.Id">
                 <div class="col-sm-2">

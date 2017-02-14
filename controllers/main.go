@@ -49,6 +49,12 @@ func Register() *httprouter.Router {
 	router.POST("/api/userchoice", Authorize(userChoiceController.post, models.BasicUser))
 	router.PATCH("/api/userchoice", Authorize(userChoiceController.patch, models.BasicUser))
 
+	//Mimic Play
+	mimicPlayController := new(mimicPlayController)
+	router.GET("/api/userchoice/:userId", Authorize(mimicPlayController.query, models.AdminUser))
+	router.POST("/api/userchoice/:userId", Authorize(mimicPlayController.post, models.AdminUser))
+	router.PATCH("/api/userchoice/:userId", Authorize(mimicPlayController.patch, models.AdminUser))
+
 	settingsController := new(settingsController)
 	router.GET("/api/settings", settingsController.get)
 	router.POST("/api/settings", Authorize(settingsController.post, models.AdminUser))

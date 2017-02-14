@@ -11,6 +11,7 @@ import {Entry} from "../shared/entry";
 import {MatchUp} from "../shared/MatchUp";
 import {RegionVs} from "../shared/regionVs";
 import {Settings} from "./settings";
+import {User} from "./user";
 
 @Injectable()
 export class AdminService {
@@ -20,6 +21,7 @@ export class AdminService {
     private entriesUrl = 'api/entries';
     private matchUpsUrl = 'api/matchups';
     private settingsUrl = 'api/settings';
+    private usersUrl = 'api/user';
 
     constructor(private http: Http) { }
     //<editor-fold desc="Teams">
@@ -77,7 +79,7 @@ export class AdminService {
     }
     //</editor-fold>
 
-    //<editor-forld desc="MatchUps">
+    //<editor-fold desc="MatchUps">
     generateRoundOneMatchUps():Promise<any>{
         this.addTokenWhenExists();
         return this.http.post(this.matchUpsUrl + '/generate',{}, {headers: this.headers})
@@ -136,6 +138,30 @@ export class AdminService {
                     //
                 }
             })
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Users">
+    getUsers():Promise<User[]>{
+        this.addTokenWhenExists();
+        return this.http.get(this.usersUrl, {headers: this.headers})
+            .toPromise()
+            .then(response =>{
+                if(response) {
+                    return response.json() as User[];
+                }
+            })
+            .catch(this.handleError)
+    }
+
+    updateUser(user:User):Promise<any>{
+        this.addTokenWhenExists();
+        return this.http.post(this.usersUrl, user, {headers: this.headers})
+            .toPromise()
+            .then(response => {
+            //?
+            })
+            .catch(this.handleError);
     }
     //</editor-fold>
 

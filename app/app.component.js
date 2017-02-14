@@ -13,8 +13,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var core_1 = require('@angular/core');
 var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
+var account_service_1 = require("./account/account.service");
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(accountService) {
+        this.accountService = accountService;
         this.title = 'Go! IYFD Number 36';
     }
     AppComponent.prototype.ngOnInit = function () {
@@ -22,6 +24,9 @@ var AppComponent = (function () {
     AppComponent.prototype.checkIsLoggin = function () {
         var token = ng2_cookies_1.Cookie.get("token");
         return token !== undefined && token !== null && token !== '';
+    };
+    AppComponent.prototype.getUsername = function () {
+        return this.accountService.getUsername();
     };
     AppComponent.prototype.signOut = function () {
         ng2_cookies_1.Cookie.delete("token");
@@ -32,7 +37,7 @@ var AppComponent = (function () {
             selector: 'my-app',
             templateUrl: 'index.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [account_service_1.AccountService])
     ], AppComponent);
     return AppComponent;
 }());

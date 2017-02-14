@@ -23,6 +23,7 @@ var AdminService = (function () {
         this.entriesUrl = 'api/entries';
         this.matchUpsUrl = 'api/matchups';
         this.settingsUrl = 'api/settings';
+        this.usersUrl = 'api/user';
     }
     //<editor-fold desc="Teams">
     AdminService.prototype.addTeam = function (team) {
@@ -73,7 +74,7 @@ var AdminService = (function () {
             .catch(this.handleError);
     };
     //</editor-fold>
-    //<editor-forld desc="MatchUps">
+    //<editor-fold desc="MatchUps">
     AdminService.prototype.generateRoundOneMatchUps = function () {
         this.addTokenWhenExists();
         return this.http.post(this.matchUpsUrl + '/generate', {}, { headers: this.headers })
@@ -125,6 +126,28 @@ var AdminService = (function () {
             if (response && response.headers) {
             }
         });
+    };
+    //</editor-fold>
+    //<editor-fold desc="Users">
+    AdminService.prototype.getUsers = function () {
+        this.addTokenWhenExists();
+        return this.http.get(this.usersUrl, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            if (response) {
+                return response.json();
+            }
+        })
+            .catch(this.handleError);
+    };
+    AdminService.prototype.updateUser = function (user) {
+        this.addTokenWhenExists();
+        return this.http.post(this.usersUrl, user, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            //?
+        })
+            .catch(this.handleError);
     };
     //</editor-fold>
     AdminService.prototype.addTokenWhenExists = function () {

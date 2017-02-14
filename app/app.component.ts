@@ -4,6 +4,7 @@
 import {Component, OnInit}          from '@angular/core';
 import {Cookie} from "ng2-cookies/ng2-cookies";
 import {isNullOrUndefined} from "util";
+import {AccountService} from "./account/account.service";
 
 @Component({
     moduleId: module.id,
@@ -13,12 +14,18 @@ import {isNullOrUndefined} from "util";
 export class AppComponent implements OnInit {
     title = 'Go! IYFD Number 36';
 
+    constructor(private accountService:AccountService){}
+
     ngOnInit():void{
     }
 
     checkIsLoggin():boolean{
         let token  = Cookie.get("token");
         return token !== undefined && token !== null && token !== '';
+    }
+
+    getUsername():string{
+        return this.accountService.getUsername();
     }
 
     signOut():void{

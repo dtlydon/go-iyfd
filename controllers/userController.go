@@ -38,6 +38,12 @@ func (this *userController) register(responseWriter http.ResponseWriter, request
 
 	models.CreateUser(user)
 	tokenString := util.SetToken(user)
+	err2 := json.NewEncoder(responseWriter).Encode(viewUser.Username)
+	if(err2 != nil){
+		fmt.Println("Error getting users", err2.Error())
+		responseWriter.WriteHeader(400)
+		return
+	}
 	responseWriter.Header().Add("token", tokenString)
 }
 
@@ -54,9 +60,27 @@ func (this *userController) login(responseWriter http.ResponseWriter, request *h
 	if(err == nil) {
 		tokenString := util.SetToken(user)
 		responseWriter.Header().Add("token", tokenString)
+		err2 := json.NewEncoder(responseWriter).Encode(viewUser.Username)
+		if(err2 != nil){
+			fmt.Println("Error getting users", err2.Error())
+			responseWriter.WriteHeader(400)
+			return
+		}
 	} else{
 		responseWriter.WriteHeader(400);
 	}
+}
+
+func (this *userController) get(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params){
+	tokenString := request.Header.Get("token")
+	if(tokenString != "") {
+		claims, _ := util.GetToken(tokenString)
+		err := json.NewEncoder(responseWriter).Encode(claims["username"]);
+		if(err != nil){
+			fmt.Println("Error parsing username from token claims: ", err.Error())
+		}
+	}
+	responseWriter.WriteHeader(200);
 }
 
 func (this *userController) query(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params){
@@ -72,6 +96,7 @@ func (this *userController) query(responseWriter http.ResponseWriter, request *h
 			LastName: user.LastName,
 			Email: user.Email,
 			Username: user.Username,
+			Role: user.Role,
 		}
 		viewUsers[i] = viewUser
 	}
@@ -83,6 +108,35 @@ func (this *userController) query(responseWriter http.ResponseWriter, request *h
 	}
 
 	responseWriter.WriteHeader(200)
+}
+
+func (this *userController) post(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params){
+	responseWriter.Header().Add("Content-Type", "application/json")
+	viewUser := viewmodels.User{}
+	err := json.NewDecoder(request.Body).Decode(&viewUser)
+	if(err != nil){
+		fmt.Println("Error updating user: ", err.Error())
+	}
+
+	//convert from VM to M
+	user := models.User{
+		Id: viewUser.Id,
+		Username: viewUser.Username,
+		Email: viewUser.Email,
+		FirstName: viewUser.FirstName,
+		LastName: viewUser.LastName,
+		Role: viewUser.Role,
+	}
+
+	if(viewUser.Password != ""){
+		user.HashPassword = getHashedWord(viewUser.Password)
+	} else{
+		user.HashPassword = models.GetUserPassword(user.Id)
+	}
+
+	models.UpdateUser(user)
+
+	responseWriter.WriteHeader(200);
 }
 
 func getHashedWord(word string) string{

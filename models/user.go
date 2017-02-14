@@ -12,6 +12,7 @@ type Role int
 
 const(
 	BasicUser Role = iota
+	Bob
 	AdminUser
 	SuperUser
 )
@@ -51,6 +52,21 @@ func GetUserByUsername(username string) User{
 	user := User{}
 	dbUtil.Collection.Find(bson.M{"username": username}).One(&user)
 	return user
+}
+
+func UpdateUser(user User){
+	dbUtil := getUserCollection()
+	defer dbUtil.Session.Close()
+
+	dbUtil.Collection.UpdateId(user.Id, &user)
+}
+
+func GetUserPassword(userId bson.ObjectId) string{
+	dbUtil := getUserCollection()
+	defer dbUtil.Session.Close()
+	user := User{}
+	dbUtil.Collection.FindId(userId).One(&user)
+	return user.HashPassword
 }
 
 func getUserCollection() models.DbUtil{

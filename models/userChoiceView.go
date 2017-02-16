@@ -14,6 +14,8 @@ type UserChoiceView struct{
 	Entry2Name string
 	ChoiceId bson.ObjectId
 	Winner bson.ObjectId
+	Round int
+	Region string
 }
 
 func GetUserChoicesViewsByUserId(userId bson.ObjectId) []UserChoiceView{
@@ -30,6 +32,8 @@ func GetUserChoicesViewsByUserId(userId bson.ObjectId) []UserChoiceView{
 	for i, userChoice:= range userChoices{
 		userChoiceViews[i].ChoiceId = userChoice.ChoiceId
 		userChoiceViews[i].MatchUpId = userChoice.MatchUpId
+		userChoiceViews[i].Round = userChoice.Round
+		userChoiceViews[i].Region = userChoice.Region
 		userChoiceViews[i].UserId = userChoice.UserId
 		userChoiceViews[i].Id = userChoice.Id
 		userChoiceViews[i].Entry1Id, userChoiceViews[i].Entry2Id, userChoiceViews[i].Winner = GetEntryIdsFromMatchUp(userChoice.MatchUpId, matchUps)
@@ -81,8 +85,11 @@ func BuildAndCreateUserChoices(userId bson.ObjectId, matchUps []MatchUp, userCho
 	for i, matchUp := range matchUps{
 		existingChoice := GetUserChoiceByMatchUpId(userChoices, matchUp.Id)
 		if(existingChoice.Id == ""){
+			existingChoice.Id = bson.NewObjectId()
 			existingChoice.UserId = userId
 			existingChoice.MatchUpId = matchUp.Id
+			existingChoice.Region = matchUp.Region
+			existingChoice.Round = matchUp.Round
 			CreateUserChoice(existingChoice)
 		}
 

@@ -22,6 +22,9 @@ var PlayComponent = (function () {
         this.router = router;
         this.playService = playService;
         this.adminService = adminService;
+        this.userChoicesByRound = [];
+        this.maxRound = 1;
+        this.displayRound = 1;
     }
     PlayComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -32,6 +35,7 @@ var PlayComponent = (function () {
         }
         if (tempRole == user_1.Role.None) {
             this.router.navigateByUrl("/");
+            return;
         }
         this.isPlayBlocked = false;
         this.adminService.getSettings().then(function (response) {
@@ -39,11 +43,52 @@ var PlayComponent = (function () {
         });
         this.playService.getUserChoices().then(function (response) {
             _this.userChoices = response;
+            var roundHash = {};
+            for (var i = 0; i < _this.userChoices.length; i++) {
+                if (roundHash[_this.userChoices[i].Round]) {
+                    roundHash[_this.userChoices[i].Round] = roundHash[_this.userChoices[i].Round] + 1;
+                }
+                else {
+                    roundHash[_this.userChoices[i].Round] = 1;
+                }
+                if (_this.userChoices[i].Round > _this.maxRound) {
+                    _this.maxRound = _this.userChoices[i].Round;
+                }
+            }
+            if (roundHash[_this.maxRound] == (64 / Math.pow(2, _this.maxRound))) {
+                _this.displayRound = _this.maxRound;
+            }
+            else {
+                _this.displayRound = _this.maxRound - 1;
+            }
+            _this.filterRound();
         });
+    };
+    PlayComponent.prototype.updateDisplayRound = function (round) {
+        this.displayRound = round;
+        this.filterRound();
     };
     PlayComponent.prototype.pickWinner = function (userChoice, entry) {
         userChoice.ChoiceId = entry === 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
         this.playService.updateUserChoice(userChoice); //TODO: Need to handle errors
+    };
+    PlayComponent.prototype.getRegionName = function (region) {
+        if (region == "w") {
+            return "West";
+        }
+        if (region == "e") {
+            return "East";
+        }
+        if (region == "s") {
+            return "South";
+        }
+        if (region == "mw") {
+            return "Mid-West";
+        }
+        if (region == "final") {
+            return "Championship";
+        }
+        return "Final Four";
     };
     PlayComponent.prototype.highLightChoice = function (userChoice, entryNo, isGreen) {
         var entry = entryNo == 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
@@ -60,11 +105,16 @@ var PlayComponent = (function () {
         }
         return false;
     };
+    PlayComponent.prototype.filterRound = function () {
+        var _this = this;
+        this.userChoicesByRound = this.userChoices.filter(function (f) { return f.Round === _this.displayRound; });
+    };
     PlayComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'play',
-            templateUrl: 'play.html'
+            templateUrl: 'play.html',
+            styleUrls: ['play.css']
         }), 
         __metadata('design:paramtypes', [router_1.Router, play_service_1.PlayService, admin_service_1.AdminService])
     ], PlayComponent);

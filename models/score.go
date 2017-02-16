@@ -26,7 +26,7 @@ func GetUserScore(userId bson.ObjectId, userChoices []UserChoice, matchUps []Mat
 	for _, userChoice := range userChoices{
 		if userChoice.UserId == userId{
 			for _, matchUp := range matchUps{
-				if matchUp.Id == userChoice.MatchUpId && matchUp.Winner == userChoice.ChoiceId{
+				if matchUp.Winner != "" && matchUp.Id == userChoice.MatchUpId && matchUp.Winner == userChoice.ChoiceId{
 					score += matchUp.Round
 				}
 			}

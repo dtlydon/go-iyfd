@@ -25,6 +25,7 @@ import {ScoreComponent} from "./play/score.component";
 import {SettingComponent} from "./admin/settings.component";
 import {MimicComponent} from "./admin/mimic.component";
 import {AudioComponent} from "./admin/audio.component";
+import {GroupByPipe} from "./utils/pipes/groupByPipe";
 //import { InMemoryDataService }  from './in-memory-data.service';
 
 @NgModule({
@@ -52,7 +53,8 @@ import {AudioComponent} from "./admin/audio.component";
         ScoreComponent,
         SettingComponent,
         MimicComponent,
-        AudioComponent
+        AudioComponent,
+        GroupByPipe
     ],
     providers: [
         AccountService,

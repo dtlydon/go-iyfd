@@ -13,9 +13,15 @@
             <ul class="nav navbar-nav">
                 <li><a routerLink="/" routerLinkActive="active">Home</a></li>
                 <li><a routerLink="/howto" routerLinkActive="active">How To</a></li>
-                <li><a routerLink="/play" routerLinkActive="active">Play</a></li>
+                <li><a *ngIf="checkIsLoggin()" routerLink="/play" routerLinkActive="active">Play</a></li>
                 <li><a routerLink="/scores" routerLinkActive="active">Score</a></li>
                 <li><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
+                <li>
+                    <audio controls src="/api/announcement.m4a?t={{cacheBust.getTime()}}">
+                        <p>Your browser does not support this</p>
+                        <a href="/api/announcement.m4a?t={{cacheBust.getTime()}}">Download the audio</a>
+                    </audio>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="!checkIsLoggin()"><a routerLink="/account/login">Login</a></li>
@@ -25,12 +31,6 @@
         </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
-
 <div class="container">
     <router-outlet></router-outlet>
 </div>
-
-<audio controls src="/api/announcement.m4a?t={{cacheBust.getTime()}}">
-    <p>Your browser does not support this</p>
-    <a href="/api/announcement.m4a?t={{cacheBust.getTime()}}">Download the audio</a>
-</audio>

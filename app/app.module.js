@@ -34,6 +34,7 @@ var score_component_1 = require("./play/score.component");
 var settings_component_1 = require("./admin/settings.component");
 var mimic_component_1 = require("./admin/mimic.component");
 var audio_component_1 = require("./admin/audio.component");
+var groupByPipe_1 = require("./utils/pipes/groupByPipe");
 //import { InMemoryDataService }  from './in-memory-data.service';
 var AppModule = (function () {
     function AppModule() {
@@ -64,7 +65,8 @@ var AppModule = (function () {
                 score_component_1.ScoreComponent,
                 settings_component_1.SettingComponent,
                 mimic_component_1.MimicComponent,
-                audio_component_1.AudioComponent
+                audio_component_1.AudioComponent,
+                groupByPipe_1.GroupByPipe
             ],
             providers: [
                 account_service_1.AccountService,

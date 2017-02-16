@@ -11,8 +11,10 @@ type UserChoice struct{
 	Id bson.ObjectId	`_id,omitempty`
 	UserId bson.ObjectId
 	MatchUpId bson.ObjectId
-	ChoiceId bson.ObjectId
+	ChoiceId bson.ObjectId	`bson:"choiceId,omitempty"`
 	LastUpdated time.Time
+	Round int
+	Region string
 }
 
 func GetUserChoicesByUserId(userId bson.ObjectId) []UserChoice{
@@ -45,7 +47,7 @@ func CreateUserChoice (userChoice UserChoice) {
 
 	err := dbUtil.Collection.Insert(&userChoice)
 	if(err != nil){
-		fmt.Println("Error creating user: ", err.Error())
+		fmt.Println("Error creating user choice: ", err.Error())
 	}
 }
 

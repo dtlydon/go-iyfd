@@ -1,4 +1,8 @@
-<h2>Login!</h2>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h2>Login</h2>
+    </div>
+</div>
 <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="row form-group" [ngClass]="{'has-error':!loginForm.controls['username'].valid && loginForm.controls['username'].touched}">
         <div class="col-sm-6 col-sm-offset-3">

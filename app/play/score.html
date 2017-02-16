@@ -1,5 +1,14 @@
+<div class="row" style="margin-bottom: 25px;">
+    <div class="col-sm-offset-2">
+        <h1>Leader Board</h1>
+    </div>
+</div>
 <div class="row">
-    <div class="col-sm-10" *ngFor="let score of scores">
-        {{score.Username}} || {{score.Score}}
+    <div class="col-sm-8 col-sm-offset-2" *ngFor="let score of scores; let i = index">
+        <div class="row score-table">
+            <div class="col-xs-1">{{i + 1}}</div>
+            <div class="col-xs-2">{{score.Username}}</div>
+            <div class="col-xs-1">{{score.Score}}</div>
+        </div>
     </div>
 </div>

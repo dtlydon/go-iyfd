@@ -50,7 +50,8 @@ var AppComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'my-app',
-            templateUrl: 'index.html'
+            templateUrl: 'index.html',
+            styleUrls: ['index.css']
         }), 
         __metadata('design:paramtypes', [account_service_1.AccountService])
     ], AppComponent);

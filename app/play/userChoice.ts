@@ -10,4 +10,6 @@ export class UserChoice{
     Entry2Name: string;
     ChoiceId: string;
     Winner: string;
+    Round: number;
+    Region: string;
 }

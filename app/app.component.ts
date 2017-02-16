@@ -10,7 +10,8 @@ import {Role} from "./admin/user";
 @Component({
     moduleId: module.id,
     selector: 'my-app',
-    templateUrl: 'index.html'
+    templateUrl: 'index.html',
+    styleUrls: ['index.css']
 })
 export class AppComponent implements OnInit {
     title = 'Go! IYFD Number 36';

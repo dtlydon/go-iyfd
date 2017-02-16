@@ -1,4 +1,4 @@
-<h2>Register!</h2>
+<h2>Register</h2>
 <form [formGroup]="registrationForm" (ngSubmit)="register()">
     <div class="row form-group">
         <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['username'].valid && registrationForm.controls['username'].touched}">

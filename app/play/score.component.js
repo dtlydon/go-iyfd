@@ -20,14 +20,25 @@ var ScoreComponent = (function () {
     ScoreComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.playService.getScores().then(function (response) {
-            _this.scores = response;
+            _this.scores = response.sort(function (score1, score2) {
+                if (score1 > score2) {
+                    return 1;
+                }
+                else if (score2 < score1) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            });
         });
     };
     ScoreComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'score',
-            templateUrl: 'score.html'
+            templateUrl: 'score.html',
+            styleUrls: ['score.css']
         }), 
         __metadata('design:paramtypes', [play_service_1.PlayService])
     ], ScoreComponent);

@@ -24,6 +24,7 @@ export class AdminService {
     private settingsUrl = 'api/settings';
     private usersUrl = 'api/user';
     private userChoiceUrl = 'api/userchoice';
+    private audioUrl = 'api/announcement';
 
     constructor(private http: Http) { }
     //<editor-fold desc="Teams">
@@ -190,6 +191,19 @@ export class AdminService {
                 if(response && response.headers){
                     // TODO Anything?
                 }
+            })
+            .catch(this.handleError);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc='audio'>
+    updateAnnouncement(formData:FormData):Promise<any>{
+        this.headers.delete("Content-Type");
+        this.addTokenWhenExists();
+        return this.http.post(this.audioUrl, formData, {headers: this.headers})
+            .toPromise()
+            .then(response =>{
+                this.headers.append("Content-Type", "application/json");
             })
             .catch(this.handleError);
     }

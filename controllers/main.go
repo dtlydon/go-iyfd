@@ -62,6 +62,10 @@ func Register() *httprouter.Router {
 	scoreController := new(scoreController)
 	router.GET("/api/scores", scoreController.query)
 
+	audioController := new(audioController)
+	router.GET("/api/announcement.m4a", audioController.get)
+	router.POST("/api/announcement", Authorize(audioController.post, models.Bob))
+
 	router.GET("/content/*all", serveMyContent)
 	router.GET("/lib/*all", serveResource)
 	router.GET("/app/*all", serveApp)
@@ -121,7 +125,6 @@ func serveApp(w http.ResponseWriter, req *http.Request, params httprouter.Params
 		w.WriteHeader(404)
 	}
 }
-
 
 func serveMyContent(w http.ResponseWriter, req *http.Request, params httprouter.Params){
 	path := params.ByName("all")

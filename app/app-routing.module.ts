@@ -19,6 +19,7 @@ import {UsersComponent} from "./admin/users.component";
 import {ScoreComponent} from "./play/score.component";
 import {SettingComponent} from "./admin/settings.component";
 import {MimicComponent} from "./admin/mimic.component";
+import {AudioComponent} from "./admin/audio.component";
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -34,7 +35,8 @@ const routes: Routes = [
             {path: 'matchups', component: MatchUpsComponent},
             {path: 'users', component: UsersComponent},
             {path: 'settings', component: SettingComponent},
-            {path: 'mimic/:userId', component: MimicComponent}
+            {path: 'mimic/:userId', component: MimicComponent},
+            {path: 'audio', component: AudioComponent}
         ]
     },
     { path: 'account', component: AccountComponent,

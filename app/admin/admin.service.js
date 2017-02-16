@@ -25,6 +25,7 @@ var AdminService = (function () {
         this.settingsUrl = 'api/settings';
         this.usersUrl = 'api/user';
         this.userChoiceUrl = 'api/userchoice';
+        this.audioUrl = 'api/announcement';
     }
     //<editor-fold desc="Teams">
     AdminService.prototype.addTeam = function (team) {
@@ -170,6 +171,19 @@ var AdminService = (function () {
             .then(function (response) {
             if (response && response.headers) {
             }
+        })
+            .catch(this.handleError);
+    };
+    //</editor-fold>
+    //<editor-fold desc='audio'>
+    AdminService.prototype.updateAnnouncement = function (formData) {
+        var _this = this;
+        this.headers.delete("Content-Type");
+        this.addTokenWhenExists();
+        return this.http.post(this.audioUrl, formData, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            _this.headers.append("Content-Type", "application/json");
         })
             .catch(this.handleError);
     };

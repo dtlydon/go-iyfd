@@ -13,6 +13,7 @@ import {AccountService} from "./account/account.service";
 })
 export class AppComponent implements OnInit {
     title = 'Go! IYFD Number 36';
+    cacheBust:Date = new Date();
 
     constructor(private accountService:AccountService){}
 

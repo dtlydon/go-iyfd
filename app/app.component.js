@@ -18,6 +18,7 @@ var AppComponent = (function () {
     function AppComponent(accountService) {
         this.accountService = accountService;
         this.title = 'Go! IYFD Number 36';
+        this.cacheBust = new Date();
     }
     AppComponent.prototype.ngOnInit = function () {
     };

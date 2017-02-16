@@ -24,6 +24,7 @@ import {PlayService} from "./play/play.service";
 import {ScoreComponent} from "./play/score.component";
 import {SettingComponent} from "./admin/settings.component";
 import {MimicComponent} from "./admin/mimic.component";
+import {AudioComponent} from "./admin/audio.component";
 //import { InMemoryDataService }  from './in-memory-data.service';
 
 @NgModule({
@@ -50,7 +51,8 @@ import {MimicComponent} from "./admin/mimic.component";
         UsersComponent,
         ScoreComponent,
         SettingComponent,
-        MimicComponent
+        MimicComponent,
+        AudioComponent
     ],
     providers: [
         AccountService,

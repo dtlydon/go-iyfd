@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
     isLoading: boolean;
     userAccount: Account;
     loginForm: FormGroup;
+    invalid: boolean;
 
     constructor(private router:Router, private accountService: AccountService, formBuilder: FormBuilder) {
         this.loginForm = formBuilder.group({

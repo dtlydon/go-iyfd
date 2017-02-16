@@ -3,14 +3,14 @@
     <div class="row form-group" [ngClass]="{'has-error':!loginForm.controls['username'].valid && loginForm.controls['username'].touched}">
         <div class="col-sm-6 col-sm-offset-3">
             <label for="username">Username</label>
-            <input id="username" name="username" class="form-control" type="text" [formControl]="loginForm.controls['username']" />
+            <input id="username" name="username" (focus)="resetIsInvalidUsernameOrPassword()" class="form-control" type="text" [formControl]="loginForm.controls['username']" />
             <div *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched" class="alert alert-danger">Required</div>
         </div>
     </div>
     <div class="row form-group" [ngClass]="{'has-error':!loginForm.controls['password'].valid && loginForm.controls['password'].touched}">
         <div class="col-sm-6 col-sm-offset-3">
             <label for="password">Password</label>
-            <input id="password" name="password" (change)="resetIsInvalidUsernameOrPassword()" [formControl]="loginForm.controls['password']" class="form-control" type="password" />
+            <input id="password" name="password" (focus)="resetIsInvalidUsernameOrPassword()" [formControl]="loginForm.controls['password']" class="form-control" type="password" />
             <div *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched" class="alert alert-danger">Required</div>
             <div *ngIf="loginForm.controls['password'].hasError('invalid') && loginForm.controls['password'].touched" class="alert alert-danger">Invalid Username or Password</div>
         </div>

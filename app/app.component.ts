@@ -5,6 +5,7 @@ import {Component, OnInit}          from '@angular/core';
 import {Cookie} from "ng2-cookies/ng2-cookies";
 import {isNullOrUndefined} from "util";
 import {AccountService} from "./account/account.service";
+import {Role} from "./admin/user";
 
 @Component({
     moduleId: module.id,
@@ -26,11 +27,25 @@ export class AppComponent implements OnInit {
     }
 
     getUsername():string{
-        return this.accountService.getUsername();
+        let username:string = Cookie.get("username");
+        if((username == undefined || username == "") && (Cookie.get("token") !== undefined || Cookie.get("token") != "")){
+            this.accountService.resetCookie();
+        }
+        return username;
+    }
+
+    verifyAdmin():boolean{
+        let roleText:string = Cookie.get("role");
+        if(roleText == undefined || roleText == "")
+            return false;
+        let role:Role = parseInt(roleText) as Role;
+        return role >= Role.Bob;
     }
 
     signOut():void{
         Cookie.delete("token");
+        Cookie.delete("role");
+        Cookie.delete("username");
     }
 }
 

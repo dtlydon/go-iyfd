@@ -60,7 +60,10 @@ func (this *userController) login(responseWriter http.ResponseWriter, request *h
 	if(err == nil) {
 		tokenString := util.SetToken(user)
 		responseWriter.Header().Add("token", tokenString)
-		err2 := json.NewEncoder(responseWriter).Encode(viewUser.Username)
+		userToStoreInCookies := viewmodels.User{}
+		userToStoreInCookies.Username = user.Username
+		userToStoreInCookies.Role = user.Role
+		err2 := json.NewEncoder(responseWriter).Encode(userToStoreInCookies)
 		if(err2 != nil){
 			fmt.Println("Error getting users", err2.Error())
 			responseWriter.WriteHeader(400)
@@ -75,7 +78,10 @@ func (this *userController) get(responseWriter http.ResponseWriter, request *htt
 	tokenString := request.Header.Get("token")
 	if(tokenString != "") {
 		claims, _ := util.GetToken(tokenString)
-		err := json.NewEncoder(responseWriter).Encode(claims["username"]);
+		userToStoreInCookies := viewmodels.User{}
+		userToStoreInCookies.Username = (claims["username"]).(string)
+		userToStoreInCookies.Role = int((claims["role"]).(float64))
+		err := json.NewEncoder(responseWriter).Encode(userToStoreInCookies);
 		if(err != nil){
 			fmt.Println("Error parsing username from token claims: ", err.Error())
 		}

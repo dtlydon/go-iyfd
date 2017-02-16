@@ -20,18 +20,18 @@ var AccountService = (function () {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.userUrl = 'api/user'; // URL to web api
-        this.userName = '';
+        this.hasResetCalled = false;
     }
     AccountService.prototype.register = function (account) {
-        var _this = this;
         return this.http.post(this.userUrl + "/register", JSON.stringify(account), { headers: this.headers })
             .toPromise()
             .then(function (response) {
             if (response && response.headers) {
                 var token = response.headers.get("token");
-                console.log(token);
                 if (token) {
-                    _this.userName = response.json();
+                    var account_1 = response.json();
+                    index_1.Cookie.set("username", account_1.Username);
+                    index_1.Cookie.set("role", account_1.Role.toString());
                     return token;
                 }
             }
@@ -40,14 +40,15 @@ var AccountService = (function () {
             .catch(this.handleError);
     };
     AccountService.prototype.login = function (account) {
-        var _this = this;
         return this.http.post(this.userUrl + "/login", JSON.stringify(account), { headers: this.headers })
             .toPromise()
             .then(function (response) {
             if (response && response.headers) {
                 var token = response.headers.get("token");
                 if (token) {
-                    _this.userName = response.json();
+                    var account_2 = response.json();
+                    index_1.Cookie.set("username", account_2.Username);
+                    index_1.Cookie.set("role", account_2.Role.toString());
                     return token;
                 }
             }
@@ -55,33 +56,29 @@ var AccountService = (function () {
         })
             .catch(this.handleError);
     };
-    AccountService.prototype.getUsername = function () {
+    AccountService.prototype.resetCookie = function () {
         var _this = this;
-        if (this.userName == "") {
-            this.getUsernameFromServer()
-                .then(function (result) {
-                _this.userName = result;
-            });
-        }
-        return this.userName;
-    };
-    AccountService.prototype.getUsernameFromServer = function () {
-        this.addTokenWhenExists();
-        return this.http.get(this.userUrl + '/username', { headers: this.headers })
-            .toPromise()
-            .then(function (response) {
-            if (response && response.headers) {
-                return response.json();
-            }
-            return "";
-        });
-    };
-    AccountService.prototype.addTokenWhenExists = function () {
         if (!this.headers.get('token')) {
             this.headers.append('token', index_1.Cookie.get('token'));
         }
+        if (this.hasResetCalled) {
+            return null;
+        }
+        this.hasResetCalled = true;
+        return this.http.get(this.userUrl + "/info", { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            _this.hasResetCalled = false;
+            if (response) {
+                var account = response.json();
+                index_1.Cookie.set("username", account.Username);
+                index_1.Cookie.set("role", account.Role.toString());
+            }
+        })
+            .catch(this.handleError);
     };
     AccountService.prototype.handleError = function (error) {
+        this.hasResetCalled = false;
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     };

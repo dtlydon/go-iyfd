@@ -11,8 +11,9 @@ import {Entry} from "../shared/entry";
 import {MatchUp} from "../shared/MatchUp";
 import {RegionVs} from "../shared/regionVs";
 import {Settings} from "./settings";
-import {User} from "./user";
+import {User, Role} from "./user";
 import {UserChoice} from "../play/userChoice";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AdminService {
@@ -26,7 +27,7 @@ export class AdminService {
     private userChoiceUrl = 'api/userchoice';
     private audioUrl = 'api/announcement';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private router:Router) { }
     //<editor-fold desc="Teams">
     addTeam(team: Team): Promise<any>{
         return this.http.post(this.teamsUrl, JSON.stringify(team), {headers: this.headers})
@@ -208,6 +209,21 @@ export class AdminService {
             .catch(this.handleError);
     }
     //</editor-fold>
+
+    public verifyAdmin():void{
+        let roleCookie:string = Cookie.get("role");
+        let isNotAuthorized:boolean = true;
+        if(roleCookie != ""){
+            let role:Role = parseInt(Cookie.get("role")) as Role;
+            if(role >= Role.Bob){
+                isNotAuthorized = false;
+            }
+        }
+
+        if(isNotAuthorized) {
+            this.router.navigateByUrl("/");
+        }
+    }
 
     private addTokenWhenExists(): void{
         if(!this.headers.get('token')) {

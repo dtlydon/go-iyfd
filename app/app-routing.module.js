@@ -37,6 +37,7 @@ var routes = [
     { path: 'scores', component: score_component_1.ScoreComponent },
     { path: 'admin', component: admin_component_1.AdminComponent,
         children: [
+            { path: '' },
             { path: 'teams', component: teams_component_1.TeamsComponent },
             { path: 'regions', component: regions_component_1.RegionsComponent },
             { path: 'entry', component: entry_component_1.EntryComponent },

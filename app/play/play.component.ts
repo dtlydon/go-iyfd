@@ -6,6 +6,8 @@ import { Router }            from '@angular/router';
 import {PlayService} from "./play.service";
 import {UserChoice} from "./userChoice";
 import {AdminService} from "../admin/admin.service";
+import {Cookie} from "ng2-cookies/index";
+import {Role} from "../admin/user";
 
 @Component({
     moduleId: module.id,
@@ -19,6 +21,17 @@ export class PlayComponent implements OnInit {
     }
 
     ngOnInit():void {
+
+        let tempRole:Role = Role.None;
+        let roleText:string = Cookie.get("role");
+        if(roleText != ""){
+            tempRole = parseInt(roleText) as Role;
+        }
+
+        if(tempRole == Role.None){
+            this.router.navigateByUrl("/");
+        }
+
         this.isPlayBlocked = false;
         this.adminService.getSettings().then(response =>{
             this.isPlayBlocked = response.IsAdminBlockOn;

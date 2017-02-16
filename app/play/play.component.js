@@ -15,6 +15,8 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var play_service_1 = require("./play.service");
 var admin_service_1 = require("../admin/admin.service");
+var index_1 = require("ng2-cookies/index");
+var user_1 = require("../admin/user");
 var PlayComponent = (function () {
     function PlayComponent(router, playService, adminService) {
         this.router = router;
@@ -23,6 +25,14 @@ var PlayComponent = (function () {
     }
     PlayComponent.prototype.ngOnInit = function () {
         var _this = this;
+        var tempRole = user_1.Role.None;
+        var roleText = index_1.Cookie.get("role");
+        if (roleText != "") {
+            tempRole = parseInt(roleText);
+        }
+        if (tempRole == user_1.Role.None) {
+            this.router.navigateByUrl("/");
+        }
         this.isPlayBlocked = false;
         this.adminService.getSettings().then(function (response) {
             _this.isPlayBlocked = response.IsAdminBlockOn;

@@ -14,6 +14,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
 var account_service_1 = require("./account/account.service");
+var user_1 = require("./admin/user");
 var AppComponent = (function () {
     function AppComponent(accountService) {
         this.accountService = accountService;
@@ -27,10 +28,23 @@ var AppComponent = (function () {
         return token !== undefined && token !== null && token !== '';
     };
     AppComponent.prototype.getUsername = function () {
-        return this.accountService.getUsername();
+        var username = ng2_cookies_1.Cookie.get("username");
+        if ((username == undefined || username == "") && (ng2_cookies_1.Cookie.get("token") !== undefined || ng2_cookies_1.Cookie.get("token") != "")) {
+            this.accountService.resetCookie();
+        }
+        return username;
+    };
+    AppComponent.prototype.verifyAdmin = function () {
+        var roleText = ng2_cookies_1.Cookie.get("role");
+        if (roleText == undefined || roleText == "")
+            return false;
+        var role = parseInt(roleText);
+        return role >= user_1.Role.Bob;
     };
     AppComponent.prototype.signOut = function () {
         ng2_cookies_1.Cookie.delete("token");
+        ng2_cookies_1.Cookie.delete("role");
+        ng2_cookies_1.Cookie.delete("username");
     };
     AppComponent = __decorate([
         core_1.Component({

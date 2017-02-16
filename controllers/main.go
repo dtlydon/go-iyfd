@@ -19,7 +19,7 @@ func Register() *httprouter.Router {
 	userController := new(userController)
 	router.POST("/api/user/register", userController.register)
 	router.POST("/api/user/login", userController.login)
-	router.GET("/api/user/username", userController.get)
+	router.GET("/api/user/info", userController.get)
 	router.GET("/api/user", Authorize(userController.query, models.AdminUser))
 	router.POST("/api/user", Authorize(userController.post, models.AdminUser))
 

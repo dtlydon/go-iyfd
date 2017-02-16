@@ -15,9 +15,12 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
 var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
+var user_1 = require("./user");
+var router_1 = require("@angular/router");
 var AdminService = (function () {
-    function AdminService(http) {
+    function AdminService(http, router) {
         this.http = http;
+        this.router = router;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.teamsUrl = 'api/teams'; // URL to web api
         this.entriesUrl = 'api/entries';
@@ -188,6 +191,19 @@ var AdminService = (function () {
             .catch(this.handleError);
     };
     //</editor-fold>
+    AdminService.prototype.verifyAdmin = function () {
+        var roleCookie = ng2_cookies_1.Cookie.get("role");
+        var isNotAuthorized = true;
+        if (roleCookie != "") {
+            var role = parseInt(ng2_cookies_1.Cookie.get("role"));
+            if (role >= user_1.Role.Bob) {
+                isNotAuthorized = false;
+            }
+        }
+        if (isNotAuthorized) {
+            this.router.navigateByUrl("/");
+        }
+    };
     AdminService.prototype.addTokenWhenExists = function () {
         if (!this.headers.get('token')) {
             this.headers.append('token', ng2_cookies_1.Cookie.get('token'));
@@ -199,7 +215,7 @@ var AdminService = (function () {
     };
     AdminService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, router_1.Router])
     ], AdminService);
     return AdminService;
 }());

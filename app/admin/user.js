@@ -9,6 +9,7 @@ var User = (function () {
 }());
 exports.User = User;
 (function (Role) {
+    Role[Role["None"] = -1] = "None";
     Role[Role["Basic"] = 0] = "Basic";
     Role[Role["Bob"] = 1] = "Bob";
     Role[Role["Admin"] = 2] = "Admin";

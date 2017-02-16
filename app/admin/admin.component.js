@@ -12,13 +12,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by daniellydon on 11/10/16.
  */
 var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+var admin_service_1 = require("./admin.service");
+var user_1 = require("./user");
+var index_1 = require("ng2-cookies/index");
 var AdminComponent = (function () {
-    function AdminComponent(router) {
-        this.router = router;
+    function AdminComponent(adminService) {
+        this.adminService = adminService;
     }
     AdminComponent.prototype.ngOnInit = function () {
-        //TODO: Authorize user. Grab userchoices
+        this.adminService.verifyAdmin();
+    };
+    AdminComponent.prototype.verifyAdmin = function () {
+        var roleText = index_1.Cookie.get("role");
+        if (roleText == undefined || roleText == "")
+            return false;
+        var role = parseInt(roleText);
+        return role >= user_1.Role.Admin;
     };
     AdminComponent = __decorate([
         core_1.Component({
@@ -26,7 +35,7 @@ var AdminComponent = (function () {
             selector: 'admin',
             templateUrl: 'admin.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router])
+        __metadata('design:paramtypes', [admin_service_1.AdminService])
     ], AdminComponent);
     return AdminComponent;
 }());

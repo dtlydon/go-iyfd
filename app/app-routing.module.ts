@@ -29,6 +29,7 @@ const routes: Routes = [
     { path: 'scores', component: ScoreComponent },
     { path: 'admin', component: AdminComponent,
         children: [
+            {path: ''},
             {path: 'teams', component: TeamsComponent},
             {path: 'regions', component: RegionsComponent},
             {path: 'entry', component: EntryComponent},

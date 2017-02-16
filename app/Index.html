@@ -15,7 +15,7 @@
                 <li><a routerLink="/howto" routerLinkActive="active">How To</a></li>
                 <li><a routerLink="/play" routerLinkActive="active">Play</a></li>
                 <li><a routerLink="/scores" routerLinkActive="active">Score</a></li>
-                <li><a routerLink="/admin/teams" routerLinkActive="active">Admin</a></li>
+                <li><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="!checkIsLoggin()"><a routerLink="/account/login">Login</a></li>

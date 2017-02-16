@@ -12,6 +12,7 @@ export class User{
 }
 
 export enum Role{
+    None = -1,
     Basic = 0,
     Bob,
     Admin

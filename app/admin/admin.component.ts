@@ -3,6 +3,9 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
+import {AdminService} from "./admin.service";
+import {Role} from "./user";
+import {Cookie} from "ng2-cookies/index";
 
 @Component({
     moduleId: module.id,
@@ -10,10 +13,18 @@ import { Router }            from '@angular/router';
     templateUrl: 'admin.html'
 })
 export class AdminComponent implements OnInit {
-    constructor(private router:Router) {
+    constructor(private adminService:AdminService) {
     }
 
     ngOnInit():void {
-        //TODO: Authorize user. Grab userchoices
+        this.adminService.verifyAdmin();
+    }
+
+    verifyAdmin():boolean{
+        let roleText:string = Cookie.get("role");
+        if(roleText == undefined || roleText == "")
+            return false;
+        let role:Role = parseInt(roleText) as Role;
+        return role >= Role.Admin;
     }
 }

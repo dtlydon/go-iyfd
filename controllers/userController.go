@@ -145,6 +145,18 @@ func (this *userController) post(responseWriter http.ResponseWriter, request *ht
 	responseWriter.WriteHeader(200);
 }
 
+func (this *userController) getUsername(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params){
+	username:= params.ByName("username")
+
+	user := models.GetUserByUsername(username)
+	if(user.Id != ""){
+		responseWriter.WriteHeader(400)
+		return
+	}
+
+	responseWriter.WriteHeader(200)
+}
+
 func getHashedWord(word string) string{
 	wordInBytes := []byte(word)
 	hashedWord, err := bcrypt.GenerateFromPassword(wordInBytes, bcrypt.DefaultCost)

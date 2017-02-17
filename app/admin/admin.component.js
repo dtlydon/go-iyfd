@@ -33,7 +33,8 @@ var AdminComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'admin',
-            templateUrl: 'admin.html'
+            templateUrl: 'admin.html',
+            styleUrls: ['admin.css']
         }), 
         __metadata('design:paramtypes', [admin_service_1.AdminService])
     ], AdminComponent);

@@ -1,0 +1,43 @@
+#left-nav{
+    min-height: 800px;
+    background-color: #eee;
+}
+@media(max-width: 776px){
+    #left-nav{
+        min-height: 0;
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+}
+#left-nav ul{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#left-nav .btn{
+    width: 100%;
+}
+
+#left-nav h4{
+    color: #1b6d85;
+    font-size: 24px;
+}
+
+li{
+    font-size: 18px;
+    padding: 10px;
+    text-align: center;
+    border: solid 1px #2e6da4;
+    background-color: #fff;
+}
+li.active{
+    background-color: #2e6da4;
+    color: #fff;
+}
+li:hover{
+    cursor: pointer;
+    background-color: #2e6da4;
+    color: #fff;
+}

@@ -1,0 +1,11 @@
+.matchups{
+    margin-top: 25px;
+}
+
+.btn{
+    width: 100px;
+}
+
+.round .btn{
+    width: 75px;
+}

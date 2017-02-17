@@ -1,16 +1,16 @@
 <div class="row">
-    <div id="left-nav" class="col-sm-2">
+    <div id="left-nav" class="col-sm-3">
+        <h4>Menu</h4>
         <ul>
-            <li *ngIf="verifyAdmin()"><a routerLink="/admin/teams">Teams</a></li>
-            <li *ngIf="verifyAdmin()"><a routerLink="/admin/regions">Regions</a></li>
-            <li *ngIf="verifyAdmin()"><a routerLink="/admin/entry">Entry</a></li>
-            <li *ngIf="verifyAdmin()"><a routerLink="/admin/matchups">MatchUp</a></li>
-            <li *ngIf="verifyAdmin()"><a routerLink="/admin/users">Users</a></li>
-            <li *ngIf="verifyAdmin()"><a routerLink="/admin/settings">Settings</a></li>
-            <li><a routerLink="/admin/audio">Announcement</a></li>
+            <li *ngIf="verifyAdmin()" routerLinkActive="active" routerLink="/admin/teams">Teams</li>
+            <li *ngIf="verifyAdmin()" routerLinkActive="active" routerLink="/admin/entry">Entry</li>
+            <li *ngIf="verifyAdmin()" routerLinkActive="active" routerLink="/admin/matchups">MatchUp</li>
+            <li *ngIf="verifyAdmin()" routerLinkActive="active" routerLink="/admin/users">Users</li>
+            <li *ngIf="verifyAdmin()" routerLinkActive="active" routerLink="/admin/settings">Settings</li>
+            <li routerLinkActive="active" routerLink="/admin/audio">Announcement</li>
         </ul>
     </div>
-    <div id="admin-content">
+    <div id="admin-content" class="col-sm-8 col-sm-offset-1">
         <router-outlet></router-outlet>
     </div>
 </div>

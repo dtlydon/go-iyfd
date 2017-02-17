@@ -37,6 +37,18 @@ var RegisterComponent = (function () {
         this.userAccount = new account_1.Account;
         this.isLoading = false;
     };
+    RegisterComponent.prototype.checkUsername = function () {
+        var _this = this;
+        this.accountService.checkUsername(this.userAccount.username)
+            .then(function (resp) {
+            _this.registrationForm.controls['username'].setValidators([forms_1.Validators.required]);
+            _this.registrationForm.controls['username'].updateValueAndValidity();
+        })
+            .catch(function (err) {
+            _this.registrationForm.controls['username'].setValidators([_this.invalid(), forms_1.Validators.required]);
+            _this.registrationForm.controls['username'].updateValueAndValidity();
+        });
+    };
     RegisterComponent.prototype.register = function () {
         var _this = this;
         this.isLoading = true;
@@ -47,6 +59,11 @@ var RegisterComponent = (function () {
             _this.isLoading = false;
             _this.router.navigateByUrl("/home");
         });
+    };
+    RegisterComponent.prototype.invalid = function () {
+        return function (control) {
+            return { "invalid": true };
+        };
     };
     RegisterComponent = __decorate([
         core_1.Component({

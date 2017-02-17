@@ -12,7 +12,7 @@ import {PlayService} from "./play.service";
 })
 
 export class ScoreComponent implements OnInit{
-    public scores:Score[];
+    public scores:Score[] = [];
 
     constructor(private playService:PlayService){
 
@@ -20,17 +20,7 @@ export class ScoreComponent implements OnInit{
 
     ngOnInit():void{
         this.playService.getScores().then(response =>{
-            this.scores = response.sort((score1, score2) =>{
-                if(score1 > score2){
-                    return 1;
-                }
-                else if (score2 < score1){
-                    return -1;
-                }
-                else{
-                    return 0;
-                }
-            });
+            this.scores = response;
         });
     }
 }

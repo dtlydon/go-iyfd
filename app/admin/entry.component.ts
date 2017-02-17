@@ -11,7 +11,8 @@ import {Team} from "../shared/team";
 @Component({
     moduleId: module.id,
     selector: 'entry',
-    templateUrl: 'entry.html'
+    templateUrl: 'entry.html',
+    styleUrls: ['entry.css']
 })
 export class EntryComponent implements OnInit {
     entries:Entry[];

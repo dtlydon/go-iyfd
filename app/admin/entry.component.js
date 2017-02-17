@@ -62,7 +62,8 @@ var EntryComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'entry',
-            templateUrl: 'entry.html'
+            templateUrl: 'entry.html',
+            styleUrls: ['entry.css']
         }), 
         __metadata('design:paramtypes', [router_1.Router, admin_service_1.AdminService, forms_1.FormBuilder])
     ], EntryComponent);

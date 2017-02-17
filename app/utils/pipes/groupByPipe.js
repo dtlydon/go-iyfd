@@ -15,7 +15,7 @@ var core_1 = require("@angular/core");
 var GroupByPipe = (function () {
     function GroupByPipe() {
     }
-    GroupByPipe.prototype.transform = function (value, field) {
+    GroupByPipe.prototype.transform = function (value, field, shouldSort) {
         var groupedObj = value.reduce(function (prev, cur) {
             if (!prev[cur[field]]) {
                 prev[cur[field]] = [cur];
@@ -25,7 +25,22 @@ var GroupByPipe = (function () {
             }
             return prev;
         }, {});
-        return Object.keys(groupedObj).map(function (key) { return ({ key: key, value: groupedObj[key] }); });
+        var finalArray = Object.keys(groupedObj).map(function (key) { return ({ key: key, value: groupedObj[key] }); });
+        if (shouldSort) {
+            return finalArray.sort(function (score1, score2) {
+                console.log(score1);
+                if (parseInt(score1.key) > parseInt(score2.key)) {
+                    return -1;
+                }
+                else if (parseInt(score2.key) > parseInt(score1.key)) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            });
+        }
+        return finalArray;
     };
     GroupByPipe = __decorate([
         core_1.Pipe({ name: 'groupBy' }), 

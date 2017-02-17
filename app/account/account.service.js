@@ -77,6 +77,13 @@ var AccountService = (function () {
         })
             .catch(this.handleError);
     };
+    AccountService.prototype.checkUsername = function (username) {
+        return this.http.get(this.userUrl + "/username/" + username, { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+        })
+            .catch(this.handleError);
+    };
     AccountService.prototype.handleError = function (error) {
         this.hasResetCalled = false;
         console.error('An error occurred', error); // for demo purposes only

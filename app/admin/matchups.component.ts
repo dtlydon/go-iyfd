@@ -13,7 +13,8 @@ import {RegionVs} from "../shared/regionVs";
 @Component({
     moduleId: module.id,
     selector: 'matchups',
-    templateUrl: 'matchups.html'
+    templateUrl: 'matchups.html',
+    styleUrls: ['matchup.css']
 })
 export class MatchUpsComponent implements OnInit {
     private allMatchUps: MatchUp[];
@@ -21,7 +22,6 @@ export class MatchUpsComponent implements OnInit {
     entries:Entry[];
     teams:Team[];
     selectedRound:number;
-    regionVs:RegionVs;
     
     constructor(private router:Router, private adminService:AdminService) {
         this.roundMatchUps = [];

@@ -76,6 +76,15 @@ export class AccountService {
             .catch(this.handleError);
     }
 
+    checkUsername(username:string):Promise<any>{
+        return this.http.get(this.userUrl + "/username/" + username, {headers: this.headers})
+            .toPromise()
+            .then(response =>{
+
+            })
+            .catch(this.handleError)
+    }
+
     private handleError(error: any): Promise<any> {
         this.hasResetCalled = false;
         console.error('An error occurred', error); // for demo purposes only

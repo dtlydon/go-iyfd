@@ -1,9 +1,31 @@
 <h1>Entry</h1>
 <form [formGroup]="entryForm" (ngSubmit)="addEntry()">
     <div class="row">
-        <div class="col-sm-4" *ngFor="let entry of entries">
+        <div class="col-sm-4">
             <ul>
-                <!-- TODO: Figure out how to get team name here -->
+                <li>Team</li>
+                <li>Region</li>
+                <li>Rank</li>
+            </ul>
+        </div>
+        <div class="col-sm-4 hidden-xs">
+            <ul>
+                <li>Team</li>
+                <li>Region</li>
+                <li>Rank</li>
+            </ul>
+        </div>
+        <div class="col-sm-4 hidden-xs">
+            <ul>
+                <li>Team</li>
+                <li>Region</li>
+                <li>Rank</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4" *ngFor="let entry of entries; let i = index" [ngClass]="{'odd': i % 2 == 1}">
+            <ul>
                 <li>{{getTeamName(entry.TeamId)}}</li>
                 <li>{{entry.Region}}</li>
                 <li>{{entry.Rank}}</li>
@@ -28,7 +50,7 @@
         </div>
     </div>
     <div class="row" class="form-group">
-        <div>
+        <div class="text-right">
             <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid || isLoading">Add Entry</button>
         </div>
     </div>

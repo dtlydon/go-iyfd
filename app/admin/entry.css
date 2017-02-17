@@ -1,0 +1,13 @@
+li{
+   display: inline;
+}
+
+ul{
+    padding: 0;
+    list-style: none;
+}
+
+li:nth-child(2){
+    color: #1b6d85;
+    font-weight: bold;
+}

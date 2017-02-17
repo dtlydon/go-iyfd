@@ -16,21 +16,12 @@ var play_service_1 = require("./play.service");
 var ScoreComponent = (function () {
     function ScoreComponent(playService) {
         this.playService = playService;
+        this.scores = [];
     }
     ScoreComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.playService.getScores().then(function (response) {
-            _this.scores = response.sort(function (score1, score2) {
-                if (score1 > score2) {
-                    return 1;
-                }
-                else if (score2 < score1) {
-                    return -1;
-                }
-                else {
-                    return 0;
-                }
-            });
+            _this.scores = response;
         });
     };
     ScoreComponent = __decorate([

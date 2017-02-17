@@ -6,7 +6,7 @@ import {Account} from "./account";
 import {AccountService} from "./account.service";
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {Router} from "@angular/router";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl} from "@angular/forms";
 import {equalValidator} from "../utils/validators/EqualValidator";
 
 @Component({
@@ -36,6 +36,18 @@ export class RegisterComponent implements OnInit {
         this.userAccount = new Account;
         this.isLoading = false;
     }
+    
+    checkUsername():void{
+        this.accountService.checkUsername(this.userAccount.username)
+            .then(resp =>{
+                this.registrationForm.controls['username'].setValidators([Validators.required]);
+                this.registrationForm.controls['username'].updateValueAndValidity();
+            })
+            .catch(err =>{
+            this.registrationForm.controls['username'].setValidators([this.invalid(), Validators.required]);
+            this.registrationForm.controls['username'].updateValueAndValidity();
+        });
+    }
 
     register():void{
         this.isLoading = true;
@@ -46,5 +58,11 @@ export class RegisterComponent implements OnInit {
             this.isLoading = false;
             this.router.navigateByUrl("/home");
         });
+    }
+
+    invalid(): ValidatorFn{
+        return (control: AbstractControl): {[key: string]: any} =>{
+            return {"invalid": true};
+        }
     }
 }

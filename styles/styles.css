@@ -3,3 +3,8 @@ body {
 
 #login .border {
   border: solid 1px #000; }
+
+
+.odd{
+  background-color: #eee;
+}

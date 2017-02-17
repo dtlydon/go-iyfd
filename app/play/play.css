@@ -5,3 +5,8 @@
 .btn{
     width: 100px;
 }
+
+.round .btn{
+    width: 90px;
+    font-weight: bold;
+}

@@ -1,51 +1,56 @@
 <h1>Users</h1>
 <form [formGroup]="userForm" (ngSubmit)="updateUser()">
-    <div class="row" *ngFor="let user of users; let i = index">
-        <div class="col-sm-12">
-            <div class="row" *ngIf="editUser.Id !== user.Id">
-                <div class="col-sm-2">
-                    {{i + 1}}. {{user.Username}}
-                </div>
-                <div class="col-sm-2">{{user.Email}}</div>
-                <div class="col-sm-1">{{user.FirstName}}</div>
-                <div class="col-sm-1">{{user.LastName}}</div>
-                <div class="col-sm-1">{{user.Role}}</div>
-                <div class="col-sm-1"><a (click)="selectUserEdit(user)">Edit</a></div>
-                <div class="col-sm-1"><a routerLink="/admin/mimic/{{user.Id}}">Mimic</a></div>
-            </div>
-            <div class="row" *ngIf="editUser.Id === user.Id">
-                <div class="col-sm-2">
-                    <input id="username" name="username" type="text" [formControl]="userForm.controls['username']"
-                           class="form-control" [(ngModel)]="editUser.Username" />
-                </div>
-                <div class="col-sm-2">
-                    <input id="email" name="email" type="text" [formControl]="userForm.controls['email']"
-                           class="form-control" [(ngModel)]="editUser.Email" />
-                </div>
-                <div class="col-sm-2">
-                    <input id="first-name" name="firstName" type="text" [formControl]="userForm.controls['firstName']"
-                           class="form-control" [(ngModel)]="editUser.FirstName" />
-                </div>
-                <div class="col-sm-2">
-                    <input id="last-name" name="lastName" type="text" [formControl]="userForm.controls['lastName']"
-                           class="form-control" [(ngModel)]="editUser.LastName" />
-                </div>
-                <div class="col-sm-2">
-                    <select id="role" name="role" [formControl]="userForm.controls['role']" class="form-control"
-                            [(ngModel)]="editUser.Role">
-                        <option [ngValue]="0">Basic</option>
-                        <option [ngValue]="1">Bob</option>
-                        <option [ngValue]="2">Admin</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <input id="password" name="password" type="text" [formControl]="userForm.controls['password']"
-                           class="form-control" placeholder="password" />
-                </div>
-                <div class="col-sm-1">
-                    <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid || isLoading">Update</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <table class="table table-hover">
+        <tr>
+            <th>No.</th>
+            <th>Usename</th>
+            <th>Email</th>
+            <th>First</th>
+            <th>Last</th>
+            <th>Role</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let user of users; let i = index">
+            <td>{{i + 1}}</td>
+            <td *ngIf="editUser.Id !== user.Id">{{user.Username}}</td>
+            <td *ngIf="editUser.Id !== user.Id">{{user.Email}}</td>
+            <td *ngIf="editUser.Id !== user.Id">{{user.FirstName}}</td>
+            <td *ngIf="editUser.Id !== user.Id">{{user.LastName}}</td>
+            <td *ngIf="editUser.Id !== user.Id">{{user.Role}}</td>
+            <td *ngIf="editUser.Id !== user.Id"><a style="cursor: pointer" (click)="selectUserEdit(user)">Edit</a></td>
+            <td *ngIf="editUser.Id !== user.Id"><a routerLink="/admin/mimic/{{user.Id}}">Mimic</a></td>
+            <td *ngIf="editUser.Id === user.Id">
+                <input id="username" name="username" type="text" [formControl]="userForm.controls['username']"
+                       class="form-control" [(ngModel)]="editUser.Username" />
+            </td>
+            <td *ngIf="editUser.Id === user.Id">
+                <input id="email" name="email" type="text" [formControl]="userForm.controls['email']"
+                       class="form-control" [(ngModel)]="editUser.Email" />
+            </td>
+            <td *ngIf="editUser.Id === user.Id">
+                <input id="first-name" name="firstName" type="text" [formControl]="userForm.controls['firstName']"
+                       class="form-control" [(ngModel)]="editUser.FirstName" />
+            </td>
+            <td *ngIf="editUser.Id === user.Id">
+                <input id="last-name" name="lastName" type="text" [formControl]="userForm.controls['lastName']"
+                       class="form-control" [(ngModel)]="editUser.LastName" />
+            </td>
+            <td *ngIf="editUser.Id === user.Id">
+                <select id="role" name="role" [formControl]="userForm.controls['role']" class="form-control"
+                        [(ngModel)]="editUser.Role">
+                    <option [ngValue]="0">Basic</option>
+                    <option [ngValue]="1">Bob</option>
+                    <option [ngValue]="2">Admin</option>
+                </select>
+            </td>
+            <td *ngIf="editUser.Id === user.Id">
+                <input id="password" name="password" type="text" [formControl]="userForm.controls['password']"
+                       class="form-control" placeholder="password" />
+            </td>
+            <td *ngIf="editUser.Id === user.Id">
+                <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid || isLoading">Update</button>
+            </td>
+        </tr>
+    </table>
 </form>

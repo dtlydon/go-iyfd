@@ -3,8 +3,9 @@
     <div class="row form-group">
         <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['username'].valid && registrationForm.controls['username'].touched}">
             <label for="username">Username</label>
-            <input id="username" class="form-control" [(ngModel)]="userAccount.username" name="username" type="text" [formControl]="registrationForm.controls['username']" />
+            <input id="username" class="form-control" [(ngModel)]="userAccount.username" (change)="checkUsername()" name="username" type="text" [formControl]="registrationForm.controls['username']" />
             <div [hidden]="!registrationForm.controls['username'].hasError('required') || !registrationForm.controls['username'].touched" class="alert alert-danger">Required</div>
+            <div [hidden]="!registrationForm.controls['username'].hasError('invalid')" class="alert alert-danger">User Exists!</div>
         </div>
         <div class="col-sm-6" [ngClass]="{'has-error':!registrationForm.controls['email'].valid && registrationForm.controls['email'].touched}">
             <label for="email">Email</label>

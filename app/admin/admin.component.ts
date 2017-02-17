@@ -10,7 +10,8 @@ import {Cookie} from "ng2-cookies/index";
 @Component({
     moduleId: module.id,
     selector: 'admin',
-    templateUrl: 'admin.html'
+    templateUrl: 'admin.html',
+    styleUrls: ['admin.css']
 })
 export class AdminComponent implements OnInit {
     constructor(private adminService:AdminService) {

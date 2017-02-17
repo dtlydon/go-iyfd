@@ -67,7 +67,8 @@ var MatchUpsComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'matchups',
-            templateUrl: 'matchups.html'
+            templateUrl: 'matchups.html',
+            styleUrls: ['matchup.css']
         }), 
         __metadata('design:paramtypes', [router_1.Router, admin_service_1.AdminService])
     ], MatchUpsComponent);

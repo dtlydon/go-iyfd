@@ -1,19 +1,19 @@
 <h1>Teams</h1>
 <form [formGroup]="teamsForm" (ngSubmit)="addTeam()">
     <div class="row">
+        <div class="col-sm-4" *ngFor="let team of teams; let i = index" [ngClass]="{'odd': i % 2 == 1}">
+            {{team.Name}} || {{team.Acronym}}
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-4">
-            <ul>
-                <li *ngFor="let team of teams">
-                    {{team.Name}} || {{team.Acronym}}
-                </li>
-                <li>
-                    <input id="team-name" class="form-control" [formControl]="teamsForm.controls['name']" name="name" type="text" placeholder="Name" />
-                    <input id="team-acronym" class="form-control" [formControl]="teamsForm.controls['acronym']" name="acronym" type="text" placeholder="acronym" />
-                </li>
-            </ul>
-            <div>
-                <button type="submit" class="btn btn-primary" [disabled]="!teamsForm.valid || isLoading">Add Team</button>
-            </div>
+            <input id="team-name" class="form-control" [formControl]="teamsForm.controls['name']" name="name" type="text" placeholder="Name" />
+            <input id="team-acronym" class="form-control" [formControl]="teamsForm.controls['acronym']" name="acronym" type="text" placeholder="acronym" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 text-right">
+            <button type="submit" class="btn btn-primary" [disabled]="!teamsForm.valid || isLoading">Add Team</button>
         </div>
     </div>
 </form>

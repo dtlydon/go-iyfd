@@ -7,6 +7,7 @@
             <th>Email</th>
             <th>First</th>
             <th>Last</th>
+            <th>Paid</th>
             <th>Role</th>
             <th></th>
             <th></th>
@@ -17,6 +18,7 @@
             <td *ngIf="editUser.Id !== user.Id">{{user.Email}}</td>
             <td *ngIf="editUser.Id !== user.Id">{{user.FirstName}}</td>
             <td *ngIf="editUser.Id !== user.Id">{{user.LastName}}</td>
+            <td *ngIf="editUser.Id !== user.Id">{{user.HasPaid ? "Y" : "N"}}</td>
             <td *ngIf="editUser.Id !== user.Id">{{user.Role}}</td>
             <td *ngIf="editUser.Id !== user.Id"><a style="cursor: pointer" (click)="selectUserEdit(user)">Edit</a></td>
             <td *ngIf="editUser.Id !== user.Id"><a routerLink="/admin/mimic/{{user.Id}}">Mimic</a></td>
@@ -35,6 +37,10 @@
             <td *ngIf="editUser.Id === user.Id">
                 <input id="last-name" name="lastName" type="text" [formControl]="userForm.controls['lastName']"
                        class="form-control" [(ngModel)]="editUser.LastName" />
+            </td>
+            <td *ngIf="editUser.Id === user.Id">
+                <input id="has-paid" name="hasPaid" type="checkbox" [formControl]="userForm.controls['hasPaid']" class="form-control"
+                       [(ngModel)]="editUser.HasPaid" />
             </td>
             <td *ngIf="editUser.Id === user.Id">
                 <select id="role" name="role" [formControl]="userForm.controls['role']" class="form-control"

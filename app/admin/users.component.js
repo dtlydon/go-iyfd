@@ -28,7 +28,8 @@ var UsersComponent = (function () {
             'firstName': [null, forms_1.Validators.required],
             'lastName': [null, forms_1.Validators.required],
             'password': [null],
-            'role': [null]
+            'role': [null],
+            'hasPaid': [null]
         });
     }
     UsersComponent.prototype.ngOnInit = function () {
@@ -51,6 +52,7 @@ var UsersComponent = (function () {
         user.LastName = this.userForm.controls['lastName'].value;
         user.Password = this.userForm.controls['password'].value;
         user.Role = this.userForm.controls['role'].value;
+        user.HasPaid = this.userForm.controls['hasPaid'].value;
         this.adminService.updateUser(user).then(function (response) {
             _this.editUser = new user_1.User();
         });

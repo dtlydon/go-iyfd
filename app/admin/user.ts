@@ -8,7 +8,8 @@ export class User{
     FirstName: string;
     LastName: string;
     Password: string;
-    Role: Role
+    Role: Role;
+    HasPaid: boolean;
 }
 
 export enum Role{

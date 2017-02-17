@@ -15,9 +15,11 @@ var core_1 = require('@angular/core');
 var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
 var account_service_1 = require("./account/account.service");
 var user_1 = require("./admin/user");
+var router_1 = require("@angular/router");
 var AppComponent = (function () {
-    function AppComponent(accountService) {
+    function AppComponent(accountService, router) {
         this.accountService = accountService;
+        this.router = router;
         this.title = 'Go! IYFD Number 36';
         this.cacheBust = new Date();
     }
@@ -42,9 +44,8 @@ var AppComponent = (function () {
         return role >= user_1.Role.Bob;
     };
     AppComponent.prototype.signOut = function () {
-        ng2_cookies_1.Cookie.delete("token");
-        ng2_cookies_1.Cookie.delete("role");
-        ng2_cookies_1.Cookie.delete("username");
+        ng2_cookies_1.Cookie.deleteAll();
+        this.router.navigateByUrl("/home");
     };
     AppComponent = __decorate([
         core_1.Component({
@@ -53,7 +54,7 @@ var AppComponent = (function () {
             templateUrl: 'index.html',
             styleUrls: ['index.css']
         }), 
-        __metadata('design:paramtypes', [account_service_1.AccountService])
+        __metadata('design:paramtypes', [account_service_1.AccountService, router_1.Router])
     ], AppComponent);
     return AppComponent;
 }());

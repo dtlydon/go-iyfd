@@ -3,9 +3,9 @@
  */
 import {Component, OnInit}          from '@angular/core';
 import {Cookie} from "ng2-cookies/ng2-cookies";
-import {isNullOrUndefined} from "util";
 import {AccountService} from "./account/account.service";
 import {Role} from "./admin/user";
+import {Router} from "@angular/router";
 
 @Component({
     moduleId: module.id,
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     title = 'Go! IYFD Number 36';
     cacheBust:Date = new Date();
 
-    constructor(private accountService:AccountService){}
+    constructor(private accountService:AccountService, private router:Router){}
 
     ngOnInit():void{
     }
@@ -44,9 +44,8 @@ export class AppComponent implements OnInit {
     }
 
     signOut():void{
-        Cookie.delete("token");
-        Cookie.delete("role");
-        Cookie.delete("username");
+        Cookie.deleteAll();
+        this.router.navigateByUrl("/home");
     }
 }
 

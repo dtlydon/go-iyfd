@@ -26,6 +26,7 @@ type User struct{
 	FirstName string
 	LastName string
 	Email string
+	HasPaid bool
 }
 
 func CreateUser(user User){

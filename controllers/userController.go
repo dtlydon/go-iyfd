@@ -103,6 +103,7 @@ func (this *userController) query(responseWriter http.ResponseWriter, request *h
 			Email: user.Email,
 			Username: user.Username,
 			Role: user.Role,
+			HasPaid: user.HasPaid,
 		}
 		viewUsers[i] = viewUser
 	}
@@ -132,6 +133,7 @@ func (this *userController) post(responseWriter http.ResponseWriter, request *ht
 		FirstName: viewUser.FirstName,
 		LastName: viewUser.LastName,
 		Role: viewUser.Role,
+		HasPaid: viewUser.HasPaid,
 	}
 
 	if(viewUser.Password != ""){

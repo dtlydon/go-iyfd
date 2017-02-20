@@ -17,9 +17,9 @@
                 <li><a routerLink="/scores" routerLinkActive="active">Score</a></li>
                 <li><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
                 <li>
-                    <audio style="width: 100px" controls autoplay src="/api/announcement.m4a?t={{cacheBust.getTime()}}">
+                    <audio style="width: 100px" controls autoplay src="/api/announcement?t={{cacheBust.getTime()}}">
                         <p>Your browser does not support this</p>
-                        <a href="/api/announcement.m4a?t={{cacheBust.getTime()}}">Download the audio</a>
+                        <a href="/api/announcement?={{cacheBust.getTime()}}">Download the audio</a>
                     </audio>
                 </li>
             </ul>

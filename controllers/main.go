@@ -71,17 +71,8 @@ func Register() *httprouter.Router {
 	router.GET("/app/*all", serveApp)
 
 	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("File not found")
-		f, err := os.Open(models.GetCurrentDirectory() + "/views/Index.html")
-		defer f.Close()
-		w.Header().Add("Content-Type", "text/javascript")
-
-		if(err != nil) {
-			br := bufio.NewReader(f)
-			br.WriteTo(w)
-		}else{
-			fmt.Println("Error serveri index: ", err.Error())
-		}
+		wd := models.GetCurrentDirectory()
+		http.ServeFile(w, r, wd + "/views/index.html")
 	})
 	return router
 }

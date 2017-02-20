@@ -8,7 +8,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/dtlydon/go-iyfd/models"
 	"github.com/dtlydon/go-iyfd/controllers/util"
-	"html/template"
 	"fmt"
 )
 
@@ -64,7 +63,7 @@ func Register() *httprouter.Router {
 	router.GET("/api/scores", scoreController.query)
 
 	audioController := new(audioController)
-	router.GET("/api/announcement.m4a", audioController.get)
+	router.GET("/api/announcement", audioController.get)
 	router.POST("/api/announcement", Authorize(audioController.post, models.Bob))
 
 	router.GET("/content/*all", serveMyContent)
@@ -72,25 +71,19 @@ func Register() *httprouter.Router {
 	router.GET("/app/*all", serveApp)
 
 	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./views/index.html")
+		fmt.Println("File not found")
+		f, err := os.Open(models.GetCurrentDirectory() + "/views/Index.html")
+		defer f.Close()
+		w.Header().Add("Content-Type", "text/javascript")
+
+		if(err != nil) {
+			br := bufio.NewReader(f)
+			br.WriteTo(w)
+		}else{
+			fmt.Println("Error serveri index: ", err.Error())
+		}
 	})
 	return router
-}
-
-func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
-	w.Header().Add("Content Type", "text/html")
-	t, _ := template.ParseFiles("views/Index.html");
-	if(t != nil) {
-		viewModel := struct {
-			Title string
-			Items []string
-		}{
-			Title: "IYFD",
-			Items: []string{},
-		}
-
-		t.Execute(w, viewModel)
-	}
 }
 
 func Authorize(handle httprouter.Handle, role models.Role) httprouter.Handle {
@@ -110,7 +103,7 @@ func Authorize(handle httprouter.Handle, role models.Role) httprouter.Handle {
 }
 
 func serveApp(w http.ResponseWriter, req *http.Request, params httprouter.Params){
-	path := "app" + params.ByName("all")
+	path := models.GetCurrentDirectory() + "/app" + params.ByName("all")
 	contentType := "text/javascript"
 
 	f, err := os.Open(path)
@@ -128,19 +121,20 @@ func serveApp(w http.ResponseWriter, req *http.Request, params httprouter.Params
 }
 
 func serveMyContent(w http.ResponseWriter, req *http.Request, params httprouter.Params){
+
 	path := params.ByName("all")
 	var contentType string
 	var pathPrefix string
 
 	if strings.HasSuffix(path, ".js") {
 		contentType = "text/javascript"
-		pathPrefix = "js"
+		pathPrefix = "/js"
 	} else if strings.HasSuffix(path, ".css"){
 		contentType = "text/css"
-		pathPrefix = "styles"
+		pathPrefix = "/styles"
 	}
 
-	path = pathPrefix + path
+	path = models.GetCurrentDirectory() + pathPrefix + path
 
 	f, err := os.Open(path)
 
@@ -157,7 +151,7 @@ func serveMyContent(w http.ResponseWriter, req *http.Request, params httprouter.
 }
 
 func serveResource(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
-	path := "lib" + params.ByName("all")
+	path := models.GetCurrentDirectory() + "/lib" + params.ByName("all")
 	var contentType string
 
 	if strings.HasSuffix(path, ".html") {

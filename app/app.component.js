@@ -22,8 +22,13 @@ var AppComponent = (function () {
         this.router = router;
         this.title = 'Go! IYFD Number 36';
         this.cacheBust = new Date();
+        this.isAudioPlaying = true;
+        this.audio = new Audio();
     }
     AppComponent.prototype.ngOnInit = function () {
+        this.audio.src = "/api/announcement";
+        this.audio.load();
+        this.audio.play();
     };
     AppComponent.prototype.checkIsLoggin = function () {
         var token = ng2_cookies_1.Cookie.get("token");
@@ -46,6 +51,15 @@ var AppComponent = (function () {
     AppComponent.prototype.signOut = function () {
         ng2_cookies_1.Cookie.deleteAll();
         this.router.navigateByUrl("/home");
+    };
+    AppComponent.prototype.toggleAudio = function () {
+        this.isAudioPlaying = !this.isAudioPlaying;
+        if (this.isAudioPlaying) {
+            this.audio.pause();
+        }
+        else {
+            this.audio.play();
+        }
     };
     AppComponent = __decorate([
         core_1.Component({

@@ -17,11 +17,10 @@
                 <li><a routerLink="/scores" routerLinkActive="active">Score</a></li>
                 <li><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
                 <li>
-                    <audio style="width: 100px" controls autoplay src="/api/announcement?t={{cacheBust.getTime()}}">
-                        <p>Your browser does not support this</p>
-                        <a href="/api/announcement?={{cacheBust.getTime()}}">Download the audio</a>
-                    </audio>
+                    <a *ngIf="isAudioPlaying" (click)="toggleAudio()">Stop Announcement</a>
+                    <a *ngIf="!isAudioPlaying" (click)="toggleAudio()">Play Announcement</a>
                 </li>
+                <li><a href="/api/announcement?={{cacheBust.getTime()}}">Download Announcement</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="!checkIsLoggin()"><a routerLink="/account/login">Login</a></li>

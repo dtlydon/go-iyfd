@@ -6,6 +6,7 @@ import {Cookie} from "ng2-cookies/ng2-cookies";
 import {AccountService} from "./account/account.service";
 import {Role} from "./admin/user";
 import {Router} from "@angular/router";
+import Any = jasmine.Any;
 
 @Component({
     moduleId: module.id,
@@ -16,10 +17,15 @@ import {Router} from "@angular/router";
 export class AppComponent implements OnInit {
     title = 'Go! IYFD Number 36';
     cacheBust:Date = new Date();
+    isAudioPlaying:boolean = true;
+    audio:any = new Audio();
 
     constructor(private accountService:AccountService, private router:Router){}
 
     ngOnInit():void{
+        this.audio.src = "/api/announcement";
+        this.audio.load();
+        this.audio.play();
     }
 
     checkIsLoggin():boolean{
@@ -46,6 +52,16 @@ export class AppComponent implements OnInit {
     signOut():void{
         Cookie.deleteAll();
         this.router.navigateByUrl("/home");
+    }
+
+    toggleAudio():void{
+        this.isAudioPlaying = !this.isAudioPlaying;
+        if(this.isAudioPlaying){
+            this.audio.play();
+        }
+        else {
+            this.audio.pause();
+        }
     }
 }
 

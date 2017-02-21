@@ -72,7 +72,7 @@ func Register() *httprouter.Router {
 
 	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		wd := models.GetCurrentDirectory()
-		http.ServeFile(w, r, wd + "/views/Index.html")
+		http.ServeFile(w, r, wd + "/views/index.html")
 	})
 	return router
 }

@@ -22,14 +22,12 @@ var AppComponent = (function () {
         this.router = router;
         this.title = 'Go! IYFD Number 36';
         this.cacheBust = new Date();
-        this.isAudioPlaying = true;
+        this.isAudioPlaying = false;
         this.audio = new Audio();
     }
     AppComponent.prototype.ngOnInit = function () {
         this.audio.src = "/api/announcement";
         this.audio.src = this.audio.src;
-        this.audio.load();
-        this.audio.play();
     };
     AppComponent.prototype.checkIsLoggin = function () {
         var token = ng2_cookies_1.Cookie.get("token");

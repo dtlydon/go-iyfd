@@ -17,7 +17,7 @@ import Any = jasmine.Any;
 export class AppComponent implements OnInit {
     title = 'Go! IYFD Number 36';
     cacheBust:Date = new Date();
-    isAudioPlaying:boolean = true;
+    isAudioPlaying:boolean = false;
     audio:any = new Audio();
 
     constructor(private accountService:AccountService, private router:Router){}
@@ -25,8 +25,6 @@ export class AppComponent implements OnInit {
     ngOnInit():void{
         this.audio.src = "/api/announcement";
         this.audio.src = this.audio.src;
-        this.audio.load();
-        this.audio.play();
     }
 
     checkIsLoggin():boolean{

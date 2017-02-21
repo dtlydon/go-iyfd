@@ -27,6 +27,7 @@ var AppComponent = (function () {
     }
     AppComponent.prototype.ngOnInit = function () {
         this.audio.src = "/api/announcement";
+        this.audio.src = this.audio.src;
         this.audio.load();
         this.audio.play();
     };

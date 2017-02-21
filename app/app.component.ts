@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit():void{
         this.audio.src = "/api/announcement";
+        this.audio.src = this.audio.src;
         this.audio.load();
         this.audio.play();
     }

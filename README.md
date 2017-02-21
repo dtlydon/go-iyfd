@@ -1,31 +1,25 @@
-# Iyfd
+# Iyfd (In Your Face Disgrace)
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.10.
+This is a simple project to help some friends manage their March Madness tournament
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## The tech
 
-## Code scaffolding
+This was developed using Angular2, Golang and Mongo as the back end.  I use AWS EC2 to host it all.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/route/class`.
+## The site
 
-## Build
+Pretty simple for a basic user.  The user creates a login and makes picks in the tournament round by round.
+Clicking a pick instantly saves it.  The picks can be disabled by an admin.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+The admin panel is where it gets slightly more complicated.  An admin has the ability to add teams, create tournament
+entries with the team and finally generate matchups / pick winners.  They also need to pick which region plays which region.
+There is also a button to turn "Play" off under settings (to prevent picks from occurring while matchups are in progress).
 
-## Running unit tests
+The final kicker is the users.  The admin can edit the users as needed INCLUDING the user picks.  So the admin can
+essentially log in as a user and make picks EVEN IF PLAY IS BLOCKED.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+This helps settle disputes (or late picks)
 
-## Running end-to-end tests
+## Enjoy
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). 
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Not sure anyone wants to use this, but it's absolutely free of use.

@@ -51,7 +51,9 @@ func GetUserByUsername(username string) User{
 	defer dbUtil.Session.Close()
 
 	user := User{}
-	dbUtil.Collection.Find(bson.M{"username": username}).One(&user)
+	///^bar$/i
+	dbUtil.Collection.Find(bson.M{"username": bson.RegEx{username, "i" }}).One(&user)
+	fmt.Println("User: ", user);
 	return user
 }
 

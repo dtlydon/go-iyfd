@@ -15,7 +15,6 @@ type audioController struct{
 }
 
 func (this *audioController) get(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params){
-	//http.ServeFile(responseWriter, request, models.GetCurrentDirectory() + "/audio/bobsaudio.mp3")
 	workingDir := models.GetCurrentDirectory()
 	f, err := os.Open(workingDir + "/audio/bobsaudio.mp3")
 	if err == nil {

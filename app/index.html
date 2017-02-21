@@ -17,7 +17,9 @@
                 <li><a routerLink="/scores" routerLinkActive="active">Score</a></li>
                 <li><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
                 <li>
-                    <audio style="width: 75px;" src="/api/announcement" controls></audio>
+                    <audio style="width: 100px;" src="/api/announcement" controls>
+                        Not supported
+                    </audio>
                 </li>
                 <li><a href="/api/announcement?={{cacheBust.getTime()}}">Download Announcement</a></li>
             </ul>

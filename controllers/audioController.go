@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"github.com/dtlydon/go-iyfd/models"
+	"strconv"
 )
 
 type audioController struct{
@@ -14,29 +15,29 @@ type audioController struct{
 }
 
 func (this *audioController) get(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params){
-	http.ServeFile(responseWriter, request, models.GetCurrentDirectory() + "/audio/bobsaudio.m4a")
-	//workingDir := models.GetCurrentDirectory()
-	//f, err := os.Open(workingDir + "/audio/bobsaudio.m4a")
-	//if err == nil {
-	//	defer f.Close()
-	//	fileHeader := make([]byte, 512)
-	//
-	//	f.Read(fileHeader)
-	//	fileContentType := http.DetectContentType(fileHeader)
-	//
-	//	fileStat, _ := f.Stat()
-	//	fileSize := strconv.FormatInt(fileStat.Size(), 10)
-	//
-	//	responseWriter.Header().Set("Content-Disposition", "attachent; filename=Announcement.m4a")
-	//	responseWriter.Header().Set("Content-Type", fileContentType)
-	//	responseWriter.Header().Set("Content-Length", fileSize)
-	//
-	//	f.Seek(0, 0)
-	//	io.Copy(responseWriter, f)
-	//} else{
-	//	fmt.Println("Error getting stupid audio: ", err.Error())
-	//	responseWriter.WriteHeader(400)
-	//}
+	//http.ServeFile(responseWriter, request, models.GetCurrentDirectory() + "/audio/bobsaudio.mp3")
+	workingDir := models.GetCurrentDirectory()
+	f, err := os.Open(workingDir + "/audio/bobsaudio.mp3")
+	if err == nil {
+		defer f.Close()
+		fileHeader := make([]byte, 512)
+
+		f.Read(fileHeader)
+		//fileContentType := http.DetectContentType(fileHeader)
+
+		fileStat, _ := f.Stat()
+		fileSize := strconv.FormatInt(fileStat.Size(), 10)
+
+		responseWriter.Header().Set("Content-Disposition", "attachent; filename=Announcement.mp3")
+		responseWriter.Header().Set("Content-Type", "audio/mpeg")
+		responseWriter.Header().Set("Content-Length", fileSize)
+
+		f.Seek(0, 0)
+		io.Copy(responseWriter, f)
+	} else{
+		fmt.Println("Error getting stupid audio: ", err.Error())
+		responseWriter.WriteHeader(400)
+	}
 }
 
 func (this *audioController) post(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params) {
@@ -50,7 +51,7 @@ func (this *audioController) post(responseWriter http.ResponseWriter, request *h
 	}
 	defer file.Close()
 
-	fullFileName := models.GetCurrentDirectory() + "/audio/bobsaudio.m4a"
+	fullFileName := models.GetCurrentDirectory() + "/audio/bobsaudio.mp3"
 	_ , err = os.Stat(fullFileName)
 	if err != nil && !os.IsNotExist(err) {
 		if os.IsExist(err) {

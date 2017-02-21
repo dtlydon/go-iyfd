@@ -55,13 +55,13 @@ export class AppComponent implements OnInit {
     }
 
     toggleAudio():void{
-        this.isAudioPlaying = !this.isAudioPlaying;
         if(this.isAudioPlaying){
-            this.audio.play();
-        }
-        else {
             this.audio.pause();
         }
+        else {
+            this.audio.play();
+        }
+        this.isAudioPlaying = !this.isAudioPlaying;
     }
 }
 

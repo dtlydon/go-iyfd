@@ -53,13 +53,13 @@ var AppComponent = (function () {
         this.router.navigateByUrl("/home");
     };
     AppComponent.prototype.toggleAudio = function () {
-        this.isAudioPlaying = !this.isAudioPlaying;
         if (this.isAudioPlaying) {
             this.audio.pause();
         }
         else {
             this.audio.play();
         }
+        this.isAudioPlaying = !this.isAudioPlaying;
     };
     AppComponent = __decorate([
         core_1.Component({

@@ -21,19 +21,5 @@
     <my-app>Loading...</my-app>
     <script src="lib/jquery.min.js"></script>
     <script src="lib/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        var testAudio = new Audio();
-        testAudio.src = '/api/announcement';
-        testAudio.type = 'audio/m4a';
-
-        function test(){
-            if(testAudio.paused) {
-                testAudio.play();
-            }
-            else{
-                testAudio.pause();
-            }
-        }
-    </script>
 </body>
 </html>

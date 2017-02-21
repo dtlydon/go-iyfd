@@ -18,13 +18,13 @@ export class AppComponent implements OnInit {
     title = 'Go! IYFD Number 36';
     cacheBust:Date = new Date();
     isAudioPlaying:boolean = false;
-    audio:any = new Audio();
+    //audio:any = new Audio();
 
     constructor(private accountService:AccountService, private router:Router){}
 
     ngOnInit():void{
-        this.audio.src = "/api/announcement";
-        this.audio.src = this.audio.src;
+      //  this.audio.src = "/api/announcement";
+        //this.audio.src = this.audio.src;
     }
 
     checkIsLoggin():boolean{
@@ -55,10 +55,10 @@ export class AppComponent implements OnInit {
 
     toggleAudio():void{
         if(this.isAudioPlaying){
-            this.audio.pause();
+            //this.audio.pause();
         }
         else {
-            this.audio.play();
+            //this.audio.play();
         }
         this.isAudioPlaying = !this.isAudioPlaying;
     }

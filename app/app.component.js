@@ -17,17 +17,17 @@ var account_service_1 = require("./account/account.service");
 var user_1 = require("./admin/user");
 var router_1 = require("@angular/router");
 var AppComponent = (function () {
+    //audio:any = new Audio();
     function AppComponent(accountService, router) {
         this.accountService = accountService;
         this.router = router;
         this.title = 'Go! IYFD Number 36';
         this.cacheBust = new Date();
         this.isAudioPlaying = false;
-        this.audio = new Audio();
     }
     AppComponent.prototype.ngOnInit = function () {
-        this.audio.src = "/api/announcement";
-        this.audio.src = this.audio.src;
+        //  this.audio.src = "/api/announcement";
+        //this.audio.src = this.audio.src;
     };
     AppComponent.prototype.checkIsLoggin = function () {
         var token = ng2_cookies_1.Cookie.get("token");
@@ -53,10 +53,8 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.toggleAudio = function () {
         if (this.isAudioPlaying) {
-            this.audio.pause();
         }
         else {
-            this.audio.play();
         }
         this.isAudioPlaying = !this.isAudioPlaying;
     };

@@ -17,8 +17,8 @@
                 <li><a routerLink="/scores" routerLinkActive="active">Score</a></li>
                 <li><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
                 <li>
-                    <a style="cursor: pointer" *ngIf="isAudioPlaying" (click)="toggleAudio()">Stop Announcement</a>
-                    <a style="cursor: pointer" *ngIf="!isAudioPlaying" (click)="toggleAudio()">Play Announcement</a>
+
+                    <a style="cursor: pointer" onclick="test()">Play Announcement</a>
                 </li>
                 <li><a href="/api/announcement?={{cacheBust.getTime()}}">Download Announcement</a></li>
             </ul>

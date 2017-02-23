@@ -2,7 +2,8 @@
 <div class="row">
     <div class="col-sm-12">
         <label for="audio">New Announcement: </label>
-        <input type="file" name="audioFile" id="audio" (change)="updateFile($event)">
-        <button style="margin-top: 10px;"type="submit" class="btn btn-primary" (click)="upload()">Update Announcement</button>
+        <input type="file" name="audioFile" id="audio" accept=".mp3" (change)="updateFile($event)">
+        <button style="margin-top: 10px;"type="submit" class="btn btn-primary" [ngClass]="{'disabled': isLoading}" (click)="upload()">Update Announcement</button>
+        <label style="color: green;">{{message}}</label>
     </div>
 </div>

@@ -13,6 +13,8 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 
 export class AudioComponent implements OnInit {
     formData:FormData;
+    message:string;
+    isLoading:boolean = false;
     constructor(private adminService:AdminService){};
 
     ngOnInit():void{
@@ -25,6 +27,14 @@ export class AudioComponent implements OnInit {
     }
     
     upload():void{
-        this.adminService.updateAnnouncement(this.formData).then(resp =>{});
+        this.isLoading = true;
+        this.adminService.updateAnnouncement(this.formData).then(resp =>{
+            this.isLoading = false;
+            this.message = "Success";
+            let e = this;
+            setTimeout(function(){
+                e.message = "";
+            }, 3000);
+        });
     }
 }

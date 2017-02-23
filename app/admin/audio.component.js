@@ -16,6 +16,7 @@ var admin_service_1 = require("./admin.service");
 var AudioComponent = (function () {
     function AudioComponent(adminService) {
         this.adminService = adminService;
+        this.isLoading = false;
     }
     ;
     AudioComponent.prototype.ngOnInit = function () {
@@ -26,7 +27,16 @@ var AudioComponent = (function () {
         this.formData.append('announcement', event.srcElement.files.item(0));
     };
     AudioComponent.prototype.upload = function () {
-        this.adminService.updateAnnouncement(this.formData).then(function (resp) { });
+        var _this = this;
+        this.isLoading = true;
+        this.adminService.updateAnnouncement(this.formData).then(function (resp) {
+            _this.isLoading = false;
+            _this.message = "Success";
+            var e = _this;
+            setTimeout(function () {
+                e.message = "";
+            }, 3000);
+        });
     };
     AudioComponent = __decorate([
         core_1.Component({

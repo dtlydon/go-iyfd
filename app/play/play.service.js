@@ -14,10 +14,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
+var CookieManager_1 = require("../shared/CookieManager");
 var PlayService = (function () {
-    function PlayService(http) {
+    function PlayService(http, cookieManager) {
         this.http = http;
+        this.cookieManager = cookieManager;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.userChoiceUrl = 'api/userchoice'; // URL to web api
         this.scoresUrl = 'api/scores';
@@ -59,7 +60,7 @@ var PlayService = (function () {
     //</editor-fold>
     PlayService.prototype.addTokenWhenExists = function () {
         if (!this.headers.get('token')) {
-            this.headers.append('token', ng2_cookies_1.Cookie.get('token'));
+            this.headers.append('token', this.cookieManager.getCookie('token'));
         }
     };
     PlayService.prototype.handleError = function (error) {
@@ -68,7 +69,7 @@ var PlayService = (function () {
     };
     PlayService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, CookieManager_1.CookieManager])
     ], PlayService);
     return PlayService;
 }());

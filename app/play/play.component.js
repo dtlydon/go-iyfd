@@ -15,13 +15,14 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var play_service_1 = require("./play.service");
 var admin_service_1 = require("../admin/admin.service");
-var index_1 = require("ng2-cookies/index");
 var user_1 = require("../admin/user");
+var CookieManager_1 = require("../shared/CookieManager");
 var PlayComponent = (function () {
-    function PlayComponent(router, playService, adminService) {
+    function PlayComponent(router, playService, adminService, cookieManager) {
         this.router = router;
         this.playService = playService;
         this.adminService = adminService;
+        this.cookieManager = cookieManager;
         this.userChoicesByRound = [];
         this.maxRound = 1;
         this.displayRound = 1;
@@ -29,7 +30,7 @@ var PlayComponent = (function () {
     PlayComponent.prototype.ngOnInit = function () {
         var _this = this;
         var tempRole = user_1.Role.None;
-        var roleText = index_1.Cookie.get("role");
+        var roleText = this.cookieManager.getCookie("role");
         if (roleText != "") {
             tempRole = parseInt(roleText);
         }
@@ -116,7 +117,7 @@ var PlayComponent = (function () {
             templateUrl: 'play.html',
             styleUrls: ['play.css']
         }), 
-        __metadata('design:paramtypes', [router_1.Router, play_service_1.PlayService, admin_service_1.AdminService])
+        __metadata('design:paramtypes', [router_1.Router, play_service_1.PlayService, admin_service_1.AdminService, CookieManager_1.CookieManager])
     ], PlayComponent);
     return PlayComponent;
 }());

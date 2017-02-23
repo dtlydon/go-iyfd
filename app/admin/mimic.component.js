@@ -18,17 +18,80 @@ var MimicComponent = (function () {
     function MimicComponent(route, adminService) {
         this.route = route;
         this.adminService = adminService;
+        this.userChoicesByRound = [];
+        this.maxRound = 1;
+        this.displayRound = 1;
     }
     MimicComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.userId = this.route.snapshot.params["userId"];
         this.adminService.getUserChoices(this.userId).then(function (response) {
             _this.userChoices = response;
+            var roundHash = {};
+            for (var i = 0; i < _this.userChoices.length; i++) {
+                if (roundHash[_this.userChoices[i].Round]) {
+                    roundHash[_this.userChoices[i].Round] = roundHash[_this.userChoices[i].Round] + 1;
+                }
+                else {
+                    roundHash[_this.userChoices[i].Round] = 1;
+                }
+                if (_this.userChoices[i].Round > _this.maxRound) {
+                    _this.maxRound = _this.userChoices[i].Round;
+                }
+            }
+            if (roundHash[_this.maxRound] == (64 / Math.pow(2, _this.maxRound))) {
+                _this.displayRound = _this.maxRound;
+            }
+            else {
+                _this.displayRound = _this.maxRound - 1;
+            }
+            _this.filterRound();
         });
+    };
+    MimicComponent.prototype.updateDisplayRound = function (round) {
+        this.displayRound = round;
+        this.filterRound();
+    };
+    MimicComponent.prototype.highLightChoice = function (userChoice, entryNo, isGreen) {
+        var entry = entryNo == 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
+        if (userChoice.Winner === "") {
+            if (isGreen) {
+                return entry == userChoice.ChoiceId;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (entry === userChoice.ChoiceId) {
+            return userChoice.Winner === entry ? isGreen : !isGreen;
+        }
+        return false;
+    };
+    MimicComponent.prototype.getRegionName = function (region) {
+        if (region == "w") {
+            return "West";
+        }
+        if (region == "e") {
+            return "East";
+        }
+        if (region == "s") {
+            return "South";
+        }
+        if (region == "mw") {
+            return "Mid-West";
+        }
+        if (region == "final") {
+            return "Championship";
+        }
+        return "Final Four";
     };
     MimicComponent.prototype.pickWinner = function (userChoice, entry) {
         userChoice.ChoiceId = entry === 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
         this.adminService.updateUserChoice(userChoice, this.userId); //TODO: Need to handle errors
+    };
+    MimicComponent.prototype.filterRound = function () {
+        var _this = this;
+        this.userChoicesByRound = this.userChoices.filter(function (f) { return f.Round === _this.displayRound; });
     };
     MimicComponent = __decorate([
         core_1.Component({

@@ -22,7 +22,6 @@ var login_component_1 = require("./account/login.component");
 var forms_1 = require("@angular/forms");
 var account_service_1 = require("./account/account.service");
 var http_1 = require("@angular/http");
-var index_1 = require("ng2-cookies/index");
 var teams_component_1 = require("./admin/teams.component");
 var regions_component_1 = require("./admin/regions.component");
 var entry_component_1 = require("./admin/entry.component");
@@ -35,6 +34,7 @@ var settings_component_1 = require("./admin/settings.component");
 var mimic_component_1 = require("./admin/mimic.component");
 var audio_component_1 = require("./admin/audio.component");
 var groupByPipe_1 = require("./utils/pipes/groupByPipe");
+var CookieManager_1 = require("./shared/CookieManager");
 //import { InMemoryDataService }  from './in-memory-data.service';
 var AppModule = (function () {
     function AppModule() {
@@ -71,7 +71,7 @@ var AppModule = (function () {
             providers: [
                 account_service_1.AccountService,
                 admin_service_1.AdminService,
-                index_1.Cookie,
+                CookieManager_1.CookieManager,
                 play_service_1.PlayService
             ],
             bootstrap: [app_component_1.AppComponent]

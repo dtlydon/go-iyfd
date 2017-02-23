@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 import {AdminService} from "./admin.service";
 import {Role} from "./user";
-import {Cookie} from "ng2-cookies/index";
+import {CookieManager} from "../shared/CookieManager";
 
 @Component({
     moduleId: module.id,
@@ -14,7 +14,7 @@ import {Cookie} from "ng2-cookies/index";
     styleUrls: ['admin.css']
 })
 export class AdminComponent implements OnInit {
-    constructor(private adminService:AdminService) {
+    constructor(private adminService:AdminService, private cookieManager: CookieManager) {
     }
 
     ngOnInit():void {
@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit {
     }
 
     verifyAdmin():boolean{
-        let roleText:string = Cookie.get("role");
+        let roleText:string = this.cookieManager.getCookie("role");
         if(roleText == undefined || roleText == "")
             return false;
         let role:Role = parseInt(roleText) as Role;

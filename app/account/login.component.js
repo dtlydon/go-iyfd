@@ -13,14 +13,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
 var account_service_1 = require("./account.service");
 var account_1 = require("./account");
 var forms_1 = require("@angular/forms");
+var CookieManager_1 = require("../shared/CookieManager");
 var LoginComponent = (function () {
-    function LoginComponent(router, accountService, formBuilder) {
+    function LoginComponent(router, accountService, formBuilder, cookieManager) {
         this.router = router;
         this.accountService = accountService;
+        this.cookieManager = cookieManager;
         this.loginForm = formBuilder.group({
             'username': [null, forms_1.Validators.required],
             'password': [null, forms_1.Validators.required]
@@ -45,7 +46,7 @@ var LoginComponent = (function () {
         this.accountService.login(this.userAccount).then(function (response) {
             _this.isLoading = false;
             if (response) {
-                ng2_cookies_1.Cookie.set("token", response);
+                _this.cookieManager.setCookie("token", response, 30);
                 _this.router.navigateByUrl("/home");
             }
             else {
@@ -74,7 +75,7 @@ var LoginComponent = (function () {
             selector: 'login',
             templateUrl: 'login.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, account_service_1.AccountService, forms_1.FormBuilder])
+        __metadata('design:paramtypes', [router_1.Router, account_service_1.AccountService, forms_1.FormBuilder, CookieManager_1.CookieManager])
     ], LoginComponent);
     return LoginComponent;
 }());

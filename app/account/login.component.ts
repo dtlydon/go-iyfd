@@ -3,10 +3,10 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import {Cookie} from "ng2-cookies/ng2-cookies";
 import {AccountService} from "./account.service";
 import {Account} from "./account";
 import {FormGroup, FormBuilder, Validators, FormControl, ValidatorFn, AbstractControl} from "@angular/forms";
+import {CookieManager} from "../shared/CookieManager";
 
 @Component({
     moduleId: module.id,
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     invalid: boolean;
 
-    constructor(private router:Router, private accountService: AccountService, formBuilder: FormBuilder) {
+    constructor(private router:Router, private accountService: AccountService, formBuilder: FormBuilder, private cookieManager:CookieManager) {
         this.loginForm = formBuilder.group({
             'username' : [null, Validators.required],
             'password': [null, Validators.required]
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         this.accountService.login(this.userAccount).then(response => {
             this.isLoading = false;
             if(response){
-                Cookie.set("token", response);
+                this.cookieManager.setCookie("token", response, 30);
                 this.router.navigateByUrl("/home");
             }else{
                 myTempForm.controls['username'].setValidators([this.tempfn(), Validators.required]);

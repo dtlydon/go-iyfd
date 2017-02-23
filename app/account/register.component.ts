@@ -4,10 +4,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Account} from "./account";
 import {AccountService} from "./account.service";
-import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl} from "@angular/forms";
 import {equalValidator} from "../utils/validators/EqualValidator";
+import {CookieManager} from "../shared/CookieManager";
 
 @Component({
     moduleId: module.id,
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
     registrationForm: FormGroup;
     usernameIsUnique: boolean;
 
-    constructor(private accountService: AccountService, private router: Router, private formBuilder: FormBuilder) {
+    constructor(private accountService: AccountService, private router: Router, private formBuilder: FormBuilder, private cookieManager:CookieManager) {
         this.usernameIsUnique = true;
         this.registrationForm = formBuilder.group({
             'username' : [null, Validators.required],
@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
         this.isLoading = true;
         this.accountService.register(this.userAccount).then(response => {
             if(response){
-                Cookie.set("token", response);
+                this.cookieManager.setCookie("token", response, 30);
             }
             this.isLoading = false;
             this.router.navigateByUrl("/home");

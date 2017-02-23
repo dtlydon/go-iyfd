@@ -14,13 +14,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
 var user_1 = require("./user");
 var router_1 = require("@angular/router");
+var CookieManager_1 = require("../shared/CookieManager");
 var AdminService = (function () {
-    function AdminService(http, router) {
+    function AdminService(http, router, cookieManager) {
         this.http = http;
         this.router = router;
+        this.cookieManager = cookieManager;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.teamsUrl = 'api/teams'; // URL to web api
         this.entriesUrl = 'api/entries';
@@ -42,7 +43,7 @@ var AdminService = (function () {
     };
     AdminService.prototype.getTeams = function () {
         if (!this.headers.get('token')) {
-            this.headers.append('token', ng2_cookies_1.Cookie.get('token'));
+            this.headers.append('token', this.cookieManager.getCookie('token'));
         }
         return this.http.get(this.teamsUrl, { headers: this.headers })
             .toPromise()
@@ -192,10 +193,10 @@ var AdminService = (function () {
     };
     //</editor-fold>
     AdminService.prototype.verifyAdmin = function () {
-        var roleCookie = ng2_cookies_1.Cookie.get("role");
+        var roleCookie = this.cookieManager.getCookie("role");
         var isNotAuthorized = true;
         if (roleCookie != "") {
-            var role = parseInt(ng2_cookies_1.Cookie.get("role"));
+            var role = parseInt(this.cookieManager.getCookie("role"));
             if (role >= user_1.Role.Bob) {
                 isNotAuthorized = false;
             }
@@ -206,7 +207,7 @@ var AdminService = (function () {
     };
     AdminService.prototype.addTokenWhenExists = function () {
         if (!this.headers.get('token')) {
-            this.headers.append('token', ng2_cookies_1.Cookie.get('token'));
+            this.headers.append('token', this.cookieManager.getCookie('token'));
         }
     };
     AdminService.prototype.handleError = function (error) {
@@ -215,7 +216,7 @@ var AdminService = (function () {
     };
     AdminService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, router_1.Router])
+        __metadata('design:paramtypes', [http_1.Http, router_1.Router, CookieManager_1.CookieManager])
     ], AdminService);
     return AdminService;
 }());

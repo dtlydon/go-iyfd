@@ -5,13 +5,9 @@ import { Injectable }    from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
-import {Team} from "../shared/team";
-import {Cookie} from "ng2-cookies/ng2-cookies";
-import {Entry} from "../shared/entry";
-import {MatchUp} from "../shared/MatchUp";
-import {RegionVs} from "../shared/regionVs";
 import {UserChoice} from "./userChoice";
 import {Score} from "./score";
+import {CookieManager} from "../shared/CookieManager";
 
 @Injectable()
 export class PlayService {
@@ -20,7 +16,7 @@ export class PlayService {
     private userChoiceUrl = 'api/userchoice';  // URL to web api
     private scoresUrl = 'api/scores';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private cookieManager:CookieManager) { }
     //<editor-fold desc="User Choice">
     updateUserChoice(userChoice: UserChoice): Promise<any>{
         this.addTokenWhenExists();
@@ -62,7 +58,7 @@ export class PlayService {
 
     private addTokenWhenExists(): void{
         if(!this.headers.get('token')) {
-            this.headers.append('token', Cookie.get('token'));
+            this.headers.append('token', this.cookieManager.getCookie('token'));
         }
     }
 

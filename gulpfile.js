@@ -25,7 +25,6 @@ gulp.task('move-files', function(){
     gulp.src(angularFiles).pipe(gulp.dest("lib/@angular"));
     gulp.src(rxjsFiles).pipe(gulp.dest("lib/rxjs"));
     gulp.src(memWebApiFiles).pipe(gulp.dest("lib/angular2-in-memory-web-api"));
-    gulp.src(['node_modules/ng2-cookies/**/*.js']).pipe(gulp.dest('lib/ng2-cookies'));
 
 });
 

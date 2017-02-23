@@ -2,11 +2,11 @@
  * Created by daniellydon on 11/7/16.
  */
 import {Component, OnInit}          from '@angular/core';
-import {Cookie} from "ng2-cookies/ng2-cookies";
 import {AccountService} from "./account/account.service";
 import {Role} from "./admin/user";
 import {Router} from "@angular/router";
 import Any = jasmine.Any;
+import {CookieManager} from "./shared/CookieManager";
 
 @Component({
     moduleId: module.id,
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     isAudioPlaying:boolean = false;
     //audio:any = new Audio();
 
-    constructor(private accountService:AccountService, private router:Router){}
+    constructor(private accountService:AccountService, private router:Router, private cookieManager:CookieManager){}
 
     ngOnInit():void{
       //  this.audio.src = "/api/announcement";
@@ -28,20 +28,20 @@ export class AppComponent implements OnInit {
     }
 
     checkIsLoggin():boolean{
-        let token  = Cookie.get("token");
+        let token  = this.cookieManager.getCookie("token");
         return token !== undefined && token !== null && token !== '';
     }
 
     getUsername():string{
-        let username:string = Cookie.get("username");
-        if((username == undefined || username == "") && (Cookie.get("token") !== undefined || Cookie.get("token") != "")){
+        let username:string = this.cookieManager.getCookie("username");
+        if((username == undefined || username == "") && (this.cookieManager.getCookie("token") !== undefined || this.cookieManager.getCookie("token") != "")){
             this.accountService.resetCookie();
         }
         return username;
     }
 
     verifyAdmin():boolean{
-        let roleText:string = Cookie.get("role");
+        let roleText:string = this.cookieManager.getCookie("role");
         if(roleText == undefined || roleText == "")
             return false;
         let role:Role = parseInt(roleText) as Role;
@@ -49,7 +49,9 @@ export class AppComponent implements OnInit {
     }
 
     signOut():void{
-        Cookie.deleteAll();
+        this.cookieManager.deleteCookie("username");
+        this.cookieManager.deleteCookie("token");
+        this.cookieManager.deleteCookie("role");
         this.router.navigateByUrl("/home");
     }
 

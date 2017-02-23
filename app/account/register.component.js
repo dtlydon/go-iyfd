@@ -14,15 +14,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var account_1 = require("./account");
 var account_service_1 = require("./account.service");
-var ng2_cookies_1 = require('ng2-cookies/ng2-cookies');
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var EqualValidator_1 = require("../utils/validators/EqualValidator");
+var CookieManager_1 = require("../shared/CookieManager");
 var RegisterComponent = (function () {
-    function RegisterComponent(accountService, router, formBuilder) {
+    function RegisterComponent(accountService, router, formBuilder, cookieManager) {
         this.accountService = accountService;
         this.router = router;
         this.formBuilder = formBuilder;
+        this.cookieManager = cookieManager;
         this.usernameIsUnique = true;
         this.registrationForm = formBuilder.group({
             'username': [null, forms_1.Validators.required],
@@ -54,7 +55,7 @@ var RegisterComponent = (function () {
         this.isLoading = true;
         this.accountService.register(this.userAccount).then(function (response) {
             if (response) {
-                ng2_cookies_1.Cookie.set("token", response);
+                _this.cookieManager.setCookie("token", response, 30);
             }
             _this.isLoading = false;
             _this.router.navigateByUrl("/home");
@@ -71,7 +72,7 @@ var RegisterComponent = (function () {
             selector: 'register',
             templateUrl: 'register.html'
         }), 
-        __metadata('design:paramtypes', [account_service_1.AccountService, router_1.Router, forms_1.FormBuilder])
+        __metadata('design:paramtypes', [account_service_1.AccountService, router_1.Router, forms_1.FormBuilder, CookieManager_1.CookieManager])
     ], RegisterComponent);
     return RegisterComponent;
 }());

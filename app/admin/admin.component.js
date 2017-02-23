@@ -14,16 +14,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var admin_service_1 = require("./admin.service");
 var user_1 = require("./user");
-var index_1 = require("ng2-cookies/index");
+var CookieManager_1 = require("../shared/CookieManager");
 var AdminComponent = (function () {
-    function AdminComponent(adminService) {
+    function AdminComponent(adminService, cookieManager) {
         this.adminService = adminService;
+        this.cookieManager = cookieManager;
     }
     AdminComponent.prototype.ngOnInit = function () {
         this.adminService.verifyAdmin();
     };
     AdminComponent.prototype.verifyAdmin = function () {
-        var roleText = index_1.Cookie.get("role");
+        var roleText = this.cookieManager.getCookie("role");
         if (roleText == undefined || roleText == "")
             return false;
         var role = parseInt(roleText);
@@ -36,7 +37,7 @@ var AdminComponent = (function () {
             templateUrl: 'admin.html',
             styleUrls: ['admin.css']
         }), 
-        __metadata('design:paramtypes', [admin_service_1.AdminService])
+        __metadata('design:paramtypes', [admin_service_1.AdminService, CookieManager_1.CookieManager])
     ], AdminComponent);
     return AdminComponent;
 }());

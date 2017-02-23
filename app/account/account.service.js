@@ -14,15 +14,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-var index_1 = require("ng2-cookies/index");
+var CookieManager_1 = require("../shared/CookieManager");
 var AccountService = (function () {
-    function AccountService(http) {
+    function AccountService(http, cookieManager) {
         this.http = http;
+        this.cookieManager = cookieManager;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.userUrl = 'api/user'; // URL to web api
         this.hasResetCalled = false;
     }
     AccountService.prototype.register = function (account) {
+        var _this = this;
         return this.http.post(this.userUrl + "/register", JSON.stringify(account), { headers: this.headers })
             .toPromise()
             .then(function (response) {
@@ -30,8 +32,8 @@ var AccountService = (function () {
                 var token = response.headers.get("token");
                 if (token) {
                     var account_1 = response.json();
-                    index_1.Cookie.set("username", account_1.Username);
-                    index_1.Cookie.set("role", account_1.Role.toString());
+                    _this.cookieManager.setCookie("username", account_1.Username, 30);
+                    _this.cookieManager.setCookie("role", account_1.Role.toString(), 30);
                     return token;
                 }
             }
@@ -40,6 +42,7 @@ var AccountService = (function () {
             .catch(this.handleError);
     };
     AccountService.prototype.login = function (account) {
+        var _this = this;
         return this.http.post(this.userUrl + "/login", JSON.stringify(account), { headers: this.headers })
             .toPromise()
             .then(function (response) {
@@ -47,8 +50,8 @@ var AccountService = (function () {
                 var token = response.headers.get("token");
                 if (token) {
                     var account_2 = response.json();
-                    index_1.Cookie.set("username", account_2.Username);
-                    index_1.Cookie.set("role", account_2.Role.toString());
+                    _this.cookieManager.setCookie("username", account_2.Username, 30);
+                    _this.cookieManager.setCookie("role", account_2.Role.toString(), 30);
                     return token;
                 }
             }
@@ -59,7 +62,7 @@ var AccountService = (function () {
     AccountService.prototype.resetCookie = function () {
         var _this = this;
         if (!this.headers.get('token')) {
-            this.headers.append('token', index_1.Cookie.get('token'));
+            this.headers.append('token', this.cookieManager.getCookie('token'));
         }
         if (this.hasResetCalled) {
             return null;
@@ -71,8 +74,8 @@ var AccountService = (function () {
             _this.hasResetCalled = false;
             if (response) {
                 var account = response.json();
-                index_1.Cookie.set("username", account.Username);
-                index_1.Cookie.set("role", account.Role.toString());
+                _this.cookieManager.setCookie("username", account.Username, 30);
+                _this.cookieManager.setCookie("role", account.Role.toString(), 30);
             }
         })
             .catch(this.handleError);
@@ -91,7 +94,7 @@ var AccountService = (function () {
     };
     AccountService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, CookieManager_1.CookieManager])
     ], AccountService);
     return AccountService;
 }());

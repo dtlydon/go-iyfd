@@ -1,10 +1,25 @@
 <h1>Mimic Play</h1>
-<div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <div class="row" *ngFor="let userChoice of userChoices">
-            <div class="col-sm-6" *ngIf="userChoice.Entry1Id !== '' && userChoice.Entry2Id !== ''">
-                <a class="btn btn-default" [ngClass]="{'btn-success': userChoice.ChoiceId == userChoice.Entry1Id}" (click)="pickWinner(userChoice, 1)">{{userChoice.Entry1Name}}</a>
-                <a class="btn btn-default" [ngClass]="{'btn-success': userChoice.ChoiceId == userChoice.Entry2Id}" (click)="pickWinner(userChoice, 2)">{{userChoice.Entry2Name}}</a>
+<div class="row with-space round">
+    <div class="col-sm-10 col-sm-offset-2">
+        <a class="btn btn-default" [ngClass]="{'btn-primary': displayRound == 1}" *ngIf="1 <= maxRound" (click)="updateDisplayRound(1)">Round 1</a>
+        <a class="btn btn-default" [ngClass]="{'btn-primary': displayRound == 2}" *ngIf="2 <= maxRound" (click)="updateDisplayRound(2)">Round 2</a>
+        <a class="btn btn-default" [ngClass]="{'btn-primary': displayRound == 3}" *ngIf="3 <= maxRound" (click)="updateDisplayRound(3)">Round 3</a>
+        <a class="btn btn-default" [ngClass]="{'btn-primary': displayRound == 4}" *ngIf="4 <= maxRound" (click)="updateDisplayRound(4)">Round 4</a>
+        <a class="btn btn-default" [ngClass]="{'btn-primary': displayRound == 5}" *ngIf="5 <= maxRound" (click)="updateDisplayRound(5)">Round 5</a>
+        <a class="btn btn-default" [ngClass]="{'btn-primary': displayRound == 6}" *ngIf="6 <= maxRound" (click)="updateDisplayRound(6)">Round 6</a>
+    </div>
+</div>
+<div class="row with-space">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="row">
+            <div class="col-sm-6" *ngFor="let regionGroup of userChoicesByRound | groupBy: 'Region'">
+                <h5>{{getRegionName(regionGroup.key)}}</h5>
+                <div class="row" *ngFor="let userChoice of regionGroup.value">
+                    <div class="col-sm-12" *ngIf="userChoice.Entry1Id !== '' && userChoice.Entry2Id !== ''">
+                        <a class="btn btn-default" [ngClass]="{'btn-success': highLightChoice(userChoice, 1, true), 'btn-danger': highLightChoice(userChoice, 1, false)}" (click)="pickWinner(userChoice, 1)">{{userChoice.Entry1Name}}</a>
+                        <a class="btn btn-default" [ngClass]="{'btn-success': highLightChoice(userChoice, 2, true), 'btn-danger': highLightChoice(userChoice, 2, false)}" (click)="pickWinner(userChoice, 2)">{{userChoice.Entry2Name}}</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

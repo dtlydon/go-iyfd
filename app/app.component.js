@@ -12,15 +12,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by daniellydon on 11/7/16.
  */
 var core_1 = require('@angular/core');
-var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
 var account_service_1 = require("./account/account.service");
 var user_1 = require("./admin/user");
 var router_1 = require("@angular/router");
+var CookieManager_1 = require("./shared/CookieManager");
 var AppComponent = (function () {
     //audio:any = new Audio();
-    function AppComponent(accountService, router) {
+    function AppComponent(accountService, router, cookieManager) {
         this.accountService = accountService;
         this.router = router;
+        this.cookieManager = cookieManager;
         this.title = 'Go! IYFD Number 36';
         this.cacheBust = new Date();
         this.isAudioPlaying = false;
@@ -30,25 +31,27 @@ var AppComponent = (function () {
         //this.audio.src = this.audio.src;
     };
     AppComponent.prototype.checkIsLoggin = function () {
-        var token = ng2_cookies_1.Cookie.get("token");
+        var token = this.cookieManager.getCookie("token");
         return token !== undefined && token !== null && token !== '';
     };
     AppComponent.prototype.getUsername = function () {
-        var username = ng2_cookies_1.Cookie.get("username");
-        if ((username == undefined || username == "") && (ng2_cookies_1.Cookie.get("token") !== undefined || ng2_cookies_1.Cookie.get("token") != "")) {
+        var username = this.cookieManager.getCookie("username");
+        if ((username == undefined || username == "") && (this.cookieManager.getCookie("token") !== undefined || this.cookieManager.getCookie("token") != "")) {
             this.accountService.resetCookie();
         }
         return username;
     };
     AppComponent.prototype.verifyAdmin = function () {
-        var roleText = ng2_cookies_1.Cookie.get("role");
+        var roleText = this.cookieManager.getCookie("role");
         if (roleText == undefined || roleText == "")
             return false;
         var role = parseInt(roleText);
         return role >= user_1.Role.Bob;
     };
     AppComponent.prototype.signOut = function () {
-        ng2_cookies_1.Cookie.deleteAll();
+        this.cookieManager.deleteCookie("username");
+        this.cookieManager.deleteCookie("token");
+        this.cookieManager.deleteCookie("role");
         this.router.navigateByUrl("/home");
     };
     AppComponent.prototype.toggleAudio = function () {
@@ -65,7 +68,7 @@ var AppComponent = (function () {
             templateUrl: 'index.html',
             styleUrls: ['index.css']
         }), 
-        __metadata('design:paramtypes', [account_service_1.AccountService, router_1.Router])
+        __metadata('design:paramtypes', [account_service_1.AccountService, router_1.Router, CookieManager_1.CookieManager])
     ], AppComponent);
     return AppComponent;
 }());

@@ -6,7 +6,6 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import {Team} from "../shared/team";
-import {Cookie} from "ng2-cookies/ng2-cookies";
 import {Entry} from "../shared/entry";
 import {MatchUp} from "../shared/MatchUp";
 import {RegionVs} from "../shared/regionVs";
@@ -14,6 +13,7 @@ import {Settings} from "./settings";
 import {User, Role} from "./user";
 import {UserChoice} from "../play/userChoice";
 import {Router} from "@angular/router";
+import {CookieManager} from "../shared/CookieManager";
 
 @Injectable()
 export class AdminService {
@@ -27,7 +27,7 @@ export class AdminService {
     private userChoiceUrl = 'api/userchoice';
     private audioUrl = 'api/announcement';
 
-    constructor(private http: Http, private router:Router) { }
+    constructor(private http: Http, private router:Router, private cookieManager:CookieManager) { }
     //<editor-fold desc="Teams">
     addTeam(team: Team): Promise<any>{
         return this.http.post(this.teamsUrl, JSON.stringify(team), {headers: this.headers})
@@ -42,7 +42,7 @@ export class AdminService {
 
     getTeams(): Promise<Team[]>{
         if(!this.headers.get('token')) {
-            this.headers.append('token', Cookie.get('token'));
+            this.headers.append('token', this.cookieManager.getCookie('token'));
         }
         return this.http.get(this.teamsUrl, {headers: this.headers})
             .toPromise()
@@ -211,10 +211,10 @@ export class AdminService {
     //</editor-fold>
 
     public verifyAdmin():void{
-        let roleCookie:string = Cookie.get("role");
+        let roleCookie:string = this.cookieManager.getCookie("role");
         let isNotAuthorized:boolean = true;
         if(roleCookie != ""){
-            let role:Role = parseInt(Cookie.get("role")) as Role;
+            let role:Role = parseInt(this.cookieManager.getCookie("role")) as Role;
             if(role >= Role.Bob){
                 isNotAuthorized = false;
             }
@@ -227,7 +227,7 @@ export class AdminService {
 
     private addTokenWhenExists(): void{
         if(!this.headers.get('token')) {
-            this.headers.append('token', Cookie.get('token'));
+            this.headers.append('token', this.cookieManager.getCookie('token'));
         }
     }
 

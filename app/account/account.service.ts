@@ -6,9 +6,9 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import {Account} from "./account";
-import {Cookie} from "ng2-cookies/index";
 import {Observable} from "rxjs/Rx";
 import {User} from "../admin/user";
+import {CookieManager} from "../shared/CookieManager";
 
 @Injectable()
 export class AccountService {
@@ -17,7 +17,7 @@ export class AccountService {
     private userUrl = 'api/user';  // URL to web api
     private hasResetCalled:boolean = false;
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private cookieManager: CookieManager) { }
 
     register(account: Account): Promise<string> {
         return this.http.post(this.userUrl + "/register", JSON.stringify(account), {headers: this.headers})
@@ -27,8 +27,8 @@ export class AccountService {
                     const token = response.headers.get("token");
                     if(token){
                         let account:User = response.json() as User;
-                        Cookie.set("username", account.Username);
-                        Cookie.set("role", (account.Role as number).toString());
+                        this.cookieManager.setCookie("username", account.Username, 30);
+                        this.cookieManager.setCookie("role", (account.Role as number).toString(), 30);
                         return token;
                     }
                 }
@@ -45,8 +45,9 @@ export class AccountService {
                     const token = response.headers.get("token");
                     if(token){
                         let account:User = response.json() as User;
-                        Cookie.set("username", account.Username);
-                        Cookie.set("role", (account.Role as number).toString());
+
+                        this.cookieManager.setCookie("username", account.Username, 30);
+                        this.cookieManager.setCookie("role", (account.Role as number).toString(), 30);
                         return token;
                     }
                 }
@@ -57,7 +58,7 @@ export class AccountService {
 
     resetCookie():Promise<any>{
         if(!this.headers.get('token')) {
-            this.headers.append('token', Cookie.get('token'));
+            this.headers.append('token', this.cookieManager.getCookie('token'));
         }
         if(this.hasResetCalled){
             return null;
@@ -69,8 +70,8 @@ export class AccountService {
                 this.hasResetCalled = false;
                 if(response){
                     let account:User = response.json() as User;
-                    Cookie.set("username", account.Username);
-                    Cookie.set("role", (account.Role as number).toString());
+                    this.cookieManager.setCookie("username", account.Username, 30);
+                    this.cookieManager.setCookie("role", (account.Role as number).toString(), 30);
                 }
             })
             .catch(this.handleError);

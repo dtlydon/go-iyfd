@@ -13,7 +13,6 @@ import {LoginComponent} from "./account/login.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AccountService} from "./account/account.service";
 import {HttpModule} from "@angular/http";
-import {Cookie} from "ng2-cookies/index";
 import {TeamsComponent} from "./admin/teams.component";
 import {RegionsComponent} from "./admin/regions.component";
 import {EntryComponent} from "./admin/entry.component";
@@ -26,6 +25,8 @@ import {SettingComponent} from "./admin/settings.component";
 import {MimicComponent} from "./admin/mimic.component";
 import {AudioComponent} from "./admin/audio.component";
 import {GroupByPipe} from "./utils/pipes/groupByPipe";
+import {CookieManager} from "./shared/CookieManager";
+
 //import { InMemoryDataService }  from './in-memory-data.service';
 
 @NgModule({
@@ -59,7 +60,7 @@ import {GroupByPipe} from "./utils/pipes/groupByPipe";
     providers: [
         AccountService,
         AdminService,
-        Cookie,
+        CookieManager,
         PlayService
     ],
     bootstrap:    [ AppComponent ]

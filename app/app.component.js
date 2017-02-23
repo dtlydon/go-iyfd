@@ -61,6 +61,9 @@ var AppComponent = (function () {
         }
         this.isAudioPlaying = !this.isAudioPlaying;
     };
+    AppComponent.prototype.removeIn = function () {
+        document.getElementById("navbar").classList.remove('in');
+    };
     AppComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

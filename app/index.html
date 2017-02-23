@@ -11,23 +11,23 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li data-toggle="collapse" data-target="#navbar"><a routerLink="/" routerLinkActive="active">Home</a></li>
-                <li data-toggle="collapse" data-target="#navbar"><a routerLink="/howto" routerLinkActive="active">How To</a></li>
-                <li data-toggle="collapse" data-target="#navbar"><a routerLink="/halloffame" routerLinkActive="active">Hall</a></li>
-                <li data-toggle="collapse" data-target="#navbar"><a *ngIf="checkIsLoggin()" routerLink="/play" routerLinkActive="active">Play</a></li>
-                <li data-toggle="collapse" data-target="#navbar"><a routerLink="/scores" routerLinkActive="active">Score</a></li>
-                <li data-toggle="collapse" data-target="#navbar"><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
+                <li (click)="removeIn()"><a routerLink="/" routerLinkActive="active">Home</a></li>
+                <li (click)="removeIn()"><a routerLink="/howto" routerLinkActive="active">How To</a></li>
+                <li (click)="removeIn()"><a routerLink="/halloffame" routerLinkActive="active">Hall</a></li>
+                <li (click)="removeIn()"><a *ngIf="checkIsLoggin()" routerLink="/play" routerLinkActive="active">Play</a></li>
+                <li (click)="removeIn()"><a routerLink="/scores" routerLinkActive="active">Score</a></li>
+                <li (click)="removeIn()"><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
                 <li>
                     <audio style="width: 100px;" src="/api/announcement" controls>
                         Not supported
                     </audio>
                 </li>
-                <li><a href="/api/announcement?={{cacheBust.getTime()}}">Download Announcement</a></li>
+                <li class="hidden-xs hidden-sm"><a href="/api/announcement?={{cacheBust.getTime()}}">Download Announcement</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li  data-toggle="collapse" data-target="#navbar" *ngIf="!checkIsLoggin()"><a routerLink="/account/login">Login</a></li>
-                <li  data-toggle="collapse" data-target="#navbar" *ngIf="checkIsLoggin()"><a>Hey! {{getUsername()}}</a></li>
-                <li  data-toggle="collapse" data-target="#navbar" *ngIf="checkIsLoggin()"><a style="cursor: pointer" (click)="signOut()">Sign Out</a></li>
+                <li (click)="removeIn()" *ngIf="!checkIsLoggin()"><a routerLink="/account/login">Login</a></li>
+                <li (click)="removeIn()" *ngIf="checkIsLoggin()"><a>{{getUsername()}}</a></li>
+                <li (click)="removeIn()" *ngIf="checkIsLoggin()"><a style="cursor: pointer" (click)="signOut()">Sign Out</a></li>
             </ul>
         </div><!-- /.nav-collapse -->
     </div><!-- /.container -->

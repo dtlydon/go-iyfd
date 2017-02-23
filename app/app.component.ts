@@ -64,6 +64,10 @@ export class AppComponent implements OnInit {
         }
         this.isAudioPlaying = !this.isAudioPlaying;
     }
+
+    removeIn():void{
+        document.getElementById("navbar").classList.remove('in');
+    }
 }
 
 

@@ -26,6 +26,7 @@ import {MimicComponent} from "./admin/mimic.component";
 import {AudioComponent} from "./admin/audio.component";
 import {GroupByPipe} from "./utils/pipes/groupByPipe";
 import {CookieManager} from "./shared/CookieManager";
+import {HallOfFameComponent} from "./home/halloffame.component";
 
 //import { InMemoryDataService }  from './in-memory-data.service';
 
@@ -55,7 +56,8 @@ import {CookieManager} from "./shared/CookieManager";
         SettingComponent,
         MimicComponent,
         AudioComponent,
-        GroupByPipe
+        GroupByPipe,
+        HallOfFameComponent
     ],
     providers: [
         AccountService,

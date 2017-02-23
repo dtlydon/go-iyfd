@@ -35,6 +35,7 @@ var mimic_component_1 = require("./admin/mimic.component");
 var audio_component_1 = require("./admin/audio.component");
 var groupByPipe_1 = require("./utils/pipes/groupByPipe");
 var CookieManager_1 = require("./shared/CookieManager");
+var halloffame_component_1 = require("./home/halloffame.component");
 //import { InMemoryDataService }  from './in-memory-data.service';
 var AppModule = (function () {
     function AppModule() {
@@ -66,7 +67,8 @@ var AppModule = (function () {
                 settings_component_1.SettingComponent,
                 mimic_component_1.MimicComponent,
                 audio_component_1.AudioComponent,
-                groupByPipe_1.GroupByPipe
+                groupByPipe_1.GroupByPipe,
+                halloffame_component_1.HallOfFameComponent
             ],
             providers: [
                 account_service_1.AccountService,

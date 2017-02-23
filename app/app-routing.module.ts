@@ -20,11 +20,13 @@ import {ScoreComponent} from "./play/score.component";
 import {SettingComponent} from "./admin/settings.component";
 import {MimicComponent} from "./admin/mimic.component";
 import {AudioComponent} from "./admin/audio.component";
+import {HallOfFameComponent} from "./home/halloffame.component";
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home',  component: HomeComponent },
     { path: 'howto', component: HowToComponent },
+    { path: 'halloffame', component: HallOfFameComponent },
     { path: 'play', component: PlayComponent },
     { path: 'scores', component: ScoreComponent },
     { path: 'admin', component: AdminComponent,

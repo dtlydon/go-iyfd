@@ -29,10 +29,12 @@ var score_component_1 = require("./play/score.component");
 var settings_component_1 = require("./admin/settings.component");
 var mimic_component_1 = require("./admin/mimic.component");
 var audio_component_1 = require("./admin/audio.component");
+var halloffame_component_1 = require("./home/halloffame.component");
 var routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: home_component_1.HomeComponent },
     { path: 'howto', component: howto_component_1.HowToComponent },
+    { path: 'halloffame', component: halloffame_component_1.HallOfFameComponent },
     { path: 'play', component: play_component_1.PlayComponent },
     { path: 'scores', component: score_component_1.ScoreComponent },
     { path: 'admin', component: admin_component_1.AdminComponent,

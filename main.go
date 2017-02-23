@@ -9,5 +9,5 @@ import (
 func main() {
 	router := controllers.Register()
 	fmt.Println("Starting server...")
-	http.ListenAndServe(":8000", router)
+	http.ListenAndServe(":80", router)
 }

@@ -16,7 +16,6 @@ export class GroupByPipe implements PipeTransform{
         let finalArray = Object.keys(groupedObj).map(key => ({ key, value: groupedObj[key]}));
         if(shouldSort) {
             return finalArray.sort((score1, score2) => {
-                console.log(score1);
                 if (parseInt(score1.key) > parseInt(score2.key)) {
                     return -1;
                 }

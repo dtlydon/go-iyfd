@@ -21,7 +21,6 @@ export class AudioComponent implements OnInit {
     }
 
     updateFile(event):void{
-        console.log(typeof(event));
         this.formData = new FormData();
         this.formData.append('announcement', event.srcElement.files.item(0));
     }

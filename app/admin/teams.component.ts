@@ -28,7 +28,6 @@ export class TeamsComponent implements OnInit {
 
     ngOnInit():void {
         this.adminService.getTeams().then(response =>{
-            console.log(response);
             if(response){
                 this.teams = response;
                 console.log(this.teams);

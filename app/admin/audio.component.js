@@ -22,7 +22,6 @@ var AudioComponent = (function () {
     AudioComponent.prototype.ngOnInit = function () {
     };
     AudioComponent.prototype.updateFile = function (event) {
-        console.log(typeof (event));
         this.formData = new FormData();
         this.formData.append('announcement', event.srcElement.files.item(0));
     };

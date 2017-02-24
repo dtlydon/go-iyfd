@@ -18,11 +18,11 @@
                 <li (click)="removeIn()"><a routerLink="/scores" routerLinkActive="active">Score</a></li>
                 <li (click)="removeIn()"><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
                 <li>
-                    <audio style="width: 100px;" src="/api/announcement" controls>
+                    <audio style="width: 100px;" src="/api/announcement?t={{cacheBust.getTime()}}" controls>
                         Not supported
                     </audio>
                 </li>
-                <li class="hidden-xs hidden-sm"><a href="/api/announcement?={{cacheBust.getTime()}}">Download Announcement</a></li>
+                <li class="hidden-xs hidden-sm"><a href="/api/announcement?t={{cacheBust.getTime()}}">Download Announcement</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li (click)="removeIn()" *ngIf="!checkIsLoggin()"><a routerLink="/account/login">Login</a></li>

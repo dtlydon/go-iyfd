@@ -106,7 +106,7 @@ func serveApp(w http.ResponseWriter, req *http.Request, params httprouter.Params
 		br := bufio.NewReader(f)
 		br.WriteTo(w)
 	} else {
-		fmt.Println("error ", err)
+		//fmt.Println("error ", err)
 		w.WriteHeader(404)
 	}
 }
@@ -136,7 +136,7 @@ func serveMyContent(w http.ResponseWriter, req *http.Request, params httprouter.
 		br := bufio.NewReader(f)
 		br.WriteTo(w)
 	} else {
-		fmt.Println("error ", err)
+		//fmt.Println("error ", err)
 		w.WriteHeader(404)
 	}
 }
@@ -168,7 +168,7 @@ func serveResource(w http.ResponseWriter, req *http.Request, params httprouter.P
 		br := bufio.NewReader(f)
 		br.WriteTo(w)
 	} else {
-		fmt.Println("error ", err)
+		//fmt.Println("error ", err)
 		w.WriteHeader(404)
 	}
 }

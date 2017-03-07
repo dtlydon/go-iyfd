@@ -10,3 +10,19 @@
     width: 90px;
     font-weight: bold;
 }
+
+.success-message{position:fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 200px;
+    padding: 78px 0;
+    font-size: 30px;
+    margin-top: -150px; /*set to a negative number 1/2 of your height*/
+    margin-left: -150px; /*set to a negative number 1/2 of your width*/
+    border: 1px solid #5cb85c;
+    background-color: #fff;
+    color: #5cb85c;
+    font-weight:bold;
+    text-align: center;
+}

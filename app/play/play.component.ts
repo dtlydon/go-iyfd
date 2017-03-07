@@ -22,6 +22,8 @@ export class PlayComponent implements OnInit {
     private maxRound:number = 1;
     public displayRound:number = 1;
     public isPlayBlocked:boolean;
+    public updatedPick:boolean = false;
+    private updatingTimeout:any;
     constructor(private router:Router, private playService:PlayService, private adminService:AdminService, private cookieManager:CookieManager) {
     }
 
@@ -74,7 +76,15 @@ export class PlayComponent implements OnInit {
 
     pickWinner(userChoice:UserChoice, entry:number):void{
         userChoice.ChoiceId = entry === 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
-        this.playService.updateUserChoice(userChoice); //TODO: Need to handle errors
+        this.playService.updateUserChoice(userChoice).then(resp =>{
+            if(this.updatingTimeout){
+                clearTimeout(this.updatingTimeout);
+            }
+            this.updatingTimeout = setTimeout(() => {
+                this.updatedPick = true;
+                setTimeout(()=>{this.updatedPick = false;}, 500);
+            }, 750);
+        }); //TODO: Need to handle errors
     }
 
     getRegionName(region:string):string{

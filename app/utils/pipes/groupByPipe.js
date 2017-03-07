@@ -28,7 +28,6 @@ var GroupByPipe = (function () {
         var finalArray = Object.keys(groupedObj).map(function (key) { return ({ key: key, value: groupedObj[key] }); });
         if (shouldSort) {
             return finalArray.sort(function (score1, score2) {
-                console.log(score1);
                 if (parseInt(score1.key) > parseInt(score2.key)) {
                     return -1;
                 }

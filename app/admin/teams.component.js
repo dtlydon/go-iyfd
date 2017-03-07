@@ -30,7 +30,6 @@ var TeamsComponent = (function () {
     TeamsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.adminService.getTeams().then(function (response) {
-            console.log(response);
             if (response) {
                 _this.teams = response;
                 console.log(_this.teams);

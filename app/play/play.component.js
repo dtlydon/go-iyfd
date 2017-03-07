@@ -26,6 +26,7 @@ var PlayComponent = (function () {
         this.userChoicesByRound = [];
         this.maxRound = 1;
         this.displayRound = 1;
+        this.updatedPick = false;
     }
     PlayComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -70,8 +71,17 @@ var PlayComponent = (function () {
         this.filterRound();
     };
     PlayComponent.prototype.pickWinner = function (userChoice, entry) {
+        var _this = this;
         userChoice.ChoiceId = entry === 1 ? userChoice.Entry1Id : userChoice.Entry2Id;
-        this.playService.updateUserChoice(userChoice); //TODO: Need to handle errors
+        this.playService.updateUserChoice(userChoice).then(function (resp) {
+            if (_this.updatingTimeout) {
+                clearTimeout(_this.updatingTimeout);
+            }
+            _this.updatingTimeout = setTimeout(function () {
+                _this.updatedPick = true;
+                setTimeout(function () { _this.updatedPick = false; }, 500);
+            }, 750);
+        }); //TODO: Need to handle errors
     };
     PlayComponent.prototype.getRegionName = function (region) {
         if (region == "w") {

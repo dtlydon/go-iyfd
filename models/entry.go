@@ -18,7 +18,7 @@ func GetEntries() []Entry{
 	defer dbUtil.CloseSession()
 
 	entries := []Entry{}
-	dbUtil.Collection.Find(bson.M{}).All(&entries)
+	dbUtil.Collection.Find(bson.M{}).Sort("rank").All(&entries)
 	return entries
 }
 

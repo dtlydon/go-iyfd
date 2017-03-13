@@ -12,4 +12,6 @@ export class UserChoice{
     Winner: string;
     Round: number;
     Region: string;
+    EntryRank1: number;
+    EntryRank2: number;
 }

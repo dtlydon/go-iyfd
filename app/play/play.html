@@ -20,8 +20,8 @@
                 <h5>{{getRegionName(regionGroup.key)}}</h5>
                 <div class="row" *ngFor="let userChoice of regionGroup.value">
                     <div class="col-sm-12" *ngIf="userChoice.Entry1Id !== '' && userChoice.Entry2Id !== ''">
-                        <a class="btn btn-default" [ngClass]="{'btn-success': highLightChoice(userChoice, 1, true), 'btn-danger': highLightChoice(userChoice, 1, false), 'disabled': isPlayBlocked || userChoice.Winner !== ''}" (click)="pickWinner(userChoice, 1)">{{userChoice.Entry1Name}}</a>
-                        <a class="btn btn-default" [ngClass]="{'btn-success': highLightChoice(userChoice, 2, true), 'btn-danger': highLightChoice(userChoice, 2, false), 'disabled': isPlayBlocked || userChoice.Winner !== ''}" (click)="pickWinner(userChoice, 2)">{{userChoice.Entry2Name}}</a>
+                        <a class="btn btn-default" [ngClass]="{'btn-success': highLightChoice(userChoice, 1, true), 'btn-danger': highLightChoice(userChoice, 1, false), 'disabled': isPlayBlocked || userChoice.Winner !== ''}" (click)="pickWinner(userChoice, 1)">{{userChoice.EntryRank1}}. {{userChoice.Entry1Name}}</a>
+                        <a class="btn btn-default" [ngClass]="{'btn-success': highLightChoice(userChoice, 2, true), 'btn-danger': highLightChoice(userChoice, 2, false), 'disabled': isPlayBlocked || userChoice.Winner !== ''}" (click)="pickWinner(userChoice, 2)">{{userChoice.EntryRank2}}. {{userChoice.Entry2Name}}</a>
                     </div>
                 </div>
             </div>

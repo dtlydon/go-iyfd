@@ -59,9 +59,7 @@ var PlayService = (function () {
     };
     //</editor-fold>
     PlayService.prototype.addTokenWhenExists = function () {
-        if (!this.headers.get('token')) {
-            this.headers.append('token', this.cookieManager.getCookie('token'));
-        }
+        this.headers.set('token', this.cookieManager.getCookie('token'));
     };
     PlayService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only

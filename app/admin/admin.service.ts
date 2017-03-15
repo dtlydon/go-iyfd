@@ -226,9 +226,7 @@ export class AdminService {
     }
 
     private addTokenWhenExists(): void{
-        if(!this.headers.get('token')) {
-            this.headers.append('token', this.cookieManager.getCookie('token'));
-        }
+        this.headers.set('token', this.cookieManager.getCookie('token'));
     }
 
     private handleError(error: any): Promise<any> {

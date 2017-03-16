@@ -87,7 +87,9 @@ export class AccountService {
     }
 
     private handleError(error: any): Promise<any> {
-        this.hasResetCalled = false;
+        if(this){
+            this.hasResetCalled = false;
+        }
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     }

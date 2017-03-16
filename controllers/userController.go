@@ -38,13 +38,14 @@ func (this *userController) register(responseWriter http.ResponseWriter, request
 
 	models.CreateUser(user)
 	tokenString := util.SetToken(user)
-	err2 := json.NewEncoder(responseWriter).Encode(viewUser.Username)
+	responseWriter.Header().Add("token", tokenString)
+	viewUser.Password = "";
+	err2 := json.NewEncoder(responseWriter).Encode(viewUser)
 	if(err2 != nil){
 		fmt.Println("Error getting users", err2.Error())
 		responseWriter.WriteHeader(400)
 		return
 	}
-	responseWriter.Header().Add("token", tokenString)
 }
 
 func (this *userController) login(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params) {

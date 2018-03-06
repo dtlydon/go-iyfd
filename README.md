@@ -23,3 +23,14 @@ This helps settle disputes (or late picks)
 ## Enjoy
 
 Not sure anyone wants to use this, but it's absolutely free of use.
+
+## Notes for self
+
+### Running locally
+`go build` to build
+`go run main.go` to run
+`mongod` to start mongo server
+
+### Deploy to EC2
+
+http://www.blog.labouardy.com/deploying-go-app-to-aws-ec2/

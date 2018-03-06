@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/dtlydon/go-iyfd/controllers"
-	"net/http"
 	"fmt"
+	"net/http"
+
+	"github.com/dtlydon/go-iyfd/controllers"
 )
 
 func main() {
 	router := controllers.Register()
 	fmt.Println("Starting server...")
-	http.ListenAndServe(":80", router)
+	fmt.Println(http.ListenAndServe(":80", router))
 }

@@ -34,3 +34,25 @@ Not sure anyone wants to use this, but it's absolutely free of use.
 ### Deploy to EC2
 
 http://www.blog.labouardy.com/deploying-go-app-to-aws-ec2/
+
+https://medium.com/@nathanborror/deploying-a-go-project-on-ec2-15ce381cf7a1
+
+I'm terribly lazy at this point... don't forget to alter the models/config file to return pwd
+
+### Conf help for upstart
+#Web app upstart script
+description "start and stop web app"
+
+start on (net-device-up
+and local-filesystems
+and rullevel [2345])
+
+stop on runlevel [016]
+
+respawn
+respawn limit 5 30
+
+console output   
+
+chdir /home/ec2-user/go/src/github.com/dineshappavoo/web-app/app
+exec ./app

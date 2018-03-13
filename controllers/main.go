@@ -1,14 +1,15 @@
 package controllers
 
 import (
+	"bufio"
+	"fmt"
 	"net/http"
 	"os"
-	"bufio"
 	"strings"
-	"github.com/julienschmidt/httprouter"
-	"github.com/dtlydon/go-iyfd/models"
+
 	"github.com/dtlydon/go-iyfd/controllers/util"
-	"fmt"
+	"github.com/dtlydon/go-iyfd/models"
+	"github.com/julienschmidt/httprouter"
 )
 
 func Register() *httprouter.Router {
@@ -72,7 +73,7 @@ func Register() *httprouter.Router {
 
 	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		wd := models.GetCurrentDirectory()
-		http.ServeFile(w, r, wd + "/views/index.html")
+		http.ServeFile(w, r, wd+"/views/index.html")
 	})
 	return router
 }
@@ -80,7 +81,7 @@ func Register() *httprouter.Router {
 func Authorize(handle httprouter.Handle, role models.Role) httprouter.Handle {
 	return func(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params) {
 		tokenString := request.Header.Get("token")
-		if(tokenString != "") {
+		if tokenString != "" {
 			claims, ok := util.GetToken(tokenString)
 
 			if ok && (claims["role"]).(float64) >= float64(role) {
@@ -93,7 +94,7 @@ func Authorize(handle httprouter.Handle, role models.Role) httprouter.Handle {
 	}
 }
 
-func serveApp(w http.ResponseWriter, req *http.Request, params httprouter.Params){
+func serveApp(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
 	path := models.GetCurrentDirectory() + "/app" + params.ByName("all")
 	contentType := "text/javascript"
 
@@ -111,7 +112,7 @@ func serveApp(w http.ResponseWriter, req *http.Request, params httprouter.Params
 	}
 }
 
-func serveMyContent(w http.ResponseWriter, req *http.Request, params httprouter.Params){
+func serveMyContent(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
 
 	path := params.ByName("all")
 	var contentType string
@@ -120,7 +121,7 @@ func serveMyContent(w http.ResponseWriter, req *http.Request, params httprouter.
 	if strings.HasSuffix(path, ".js") {
 		contentType = "text/javascript"
 		pathPrefix = "/js"
-	} else if strings.HasSuffix(path, ".css"){
+	} else if strings.HasSuffix(path, ".css") {
 		contentType = "text/css"
 		pathPrefix = "/styles"
 	}
@@ -152,7 +153,7 @@ func serveResource(w http.ResponseWriter, req *http.Request, params httprouter.P
 		contentType = "text/css"
 	} else if strings.HasSuffix(path, ".png") {
 		contentType = "image/png"
-	}else if strings.HasSuffix(path, ".js"){
+	} else if strings.HasSuffix(path, ".js") {
 		contentType = "text/javascript"
 	} else {
 		fmt.Println("plain ", path)

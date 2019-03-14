@@ -35,24 +35,28 @@ Not sure anyone wants to use this, but it's absolutely free of use.
 
 http://www.blog.labouardy.com/deploying-go-app-to-aws-ec2/
 
-https://medium.com/@nathanborror/deploying-a-go-project-on-ec2-15ce381cf7a1
-
 I'm terribly lazy at this point... don't forget to alter the models/config file to return pwd
 
 ### Conf help for upstart
 #Web app upstart script
-description "start and stop web app"
+# User systemd now...
 
-start on (net-device-up
-and local-filesystems
-and rullevel [2345])
 
-stop on runlevel [016]
+Use Amazon Linux Version 2
+https://jonathanmh.com/deploying-go-apps-systemd-10-minutes-without-docker/
 
-respawn
-respawn limit 5 30
+/lib/systemd/system/iyfd.service
+[Unit]
+Description=iyfd
 
-console output   
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+ExecStart=/home/ec2-user/projects/src/github.com/dtlydon/go-iyfd/go-iyfd
 
-chdir /home/ec2-user/go/src/github.com/dineshappavoo/web-app/app
-exec ./app
+[Install]
+WantedBy=multi-user.target
+
+Download and install mongodb via yum (amazon linux 2)
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-amazon/

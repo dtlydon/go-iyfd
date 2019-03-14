@@ -73,6 +73,7 @@ func Register() *httprouter.Router {
 
 	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		wd := models.GetCurrentDirectory()
+		fmt.Println("Not found");
 		http.ServeFile(w, r, wd+"/views/index.html")
 	})
 	return router

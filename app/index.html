@@ -17,7 +17,7 @@
                 <li (click)="removeIn()"><a routerLink="/scores" routerLinkActive="active">Standings</a></li>
                 <li (click)="removeIn()"><a *ngIf="verifyAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a></li>
                 <li>
-                    <audio style="width: 100px;" src="/api/announcement?t={{cacheBust.getTime()}}" controls>
+                    <audio style="width: 200px;" src="/api/announcement?t={{cacheBust.getTime()}}" controls>
                         Not supported
                     </audio>
                 </li>

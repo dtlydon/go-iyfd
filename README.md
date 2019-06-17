@@ -20,6 +20,30 @@ essentially log in as a user and make picks EVEN IF PLAY IS BLOCKED.
 
 This helps settle disputes (or late picks)
 
+## Start up
+
+### Requirements
+
+- Both git and nodejs should be installed
+- Install and run a mongo server at localhost:27017 (https://docs.mongodb.com/v3.2/tutorial/install-mongodb-on-windows/)
+- Install golang (https://golang.org/doc/install)
+- Make sure you have a gopath set.  This is where the project will end up. (Mine is just ~/go)
+- Run `go get github.com/dtlydon/go-iyfd` in a terminal (https://golang.org/doc/articles/go_command.html)
+- This should have pulled the project (and dependencies) down. The project will reside in $GOPATH/src/github.com/dtlydon/go-iyfd
+
+### Build and Run
+
+- Navigate to the project in the terminal
+- run `npm install` to get all the javascript dependencies
+- run `npm run tsc` to ensure the front end is compiled
+- run `go build` and `go run main.go`. This should run on your localhost at port 80
+
+### Admin panel
+
+- The easiest way to see the admin site is to create a user (click login, register, enter in some data).
+- Then manually update the user in mongo to be an admin (database is iyfd, collection is user, field is role, value is 2)
+- Then log out and log back in
+
 ## Enjoy
 
 Not sure anyone wants to use this, but it's absolutely free of use.

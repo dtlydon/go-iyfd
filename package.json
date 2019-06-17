@@ -2,7 +2,6 @@
   "name": "go-iyfd",
   "version": "0.0.1",
   "scripts": {
-    "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings"
